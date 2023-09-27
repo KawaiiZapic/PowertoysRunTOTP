@@ -1,0 +1,14 @@
+{
+  "ID": "EF1F634F20484459A3679B4FE7B07998",
+  "Disabled": false,
+  "ActionKeyword": "TOTP",
+  "Name": "PowerToysRunTOTP",
+  "Author": "Zapic",
+  "Version": "1.0.0",
+  "Language": "csharp",
+  "Website": "https://github.com/naari3/PowerToysRunPluginSample",
+  "ExecuteFileName": "PowerToysRunTOTP.dll",
+  "IsGlobal": false,
+  "IcoPathDark": "images\\icon-dark.png",
+  "IcoPathLight": "images\\icon-light.png"
+}

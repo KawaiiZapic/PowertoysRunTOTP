@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <useWPF>true</useWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Platforms>AnyCPU;x64</Platforms>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Configurations>Debug;Release</Configurations>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.24.3" />
+    <PackageReference Include="Google.Protobuf.Tools" Version="3.24.3" />
+    <PackageReference Include="ILRepack" Version="2.0.18" />
+    <PackageReference Include="Otp.NET" Version="1.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="PowerToys.Common.UI">
+      <HintPath>..\libs\PowerToys.Common.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PowerToys.ManagedCommon">
+      <HintPath>..\libs\PowerToys.ManagedCommon.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Wox.Infrastructure">
+      <HintPath>..\libs\Wox.Infrastructure.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Wox.Plugin">
+      <HintPath>..\libs\Wox.Plugin.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="images\*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="plugin.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
