@@ -8,6 +8,11 @@
     <Platforms>AnyCPU;x64</Platforms>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Configurations>Debug;Release</Configurations>
+    <Authors>Zapic</Authors>
+    <Version>1.1.0</Version>
+    <Title>Powertoys Run TOTP</Title>
+    <Product>Powertoys Run TOTP Plugin</Product>
+    <RepositoryUrl>https://github.com/KawaiiZapic/PowertoysRunTOTP</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
