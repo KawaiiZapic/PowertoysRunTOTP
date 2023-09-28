@@ -36,7 +36,8 @@ namespace PowerToysRunTOTP
                             var list = Config.LoadKeyList();
                             list.Add(new ConfigStruct.KeyEntry{
                                 Key = sercet,
-                                Name = name
+                                Name = name,
+                                IsEncrypted = false
                             });
                             Config.SaveKeyList(list);
                             return true;
@@ -72,7 +73,8 @@ namespace PowerToysRunTOTP
                                 }
                                 list.Add(new ConfigStruct.KeyEntry{ 
                                     Name = name,
-                                    Key = key
+                                    Key = key,
+                                    IsEncrypted = false
                                 });
                             }
                             Config.SaveKeyList(list);
@@ -98,7 +100,12 @@ namespace PowerToysRunTOTP
             totpList.ForEach(totp =>
             {
                 if (query.Search.Length != 0 && !totp.Name.ToLower().Contains(query.Search.ToLower())) return;
-                var totpInst = new Totp(Base32Encoding.ToBytes(totp.Key));
+                var key = totp.Key;
+                if (totp.IsEncrypted)
+                {
+                    key = Config.DecryptKey(key);
+                }
+                var totpInst = new Totp(Base32Encoding.ToBytes(key));
                 result.Add(new Result { 
                     Title = totpInst.ComputeTotp() + " - " + totp.Name, 
                     SubTitle = "Copy to clipboard - Expired in " + totpInst.RemainingSeconds().ToString() + "s",
