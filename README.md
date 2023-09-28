@@ -9,6 +9,11 @@ A plugin help you to copy your two-factor verify code in Powertoys Run
 1. Download plugin from Release
 2. Extract it to `%LOCALAPPDATA%\Microsoft\PowerToys\PowerToys Run\Plugins`
 
+## Upgrade
+1. Download plugin from Release
+2. Delete `%LOCALAPPDATA%\Microsoft\PowerToys\PowerToys Run\Plugins\TOTP` (Will not lose any data)
+3. Extract it to `%LOCALAPPDATA%\Microsoft\PowerToys\PowerToys Run\Plugins`
+
 ## Usage
 1. Add account  
 Plugin support standard OTPAuth URI (starts with `otpauth://`) and Google Authenticator Export URI(starts with `otpauth-migration://`), you can paste it to search bar and you will see option to add it to list.  
@@ -18,20 +23,28 @@ You can also add manually by edit config file in `%LOCALAPPDATA%\Microsoft\Power
     [
       {
         "Name": "Github: Hello",
-        "Key": "12313"
+        "Key": "12313",
+        "IsEncrypted": false
       },
       {
         "Name": "Twitter: @Hello",
-        "Key": "12313213"
+        "Key": "12313213",
+        "IsEncrypted": false
      }
     ]
     ```
-    Change to config file will be applied immediately.
+    Change to config file will be applied immediately.  
+    Once plugin load config again, **all unencrypted data will be encrypted**.
 
 2. Delete account  
 There is no way to delete account by GUI.   
 You can edit file in `%LOCALAPPDATA%\Microsoft\PowerToys\PowerToys Run\Settings\Plugins\Zapic.Plugin.TOTP\TOTPList.json` to delete account you don't want.  
 Change to config file will be applied immediately.
+
+
+## About Encryption
+Plugin use `System.Security.Cryptography.ProtectedData` to encrypt every key. Key will be decrypted in memory if need.  
+Encrypted data only can be decrypted in your current machine with current account login, if you reinstall OS or change the account you login, the key cannot be decrypted.
 
 ## Build Plugin
 1. Clone repo
