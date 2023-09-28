@@ -1,23 +1,15 @@
 ﻿using ManagedCommon;
 using Wox.Plugin;
-using System.IO;
-using System.Text.Json;
 using System.Web;
 using System.Windows;
 using OtpNet;
+using PowertoysRunTOTP;
 
 namespace PowerToysRunTOTP
 {
-    public class Struct
-    {
-        public String Name { get; set; }
-        public String Key { get; set; }
-    }
 
     public class Main : IPlugin
     {
-
-        private string ConfigPath = Environment.ExpandEnvironmentVariables("%LOCALAPPDATA%") + "\\Microsoft\\PowerToys\\PowerToys Run\\Settings\\Plugins\\TOTP\\TOTPList.json";
         private string IconCopy { get; set; }
         private string IconAdd { get; set; }
         private string IconWarn { get; set; }
@@ -41,12 +33,12 @@ namespace PowerToysRunTOTP
                         SubTitle = "Add to list",
                         IcoPath = IconAdd,
                         Action = (e) => {
-                            var list = loadConfig();
-                            list.Add(new Struct {
+                            var list = Config.LoadKeyList();
+                            list.Add(new ConfigStruct.KeyEntry{
                                 Key = sercet,
                                 Name = name
                             });
-                            saveConfig(list);
+                            Config.SaveKeyList(list);
                             return true;
                         }
                     });
@@ -66,7 +58,7 @@ namespace PowerToysRunTOTP
                         SubTitle = "From Google Authenticator App, batch " + (decoded.BatchIndex + 1).ToString() + " / " + decoded.BatchSize,
                         IcoPath = IconAdd,
                         Action = (e) => {
-                            var list = loadConfig();
+                            var list = Config.LoadKeyList();
                             foreach (var item in decoded.OtpParameters) {
                                 var key = Base32Encoding.ToString(item.Secret.ToByteArray());
                                 if (list.Find(it => it.Key.Equals(key)) != null) continue;
@@ -78,20 +70,20 @@ namespace PowerToysRunTOTP
                                 } else {
                                     name = item.Issuer + ": " + item.Name;
                                 }
-                                list.Add(new Struct{ 
+                                list.Add(new ConfigStruct.KeyEntry{ 
                                     Name = name,
                                     Key = key
                                 });
                             }
-                            saveConfig(list);
+                            Config.SaveKeyList(list);
                             return true;
                         }
                     }
                 };
             }
-            List<Struct> totpList;
+            List<ConfigStruct.KeyEntry> totpList;
             try {
-                totpList = loadConfig();
+                totpList = Config.LoadKeyList();
             } catch (Exception ex) { 
                 return new List<Result> { 
                     new Result { 
@@ -152,6 +144,11 @@ namespace PowerToysRunTOTP
             Context = context;
             Context.API.ThemeChanged += OnThemeChanged;
             UpdateIconPath(Context.API.GetCurrentTheme());
+
+            try
+            {
+                ConfigMigratorV0.Migrate();
+            } catch (Exception) { }
         }
 
         private void UpdateIconPath(Theme theme)
@@ -170,45 +167,6 @@ namespace PowerToysRunTOTP
         private void OnThemeChanged(Theme currentTheme, Theme newTheme)
         {
             UpdateIconPath(newTheme);
-        }
-
-        private List<Struct> loadConfig() {
-            var fileInfo = new FileInfo(ConfigPath);
-            if (!fileInfo.Exists)
-            {
-                if (!fileInfo.Directory!.Exists)
-                {
-                    Directory.CreateDirectory(fileInfo.Directory!.FullName);
-                }
-                var newFile = File.Create(ConfigPath);
-                var options = new JsonSerializerOptions { WriteIndented = true };
-                JsonSerializer.Serialize(newFile, new List<Struct>(), options);
-                newFile.Dispose();
-            }
-            var file = File.OpenRead(ConfigPath);
-            var result = JsonSerializer.Deserialize<List<Struct>>(file);
-            if (result == null)
-            {
-                throw new Exception("Failed to load config: Result is null");
-            }
-            file.Dispose();
-            return result;
-        }
-
-        private void saveConfig(List<Struct> list)
-        {
-            var fileInfo = new FileInfo(ConfigPath);
-            if (!fileInfo.Exists)
-            {
-                if (!fileInfo.Directory!.Exists)
-                {
-                    Directory.CreateDirectory(fileInfo.Directory!.FullName);
-                }
-            }
-            var file = File.Open(ConfigPath, FileMode.Create);
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            JsonSerializer.Serialize(file, list, options);
-            file.Dispose();
         }
     }
 }
