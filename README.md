@@ -18,7 +18,7 @@ A plugin help you to copy your two-factor verify code in Powertoys Run
 1. Add account  
 Plugin support standard OTPAuth URI (starts with `otpauth://`) and Google Authenticator Export URI(starts with `otpauth-migration://`), you can paste it to search bar and you will see option to add it to list.  
 You can use QRCode scanner to resolve QRCode to link, Accounts with same key in list will not be added.  
-You can also add manually by edit config file in `%LOCALAPPDATA%\Microsoft\PowerToys\PowerToys Run\Settings\Plugins\Zapic.Plugin.TOTP\TOTPList.json`:
+You can also add manually by edit config file in `%LOCALAPPDATA%\Microsoft\PowerToys\PowerToys Run\Settings\Plugins\TOTP\Config.json`:
     ```json
     [
       {
@@ -38,7 +38,7 @@ You can also add manually by edit config file in `%LOCALAPPDATA%\Microsoft\Power
 
 2. Delete account  
 There is no way to delete account by GUI.   
-You can edit file in `%LOCALAPPDATA%\Microsoft\PowerToys\PowerToys Run\Settings\Plugins\Zapic.Plugin.TOTP\TOTPList.json` to delete account you don't want.  
+You can edit file in `%LOCALAPPDATA%\Microsoft\PowerToys\PowerToys Run\Settings\Plugins\TOTP\Config.json` to delete account you don't want.  
 Change to config file will be applied immediately.
 
 
