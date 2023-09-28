@@ -17,7 +17,7 @@ namespace PowerToysRunTOTP
     public class Main : IPlugin
     {
 
-        private string ConfigPath = Environment.ExpandEnvironmentVariables("%LOCALAPPDATA%") + "\\Microsoft\\PowerToys\\PowerToys Run\\Settings\\Plugins\\Zapic.Plugin.TOTP\\TOTPList.json";
+        private string ConfigPath = Environment.ExpandEnvironmentVariables("%LOCALAPPDATA%") + "\\Microsoft\\PowerToys\\PowerToys Run\\Settings\\Plugins\\TOTP\\TOTPList.json";
         private string IconCopy { get; set; }
         private string IconAdd { get; set; }
         private string IconWarn { get; set; }
