@@ -1,5 +1,6 @@
 ﻿using ManagedCommon;
 using Wox.Plugin;
+using Wox.Infrastructure;
 using System.Web;
 using System.Windows;
 using OtpNet;
@@ -99,7 +100,7 @@ namespace PowerToysRunTOTP
             
             totpList.ForEach(totp =>
             {
-                if (query.Search.Length != 0 && !totp.Name.ToLower().Contains(query.Search.ToLower())) return;
+                if (query.Search.Length != 0 && !StringMatcher.FuzzySearch(query.Search, totp.Name).Success) return;
                 var key = totp.Key;
                 if (totp.IsEncrypted)
                 {
