@@ -51,6 +51,7 @@ Encrypted data only can be decrypted in your current machine with the current ac
 2. Use "Publish" to build plugin and copy dependencies
 3. Use `ILRepack` to bundle all dependencies to a single file(Powertoys doesn't support load dll by the PTRun plugin).
    ```
-    ILRepack.exe /lib:"C:\Program Files\Microsoft Visual Studio\2022\Community\dotnet\runtime\shared\Microsoft.NETCore.App\6.0.16" /lib:"C:\Users\(yourself)\.nuget\packages" /out:PowerToysRunTOTP.dll PowertoysRunTOTP\bin\Release\net6.0-windows\publish\win-x64\PowerToysRunTOTP.dll
+     # In publish directory 
+     ~\.nuget\packages\ilrepack\2.0.18\tools\ILRepack.exe /lib:"C:\Program Files\dotnet\shared\Microsoft.NETCore.App\6.0.25" /out:PowertoysRunTOTP.dll .\PowertoysRunTOTP.dll .\Google.Protobuf.dll .\Otp.NET.dll
    ```
 4. Use ILRepack to generate `PowerToysRunTOTP.dll` to replace the original output.
