@@ -4,7 +4,7 @@
   "ActionKeyword": "[",
   "Name": "TOTP",
   "Author": "Zapic",
-  "Version": "1.2.1",
+  "Version": "1.2.2",
   "Language": "csharp",
   "Website": "https://github.com/KawaiiZapic/PowertoysRunTOTP",
   "ExecuteFileName": "Community.PowerToys.Run.Plugin.TOTP.dll",
