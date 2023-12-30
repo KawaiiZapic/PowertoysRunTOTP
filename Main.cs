@@ -67,7 +67,6 @@ namespace PowerToysRunTOTP {
                             var list = Config.LoadKeyList();
                             foreach (var item in decoded.OtpParameters) {
                                 var key = Base32Encoding.ToString(item.Secret.ToByteArray());
-                                if (list.Find(it => it.Key.Equals(key)) != null) continue;
                                 var name = "";
                                 if (item.Issuer.Length == 0) {
                                     name = item.Name;
