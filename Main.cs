@@ -126,7 +126,7 @@ namespace PowerToysRunTOTP {
                 if (totpList.Count == 0) {
                     result.Add(new Result {
                         Title = "No TOTP found in config",
-                        SubTitle = "Add TOTP to plugin by paste your setup link(totp://) first",
+                        SubTitle = "Add TOTP to plugin by paste your setup link(otpauth://) first",
                         IcoPath = IconWarn,
                         Action = (e) => {
                             return false;
