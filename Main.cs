@@ -10,9 +10,9 @@ namespace PowerToysRunTOTP {
 
     public class Main: IPlugin {
         public static string PluginID => "2FC51DBA9F0F42108E26602486C186C1";
-        private string IconCopy { get; set; }
-        private string IconAdd { get; set; }
-        private string IconWarn { get; set; }
+        private string IconCopy = "images/copy-light.png";
+        private string IconAdd = "images/add-light.png";
+        private string IconWarn = "images/warn-light.png";
 
         private PluginInitContext? Context { get; set; }
         public string Name => "TOTP";
