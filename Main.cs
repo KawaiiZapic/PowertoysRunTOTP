@@ -24,7 +24,7 @@ namespace PowerToysRunTOTP {
                 var list = new List<Result>();
                 try {
                     var link = new Uri(query.Search);
-                    var name = link.LocalPath.ToString().Substring(1);
+                    var name = link.LocalPath.ToString()[1..];
                     var queries = HttpUtility.ParseQueryString(link.Query);
                     var sercet = queries.Get("secret") ?? throw new Exception();
                     list.Add(new Result {
@@ -46,19 +46,27 @@ namespace PowerToysRunTOTP {
                             return true;
                         }
                     });
-                } catch (Exception ex) {
-                    MessageBox.Show(ex.Message + ex.StackTrace, "PowerToys TOTP Ran into error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                } catch (Exception) {
+                    list.Add(new Result {
+                        Title = "Invaild otpauth link",
+                        SubTitle = "Check your link or try to copy it again",
+                        IcoPath = IconWarn,
+                        Action = (e) => {
+                            return false;
+                        }
+                    });
                 }
                 return list;
             }
             if (query.Search.StartsWith("otpauth-migration://offline?")) {
-                var uri = new Uri(query.Search);
-                var queries = HttpUtility.ParseQueryString(uri.Query);
-                var payload = queries.Get("data") ?? throw new Exception();
-                var decoded = Payload.Parser.ParseFrom(Convert.FromBase64String(payload));
+                try {
+                    var uri = new Uri(query.Search);
+                    var queries = HttpUtility.ParseQueryString(uri.Query);
+                    var payload = queries.Get("data") ?? throw new Exception();
+                    var decoded = Payload.Parser.ParseFrom(Convert.FromBase64String(payload));
 
 
-                return new List<Result> {
+                    return new List<Result> {
                     new Result {
                         Title = "Add " + decoded.OtpParameters.Count() + " items to list",
                         SubTitle = "From Google Authenticator App, batch " + (decoded.BatchIndex + 1).ToString() + " / " + decoded.BatchSize,
@@ -89,6 +97,18 @@ namespace PowerToysRunTOTP {
                         }
                     }
                 };
+                } catch (Exception) {
+                    return new List<Result> {
+                        new Result {
+                            Title = "Invaild otpauth-migration link",
+                            SubTitle = "Check your link or try to copy it again",
+                            IcoPath = IconWarn,
+                            Action = (e) => {
+                                return false;
+                            }
+                        }
+                    };
+                }
             }
             List<ConfigStruct.KeyEntry> totpList;
             try {
