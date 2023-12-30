@@ -2,9 +2,10 @@
 using System.Text.Json;
 using System.Security.Cryptography;
 using System.Text;
+using Wox.Infrastructure.Storage;
 
-namespace PowertoysRunTOTP {
-    public class ConfigStruct {
+namespace Community.PowerToys.Run.Plugin.TOTP {
+    public class OTPList {
         public class KeyEntry {
             public string Name { get; set; }
             public string Key { get; set; }
@@ -18,55 +19,21 @@ namespace PowertoysRunTOTP {
 
 
     public static class Config {
-        private static readonly string DataDirectory = Environment.ExpandEnvironmentVariables("%LOCALAPPDATA%") + "\\Microsoft\\PowerToys\\PowerToys Run\\Settings\\Plugins\\TOTP\\";
-        private static readonly string ConfigPath = DataDirectory + "Config.json";
-        private static readonly int Version = 1;
 
-        public static ConfigStruct LoadConfig() {
-            var fileInfo = new FileInfo(ConfigPath);
-            if (!fileInfo.Exists) {
-                if (!fileInfo.Directory!.Exists) {
-                    Directory.CreateDirectory(fileInfo.Directory!.FullName);
-                }
-                var newFile = File.Create(ConfigPath);
-                var options = new JsonSerializerOptions { WriteIndented = true };
-                var EmptyConfig = new ConfigStruct {
-                    Entries = new List<ConfigStruct.KeyEntry>(),
-                    Version = Version,
-                };
-                JsonSerializer.Serialize(newFile, EmptyConfig, options);
-                newFile.Dispose();
+        public static List<OTPList.KeyEntry> LoadKeyList() {
+            var nc = new PluginJsonStorage<OTPList>();
+            var config = nc.Load();
+            if (config.Entries == null) {
+                config.Version = 2;
+                config.Entries = new List<OTPList.KeyEntry>();
+                nc.Save();
             }
-            var file = File.OpenRead(ConfigPath);
-            try {
-                var result = JsonSerializer.Deserialize<ConfigStruct>(file) ?? throw new Exception("Failed to load config: Result is null");
-                return result;
-            } finally {
-                file.Dispose();
-            }
-
+            return config.Entries;
         }
 
-        public static List<ConfigStruct.KeyEntry> LoadKeyList() {
-            return LoadConfig().Entries;
-        }
-
-        public static void SaveConfig(ConfigStruct config) {
-            var fileInfo = new FileInfo(ConfigPath);
-            if (!fileInfo.Directory!.Exists) {
-                Directory.CreateDirectory(fileInfo.Directory!.FullName);
-            }
-            var file = File.Open(ConfigPath, FileMode.Create);
-            var options = new JsonSerializerOptions { WriteIndented = true };
-            try {
-                JsonSerializer.Serialize(file, config, options);
-            } finally {
-                file.Dispose();
-            }
-        }
-
-        public static void SaveKeyList(List<ConfigStruct.KeyEntry> list) {
-            var config = LoadConfig();
+        public static void SaveKeyList(List<OTPList.KeyEntry> list) {
+            var nc = new PluginJsonStorage<OTPList>();
+            var config = nc.Load();
             foreach (var entry in list) {
                 if (entry.IsEncrypted != true) {
                     entry.Key = EncryptKey(entry.Key);
@@ -74,7 +41,7 @@ namespace PowertoysRunTOTP {
                 }
             }
             config.Entries = list;
-            SaveConfig(config);
+            nc.Save();
         }
 
         public static string DecryptKey(string encrypted) {
@@ -133,6 +100,41 @@ namespace PowertoysRunTOTP {
             FileV0.Dispose();
             File.Delete(ConfigPathV0);
             Directory.Delete(DataDirectoryV0);
+        }
+
+    }
+    public static class ConfigMigratorV1 {
+        private static readonly string DataDirectoryV1 = Environment.ExpandEnvironmentVariables("%LOCALAPPDATA%") + "\\Microsoft\\PowerToys\\PowerToys Run\\Settings\\Plugins\\TOTP\\";
+        private static readonly string ConfigPathV1 = DataDirectoryV1 + "Config.json";
+
+        public class OTPList {
+            public class KeyEntry {
+                public string Name { get; set; }
+                public string Key { get; set; }
+                public bool IsEncrypted { get; set; }
+
+            }
+
+            public int Version { get; set; }
+            public List<KeyEntry> Entries { get; set; }
+        }
+
+        public static void Migrate() {
+            if (!new FileInfo(ConfigPathV1).Exists)
+                return;
+
+            var FileV1 = File.Open(ConfigPathV1, FileMode.Open);
+            var ConfigV1 = JsonSerializer.Deserialize<OTPList>(FileV1) ?? throw new Exception("Config should not be null");
+
+            var ConfigV2 = new PluginJsonStorage<OTPList>();
+            var config = ConfigV2.Load();
+            config.Version = 2;
+            config.Entries = ConfigV1.Entries;
+            ConfigV2.Save();
+
+            FileV1.Close();
+            File.Delete(ConfigPathV1);
+            Directory.Delete(DataDirectoryV1);
         }
 
     }

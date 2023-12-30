@@ -9,7 +9,7 @@
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Configurations>Debug;Release</Configurations>
     <Authors>Zapic</Authors>
-    <Version>1.2.1</Version>
+    <Version>$([System.IO.File]::ReadAllText('$(MSBuildThisFileDirectory)plugin.json').Split(',')[5].Split(':')[1].Trim().Trim('"'))</Version>
     <Title>Powertoys Run TOTP</Title>
     <Product>Powertoys Run TOTP Plugin</Product>
     <RepositoryUrl>https://github.com/KawaiiZapic/PowertoysRunTOTP</RepositoryUrl>

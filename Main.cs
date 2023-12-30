@@ -4,9 +4,8 @@ using Wox.Infrastructure;
 using System.Web;
 using System.Windows;
 using OtpNet;
-using PowertoysRunTOTP;
 
-namespace PowerToysRunTOTP {
+namespace Community.PowerToys.Run.Plugin.TOTP {
 
     public class Main: IPlugin {
         public static string PluginID => "2FC51DBA9F0F42108E26602486C186C1";
@@ -34,14 +33,14 @@ namespace PowerToysRunTOTP {
                         Action = (e) => {
                             try {
                                 var list = Config.LoadKeyList();
-                                list.Add(new ConfigStruct.KeyEntry {
+                                list.Add(new OTPList.KeyEntry {
                                     Key = sercet,
                                     Name = name,
                                     IsEncrypted = false
                                 });
                                 Config.SaveKeyList(list);
                             } catch (Exception ex) {
-                                MessageBox.Show(ex.Message + ex.StackTrace, "PowerToys TOTP Ran into error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                                MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "PowerToys TOTP Ran into error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                             }
                             return true;
                         }
@@ -83,7 +82,7 @@ namespace PowerToysRunTOTP {
                                 } else {
                                     name = item.Issuer + ": " + item.Name;
                                 }
-                                list.Add(new ConfigStruct.KeyEntry{
+                                list.Add(new OTPList.KeyEntry{
                                     Name = name,
                                     Key = key,
                                     IsEncrypted = false
@@ -92,7 +91,7 @@ namespace PowerToysRunTOTP {
                             try {
                                 Config.SaveKeyList(list);
                             } catch(Exception ex) {
-                                MessageBox.Show(ex.Message + ex.StackTrace, "PowerToys TOTP Ran into error", MessageBoxButton.OK, MessageBoxImage.Exclamation);}
+                                MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "PowerToys TOTP Ran into error", MessageBoxButton.OK, MessageBoxImage.Exclamation);}
                             return true;
                         }
                     }
@@ -110,7 +109,7 @@ namespace PowerToysRunTOTP {
                     };
                 }
             }
-            List<ConfigStruct.KeyEntry> totpList;
+            List<OTPList.KeyEntry> totpList;
             try {
                 totpList = Config.LoadKeyList();
             } catch (Exception ex) {
@@ -173,6 +172,9 @@ namespace PowerToysRunTOTP {
 
             try {
                 ConfigMigratorV0.Migrate();
+            } catch (Exception) { }
+            try {
+                ConfigMigratorV1.Migrate();
             } catch (Exception) { }
         }
 

@@ -7,7 +7,7 @@
   "Version": "1.2.1",
   "Language": "csharp",
   "Website": "https://github.com/KawaiiZapic/PowertoysRunTOTP",
-  "ExecuteFileName": "PowerToysRunTOTP.dll",
+  "ExecuteFileName": "Community.PowerToys.Run.Plugin.TOTP.dll",
   "IsGlobal": false,
   "IcoPathDark": "images\\icon-dark.png",
   "IcoPathLight": "images\\icon-light.png"

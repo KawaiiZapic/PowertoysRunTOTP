@@ -8,7 +8,7 @@
 using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
-namespace PowerToysRunTOTP
+namespace Community.PowerToys.Run.Plugin.TOTP 
 {
 
     /// <summary>Holder for reflection information generated from i/i.proto</summary>
@@ -46,7 +46,7 @@ namespace PowerToysRunTOTP
             descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
                 new pbr::FileDescriptor[] { },
                 new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::PowerToysRunTOTP.Payload), global::PowerToysRunTOTP.Payload.Parser, new[]{ "OtpParameters", "Version", "BatchSize", "BatchIndex", "BatchId" }, null, new[]{ typeof(global::PowerToysRunTOTP.Payload.Types.Algorithm), typeof(global::PowerToysRunTOTP.Payload.Types.DigitCount), typeof(global::PowerToysRunTOTP.Payload.Types.OtpType) }, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::PowerToysRunTOTP.Payload.Types.OtpParameters), global::PowerToysRunTOTP.Payload.Types.OtpParameters.Parser, new[]{ "Secret", "Name", "Issuer", "Algorithm", "Digits", "Type", "Counter" }, null, null, null, null)})
+            new pbr::GeneratedClrTypeInfo(typeof(global::Community.PowerToys.Run.Plugin.TOTP.Payload), global::Community.PowerToys.Run.Plugin.TOTP.Payload.Parser, new[]{ "OtpParameters", "Version", "BatchSize", "BatchIndex", "BatchId" }, null, new[]{ typeof(global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.Algorithm), typeof(global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.DigitCount), typeof(global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.OtpType) }, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.OtpParameters), global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.OtpParameters.Parser, new[]{ "Secret", "Name", "Issuer", "Algorithm", "Digits", "Type", "Counter" }, null, null, null, null)})
                 }));
         }
         #endregion
@@ -68,7 +68,7 @@ namespace PowerToysRunTOTP
         [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public static pbr::MessageDescriptor Descriptor
         {
-            get { return global::PowerToysRunTOTP.IReflection.Descriptor.MessageTypes[0]; }
+            get { return global::Community.PowerToys.Run.Plugin.TOTP.IReflection.Descriptor.MessageTypes[0]; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -108,12 +108,12 @@ namespace PowerToysRunTOTP
 
         /// <summary>Field number for the "otp_parameters" field.</summary>
         public const int OtpParametersFieldNumber = 1;
-        private static readonly pb::FieldCodec<global::PowerToysRunTOTP.Payload.Types.OtpParameters> _repeated_otpParameters_codec
-            = pb::FieldCodec.ForMessage(10, global::PowerToysRunTOTP.Payload.Types.OtpParameters.Parser);
-        private readonly pbc::RepeatedField<global::PowerToysRunTOTP.Payload.Types.OtpParameters> otpParameters_ = new pbc::RepeatedField<global::PowerToysRunTOTP.Payload.Types.OtpParameters>();
+        private static readonly pb::FieldCodec<global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.OtpParameters> _repeated_otpParameters_codec
+            = pb::FieldCodec.ForMessage(10, global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.OtpParameters.Parser);
+        private readonly pbc::RepeatedField<global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.OtpParameters> otpParameters_ = new pbc::RepeatedField<global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.OtpParameters>();
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-        public pbc::RepeatedField<global::PowerToysRunTOTP.Payload.Types.OtpParameters> OtpParameters
+        public pbc::RepeatedField<global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.OtpParameters> OtpParameters
         {
             get { return otpParameters_; }
         }
@@ -470,7 +470,7 @@ namespace PowerToysRunTOTP
                 [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
                 public static pbr::MessageDescriptor Descriptor
                 {
-                    get { return global::PowerToysRunTOTP.Payload.Descriptor.NestedTypes[0]; }
+                    get { return global::Community.PowerToys.Run.Plugin.TOTP.Payload.Descriptor.NestedTypes[0]; }
                 }
 
                 [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -554,10 +554,10 @@ namespace PowerToysRunTOTP
 
                 /// <summary>Field number for the "algorithm" field.</summary>
                 public const int AlgorithmFieldNumber = 4;
-                private global::PowerToysRunTOTP.Payload.Types.Algorithm algorithm_ = global::PowerToysRunTOTP.Payload.Types.Algorithm.Unspecified;
+                private global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.Algorithm algorithm_ = global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.Algorithm.Unspecified;
                 [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
                 [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-                public global::PowerToysRunTOTP.Payload.Types.Algorithm Algorithm
+                public global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.Algorithm Algorithm
                 {
                     get { return algorithm_; }
                     set
@@ -568,10 +568,10 @@ namespace PowerToysRunTOTP
 
                 /// <summary>Field number for the "digits" field.</summary>
                 public const int DigitsFieldNumber = 5;
-                private global::PowerToysRunTOTP.Payload.Types.DigitCount digits_ = global::PowerToysRunTOTP.Payload.Types.DigitCount.Unspecified;
+                private global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.DigitCount digits_ = global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.DigitCount.Unspecified;
                 [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
                 [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-                public global::PowerToysRunTOTP.Payload.Types.DigitCount Digits
+                public global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.DigitCount Digits
                 {
                     get { return digits_; }
                     set
@@ -582,10 +582,10 @@ namespace PowerToysRunTOTP
 
                 /// <summary>Field number for the "type" field.</summary>
                 public const int TypeFieldNumber = 6;
-                private global::PowerToysRunTOTP.Payload.Types.OtpType type_ = global::PowerToysRunTOTP.Payload.Types.OtpType.Unspecified;
+                private global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.OtpType type_ = global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.OtpType.Unspecified;
                 [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
                 [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-                public global::PowerToysRunTOTP.Payload.Types.OtpType Type
+                public global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.OtpType Type
                 {
                     get { return type_; }
                     set
@@ -645,9 +645,9 @@ namespace PowerToysRunTOTP
                     if (Secret.Length != 0) hash ^= Secret.GetHashCode();
                     if (Name.Length != 0) hash ^= Name.GetHashCode();
                     if (Issuer.Length != 0) hash ^= Issuer.GetHashCode();
-                    if (Algorithm != global::PowerToysRunTOTP.Payload.Types.Algorithm.Unspecified) hash ^= Algorithm.GetHashCode();
-                    if (Digits != global::PowerToysRunTOTP.Payload.Types.DigitCount.Unspecified) hash ^= Digits.GetHashCode();
-                    if (Type != global::PowerToysRunTOTP.Payload.Types.OtpType.Unspecified) hash ^= Type.GetHashCode();
+                    if (Algorithm != global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.Algorithm.Unspecified) hash ^= Algorithm.GetHashCode();
+                    if (Digits != global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.DigitCount.Unspecified) hash ^= Digits.GetHashCode();
+                    if (Type != global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.OtpType.Unspecified) hash ^= Type.GetHashCode();
                     if (Counter != 0L) hash ^= Counter.GetHashCode();
                     if (_unknownFields != null)
                     {
@@ -724,17 +724,17 @@ namespace PowerToysRunTOTP
                         output.WriteRawTag(26);
                         output.WriteString(Issuer);
                     }
-                    if (Algorithm != global::PowerToysRunTOTP.Payload.Types.Algorithm.Unspecified)
+                    if (Algorithm != global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.Algorithm.Unspecified)
                     {
                         output.WriteRawTag(32);
                         output.WriteEnum((int)Algorithm);
                     }
-                    if (Digits != global::PowerToysRunTOTP.Payload.Types.DigitCount.Unspecified)
+                    if (Digits != global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.DigitCount.Unspecified)
                     {
                         output.WriteRawTag(40);
                         output.WriteEnum((int)Digits);
                     }
-                    if (Type != global::PowerToysRunTOTP.Payload.Types.OtpType.Unspecified)
+                    if (Type != global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.OtpType.Unspecified)
                     {
                         output.WriteRawTag(48);
                         output.WriteEnum((int)Type);
@@ -768,15 +768,15 @@ namespace PowerToysRunTOTP
                     {
                         size += 1 + pb::CodedOutputStream.ComputeStringSize(Issuer);
                     }
-                    if (Algorithm != global::PowerToysRunTOTP.Payload.Types.Algorithm.Unspecified)
+                    if (Algorithm != global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.Algorithm.Unspecified)
                     {
                         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int)Algorithm);
                     }
-                    if (Digits != global::PowerToysRunTOTP.Payload.Types.DigitCount.Unspecified)
+                    if (Digits != global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.DigitCount.Unspecified)
                     {
                         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int)Digits);
                     }
-                    if (Type != global::PowerToysRunTOTP.Payload.Types.OtpType.Unspecified)
+                    if (Type != global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.OtpType.Unspecified)
                     {
                         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int)Type);
                     }
@@ -811,15 +811,15 @@ namespace PowerToysRunTOTP
                     {
                         Issuer = other.Issuer;
                     }
-                    if (other.Algorithm != global::PowerToysRunTOTP.Payload.Types.Algorithm.Unspecified)
+                    if (other.Algorithm != global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.Algorithm.Unspecified)
                     {
                         Algorithm = other.Algorithm;
                     }
-                    if (other.Digits != global::PowerToysRunTOTP.Payload.Types.DigitCount.Unspecified)
+                    if (other.Digits != global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.DigitCount.Unspecified)
                     {
                         Digits = other.Digits;
                     }
-                    if (other.Type != global::PowerToysRunTOTP.Payload.Types.OtpType.Unspecified)
+                    if (other.Type != global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.OtpType.Unspecified)
                     {
                         Type = other.Type;
                     }
@@ -906,17 +906,17 @@ namespace PowerToysRunTOTP
                                 }
                             case 32:
                                 {
-                                    Algorithm = (global::PowerToysRunTOTP.Payload.Types.Algorithm)input.ReadEnum();
+                                    Algorithm = (global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.Algorithm)input.ReadEnum();
                                     break;
                                 }
                             case 40:
                                 {
-                                    Digits = (global::PowerToysRunTOTP.Payload.Types.DigitCount)input.ReadEnum();
+                                    Digits = (global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.DigitCount)input.ReadEnum();
                                     break;
                                 }
                             case 48:
                                 {
-                                    Type = (global::PowerToysRunTOTP.Payload.Types.OtpType)input.ReadEnum();
+                                    Type = (global::Community.PowerToys.Run.Plugin.TOTP.Payload.Types.OtpType)input.ReadEnum();
                                     break;
                                 }
                             case 56:
