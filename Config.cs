@@ -7,52 +7,15 @@ using Wox.Infrastructure.Storage;
 namespace Community.PowerToys.Run.Plugin.TOTP {
     public class OTPList {
         public class KeyEntry {
-            public string Name { get; set; }
-            public string Key { get; set; }
-            public bool IsEncrypted { get; set; }
+            public string Name = "";
+            public string Key = "";
+            public bool IsEncrypted = false;
 
         }
 
-        public int Version { get; set; }
-        public List<KeyEntry> Entries { get; set; }
+        public int Version = 2;
+        public List<KeyEntry> Entries = new();
     }
-
-
-    public static class Config {
-
-        public static List<OTPList.KeyEntry> LoadKeyList() {
-            var nc = new PluginJsonStorage<OTPList>();
-            var config = nc.Load();
-            if (config.Entries == null) {
-                config.Version = 2;
-                config.Entries = new List<OTPList.KeyEntry>();
-                nc.Save();
-            }
-            return config.Entries;
-        }
-
-        public static void SaveKeyList(List<OTPList.KeyEntry> list) {
-            var nc = new PluginJsonStorage<OTPList>();
-            var config = nc.Load();
-            foreach (var entry in list) {
-                if (entry.IsEncrypted != true) {
-                    entry.Key = EncryptKey(entry.Key);
-                    entry.IsEncrypted = true;
-                }
-            }
-            config.Entries = list;
-            nc.Save();
-        }
-
-        public static string DecryptKey(string encrypted) {
-            return Encoding.UTF8.GetString(ProtectedData.Unprotect(Convert.FromBase64String(encrypted), null, DataProtectionScope.CurrentUser));
-        }
-
-        public static string EncryptKey(string unencrypted) {
-            return Convert.ToBase64String(ProtectedData.Protect(Encoding.UTF8.GetBytes(unencrypted), null, DataProtectionScope.CurrentUser));
-        }
-    }
-
 
     public static class ConfigMigratorV0 {
         private static readonly string DataDirectoryV0 = Environment.ExpandEnvironmentVariables("%LOCALAPPDATA%") + "\\Microsoft\\PowerToys\\PowerToys Run\\Settings\\Plugins\\Zapic.Plugin.TOTP\\";
@@ -61,20 +24,19 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
         private static readonly string ConfigPathV1 = DataDirectoryV1 + "Config.json";
 
         public class StructV0 {
-            public string Name { get; set; }
-            public string Key { get; set; }
-
+            public string Name = "";
+            public string Key = "";
         }
 
         public class StructV1 {
             public class KeyEntry {
-                public string Name { get; set; }
-                public string Key { get; set; }
-                public bool IsEncrypted { get; set; }
+                    public string Name = "";
+                    public string Key = "";
+                    public bool IsEncrypted = false;
 
             }
-            public int Version { get; set; }
-            public List<KeyEntry> Entries { get; set; }
+                public int Version = 1;
+                public List<KeyEntry> Entries = new();
 
         }
 
@@ -109,14 +71,13 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
 
         public class OTPList {
             public class KeyEntry {
-                public string Name { get; set; }
-                public string Key { get; set; }
-                public bool IsEncrypted { get; set; }
+                public string Name = "";
+                public string Key = "";
+                public bool IsEncrypted = false;
 
             }
-
-            public int Version { get; set; }
-            public List<KeyEntry> Entries { get; set; }
+            public int Version;
+            public List<KeyEntry> Entries = new();
         }
 
         public static void Migrate() {
