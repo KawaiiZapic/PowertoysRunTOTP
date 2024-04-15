@@ -48,84 +48,10 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
 
         public List<Result> Query(Query query) {
             if (query.Search.StartsWith("otpauth://totp/")) {
-                var list = new List<Result>();
-                try {
-                    var link = new Uri(query.Search);
-                    var name = link.LocalPath.ToString()[1..];
-                    var queries = HttpUtility.ParseQueryString(link.Query);
-                    var sercet = queries.Get("secret") ?? throw new Exception();
-                    list.Add(new Result {
-                        Title = name,
-                        SubTitle = "Add to list",
-                        IcoPath = IconAdd,
-                        Action = (e) => { 
-                            _list.Entries.Add(new OTPList.KeyEntry {
-                                    Key = EncryptKey(sercet),
-                                    Name = name,
-                                    IsEncrypted = true
-                                });
-                            _storage.Save();
-                            return true;
-                        }
-                    });
-                } catch (Exception) {
-                    list.Add(new Result {
-                        Title = "Invaild otpauth link",
-                        SubTitle = "Check your link or try to copy it again",
-                        IcoPath = IconWarn,
-                        Action = (e) => {
-                            return false;
-                        }
-                    });
-                }
-                return list;
+                return HandleNormalOtpImport(query.Search);
             }
             if (query.Search.StartsWith("otpauth-migration://offline?")) {
-                try {
-                    var uri = new Uri(query.Search);
-                    var queries = HttpUtility.ParseQueryString(uri.Query);
-                    var payload = queries.Get("data") ?? throw new Exception();
-                    var decoded = Payload.Parser.ParseFrom(Convert.FromBase64String(payload));
-
-                    return new List<Result> {
-                    new Result {
-                        Title = "Add " + decoded.OtpParameters.Count() + " items to list",
-                        SubTitle = "From Google Authenticator App, batch " + (decoded.BatchIndex + 1).ToString() + " / " + decoded.BatchSize,
-                        IcoPath = IconAdd,
-                        Action = (e) => {
-                            foreach (var item in decoded.OtpParameters) {
-                                var key = Base32Encoding.ToString(item.Secret.ToByteArray());
-                                var name = "";
-                                if (item.Issuer.Length == 0) {
-                                    name = item.Name;
-                                } else if (item.Name.Length == 0) {
-                                    name = item.Issuer + ": <NO NAME>";
-                                } else {
-                                    name = item.Issuer + ": " + item.Name;
-                                }
-                                _list.Entries.Add(new OTPList.KeyEntry{
-                                    Name = name,
-                                    Key = EncryptKey(key),
-                                    IsEncrypted = true
-                                });
-                                _storage.Save();
-                            }
-                            return true;
-                        }
-                    }
-                };
-                } catch (Exception) {
-                    return new List<Result> {
-                        new Result {
-                            Title = "Invaild otpauth-migration link",
-                            SubTitle = "Check your link or try to copy it again",
-                            IcoPath = IconWarn,
-                            Action = (e) => {
-                                return false;
-                            }
-                        }
-                    };
-                }
+                return HandleGoogleAuthImport(query.Search);
             }
 
             var result = new List<Result>();
@@ -137,16 +63,27 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                 if (totp.IsEncrypted) {
                     key = DecryptKey(key);
                 }
-                var totpInst = new Totp(Base32Encoding.ToBytes(key));
-                result.Add(new Result {
-                    Title = totpInst.ComputeTotp() + " - " + totp.Name,
-                    SubTitle = "Copy to clipboard - Expired in " + totpInst.RemainingSeconds().ToString() + "s",
-                    IcoPath = IconCopy,
-                    Action = (e) => {
-                        Clipboard.SetText(totpInst.ComputeTotp());
-                        return true;
-                    }
-                });
+                if (!CheckKeyValid(key)) {
+                    result.Add(new Result {
+                        Title = totp.Name + ": Invalid OTP secret",
+                        SubTitle = "This OTP contains a invalid OTP secret that can't be decode as base32 data",
+                        IcoPath = IconWarn,
+                        Action = (e) => {
+                            return false;
+                        }
+                    });
+                } else {
+                    var totpInst = new Totp(Base32Encoding.ToBytes(key));
+                    result.Add(new Result {
+                        Title = totpInst.ComputeTotp() + " - " + totp.Name,
+                        SubTitle = "Copy to clipboard - Expired in " + totpInst.RemainingSeconds().ToString() + "s",
+                        IcoPath = IconCopy,
+                        Action = (e) => {
+                            Clipboard.SetText(totpInst.ComputeTotp());
+                            return true;
+                        }
+                    });
+                }
             });
             if (result.Count == 0 && query.RawQuery.StartsWith(query.ActionKeyword)) {
                 if (_list.Entries.Count == 0) {
@@ -170,6 +107,113 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                 }
             }
             return result;
+        }
+        public List<Result> HandleGoogleAuthImport(string url) {
+            try {
+                var uri = new Uri(url);
+                var queries = HttpUtility.ParseQueryString(uri.Query);
+                var payload = queries.Get("data") ?? throw new Exception();
+                var decoded = Payload.Parser.ParseFrom(Convert.FromBase64String(payload));
+
+                return new List<Result> {
+                    new() {
+                        Title = "Add " + decoded.OtpParameters.Count + " items to list",
+                        SubTitle = "From Google Authenticator App, batch " + (decoded.BatchIndex + 1).ToString() + " / " + decoded.BatchSize,
+                        IcoPath = IconAdd,
+                        Action = (e) => {
+                            foreach (var item in decoded.OtpParameters) {
+                                var key = Base32Encoding.ToString(item.Secret.ToByteArray());
+                                var name = item.Issuer;
+                                if (item.Name.Length > 0) {
+                                    if (name.Length > 0) {
+                                        name += ": " + item.Name;
+                                    } else {
+                                        name = item.Name;
+                                    }
+                                } else {
+                                    if (name.Length > 0) {
+                                        name += ": <NO NAME>";
+                                    } else {
+                                        name = "<NO NAME>";
+                                    }
+                                }
+                                _list.Entries.Add(new OTPList.KeyEntry{
+                                    Name = name,
+                                    Key = EncryptKey(key),
+                                    IsEncrypted = true
+                                });
+                                _storage.Save();
+                            }
+                            return true;
+                        }
+                    }
+                };
+            } catch (Exception) {
+                return new List<Result> {
+                        new () {
+                            Title = "Invalid otpauth-migration link",
+                            SubTitle = "Check your link or try to copy it again",
+                            IcoPath = IconWarn,
+                            Action = (e) => {
+                                return false;
+                            }
+                        }
+                    };
+            }
+        }
+        public List<Result> HandleNormalOtpImport(string url) {
+            var list = new List<Result>();
+            try {
+                var link = new Uri(url);
+                var name = link.LocalPath.ToString()[1..];
+                var queries = HttpUtility.ParseQueryString(link.Query);
+                var sercet = queries.Get("secret") ?? throw new Exception();
+                if (!CheckKeyValid(sercet)) {
+                    list.Add(new Result {
+                        Title = "Invalid OTP secret",
+                        SubTitle = "This link contains a invalid OTP secret that can't be decode as base32 data",
+                        IcoPath = IconWarn,
+                        Action = (e) => {
+                            return false;
+                        }
+                    });
+                   
+                } else {
+                    list.Add(new Result {
+                        Title = name,
+                        SubTitle = "Add to list",
+                        IcoPath = IconAdd,
+                        Action = (e) => {
+                            _list.Entries.Add(new OTPList.KeyEntry {
+                                Key = EncryptKey(sercet),
+                                Name = name,
+                                IsEncrypted = true
+                            });
+                            _storage.Save();
+                            return true;
+                        }
+                    });
+                }
+            } catch (Exception) {
+                list.Add(new Result {
+                    Title = "Invalid otpauth link",
+                    SubTitle = "Check your link or try to copy it again",
+                    IcoPath = IconWarn,
+                    Action = (e) => {
+                        return false;
+                    }
+                });
+            }
+            return list;
+        }
+
+        public static bool CheckKeyValid(string key) {
+            try {
+                Base32Encoding.ToBytes(key);
+                return true;
+            } catch (Exception) {
+                return false;
+            }
         }
 
         public void Init(PluginInitContext context) {
