@@ -14,9 +14,9 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore PowertoysRunTOTP.sln
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore PowertoysRunTOTP.sln
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.2.1-node20
       with:
