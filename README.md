@@ -36,13 +36,13 @@ You can also add manually by editing config file in `%LOCALAPPDATA%\Microsoft\Po
         ]
     }
     ```
-    Change to the config file will be applied immediately.  
+    You need to re-enable plugin in PowerToys Run settings to apply changes.  
     Once the plugin loads the config again, **all unencrypted data will be encrypted**.
 
 2. Delete account  
 There is no way to delete accounts by GUI.   
 You delete an account by editing the config file in `%LOCALAPPDATA%\Microsoft\PowerToys\PowerToys Run\Settings\Plugins\Community.PowerToys.Run.Plugin.TOTP\OTPList.json`.
-Change to the config file will be applied immediately.
+You need to re-enable plugin in PowerToys Run settings to apply changes.  
 
 
 ## About Encryption
@@ -51,10 +51,4 @@ Encrypted data only can be decrypted in your current machine with the current ac
 
 ## Build Plugin
 1. Clone repo
-2. Use "Publish" to build plugin and copy dependencies
-3. Use `ILRepack` to bundle all dependencies to a single file(Powertoys doesn't support load dll by the PTRun plugin).
-   ```
-     # In publish directory 
-     ~\.nuget\packages\ilrepack\2.0.18\tools\ILRepack.exe /lib:"C:\Program Files\dotnet\shared\Microsoft.NETCore.App\6.0.25" /out:Community.PowerToys.Run.Plugin.TOTP.dll .\Community.PowerToys.Run.Plugin.TOTP.dll .\Google.Protobuf.dll .\Otp.NET.dll
-   ```
-4. Use ILRepack to generate `PowerToysRunTOTP.dll` to replace the original output.
+2. Restore NuGet packages & build

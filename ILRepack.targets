@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project
+	xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="ILRepacker" AfterTargets="Build">
+    <ItemGroup>
+      <InputAssemblies Include="$(OutputPath)$(TargetName)$(TargetExt)"/>
+      <InputAssemblies Include="$(OutputPath)*.dll" Exclude="$(OutputPath)$(TargetName)$(TargetExt)"/>
+    </ItemGroup>
+    <ILRepack
+       Parallel="true"
+       DebugInfo="true"
+       AllowDuplicateResources="false"
+       InputAssemblies="@(InputAssemblies)"
+       TargetKind="SameAsPrimaryAssembly"
+       OutputFile="$(OutputPath)$(TargetName)$(TargetExt)"
+    />
+    <ItemGroup>
+      <DependenciesDLL Include="$(OutputPath)*.dll" Exclude="$(OutputPath)$(TargetName)$(TargetExt)"/>
+    </ItemGroup>
+    <Delete Files="@(DependenciesDLL)"/>
+  </Target>
+</Project>
