@@ -5,7 +5,7 @@
     <useWPF>true</useWPF>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Platforms>ARM64;x64</Platforms>
+    <Platforms>x64</Platforms>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Configurations>Debug;Release</Configurations>
     <Authors>Zapic</Authors>
@@ -46,6 +46,24 @@
     <None Update="images\*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Compile Update="localization\Resource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="localization\Resource.zh-cn.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource.zh-cn.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="localization\Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="localization\Resource.zh-cn.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.zh-cn.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <None Update="plugin.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
