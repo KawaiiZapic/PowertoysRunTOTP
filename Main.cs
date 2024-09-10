@@ -8,6 +8,7 @@ using Wox.Infrastructure.Storage;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Controls;
+using System.Runtime.InteropServices;
 
 namespace Community.PowerToys.Run.Plugin.TOTP {
 
@@ -79,7 +80,18 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                         SubTitle = "Copy to clipboard - Expired in " + totpInst.RemainingSeconds().ToString() + "s",
                         IcoPath = IconCopy,
                         Action = (e) => {
-                            Clipboard.SetText(totpInst.ComputeTotp());
+                            for (int i = 0; i < 10; i++) {
+                                try {
+                                    Clipboard.SetText(totpInst.ComputeTotp());
+                                    return true;
+                                } catch (COMException) {
+                                    if (i == 9) {
+                                        MessageBox.Show("Something is using clipboard, code can't be copied, please try again.");
+                                        return true;
+                                    }
+                                    Thread.Sleep(100);
+                                }
+                            }
                             return true;
                         }
                     });
