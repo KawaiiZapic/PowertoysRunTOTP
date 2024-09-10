@@ -7,21 +7,22 @@ using OtpNet;
 using Wox.Infrastructure.Storage;
 using System.Security.Cryptography;
 using System.Text;
-using System.Windows.Controls;
 using System.Runtime.InteropServices;
+using Community.PowerToys.Run.Plugin.TOTP.localization;
 
 namespace Community.PowerToys.Run.Plugin.TOTP {
 
-    public class Main: IPlugin, ISavable, IReloadable, IDisposable {
+    public class Main: IPlugin, ISavable, IReloadable, IDisposable, IPluginI18n {
+        public string Name => Resource.plugin_name;
+        public string Description => Resource.plugin_description;
+        public string GetTranslatedPluginTitle() => Resource.plugin_name;
+        public string GetTranslatedPluginDescription() => Resource.plugin_description;
         public static string PluginID => "2FC51DBA9F0F42108E26602486C186C1";
-        private string IconCopy = "images/copy-light.png";
-        private string IconAdd = "images/add-light.png";
-        private string IconWarn = "images/warn-light.png";
+
+        private string theme = "light";
 
         private PluginInitContext? Context { get; set; }
-        public string Name => "TOTP";
 
-        public string Description => "TOTP Code Generator";
         private bool _disposed;
 
         private PluginJsonStorage<OTPList> _storage;
@@ -57,6 +58,19 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
 
             var result = new List<Result>();
 
+
+            if (_list.Entries.Count == 0 && query.RawQuery.StartsWith(query.ActionKeyword)) {
+                result.Add(new Result {
+                    Title = Resource.no_authenticator,
+                    SubTitle = Resource.no_authenticator_tip,
+                    IcoPath = GetIconByName("warn"),
+                    Action = (e) => {
+                        return false;
+                    }
+                });
+                return result;
+            }
+
             _list.Entries.ForEach(totp => {
                 if (query.Search.Length != 0 && !StringMatcher.FuzzySearch(query.Search, totp.Name).Success)
                     return;
@@ -66,9 +80,9 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                 }
                 if (!CheckKeyValid(key)) {
                     result.Add(new Result {
-                        Title = totp.Name + ": Invalid OTP secret",
-                        SubTitle = "This OTP contains a invalid OTP secret that can't be decode as base32 data",
-                        IcoPath = IconWarn,
+                        Title = string.Format(Resource.invalid_secret, totp.Name),
+                        SubTitle = Resource.invalid_secret_tip,
+                        IcoPath = GetIconByName("copy"),
                         Action = (e) => {
                             return false;
                         }
@@ -76,9 +90,9 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                 } else {
                     var totpInst = new Totp(Base32Encoding.ToBytes(key));
                     result.Add(new Result {
-                        Title = totpInst.ComputeTotp() + " - " + totp.Name,
-                        SubTitle = "Copy to clipboard - Expired in " + totpInst.RemainingSeconds().ToString() + "s",
-                        IcoPath = IconCopy,
+                        Title = string.Format(Resource.copy_to_clipboard, totpInst.ComputeTotp(), totp.Name),
+                        SubTitle = string.Format(Resource.copy_to_clipboard_tip, totpInst.RemainingSeconds()),
+                        IcoPath = GetIconByName("copy"),
                         Action = (e) => {
                             for (int i = 0; i < 10; i++) {
                                 try {
@@ -86,7 +100,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                                     return true;
                                 } catch (COMException) {
                                     if (i == 9) {
-                                        MessageBox.Show("Something is using clipboard, code can't be copied, please try again.");
+                                        MessageBox.Show(Resource.copy_to_clipboard_err);
                                         return true;
                                     }
                                     Thread.Sleep(100);
@@ -97,27 +111,6 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                     });
                 }
             });
-            if (result.Count == 0 && query.RawQuery.StartsWith(query.ActionKeyword)) {
-                if (_list.Entries.Count == 0) {
-                    result.Add(new Result {
-                        Title = "No TOTP found in config",
-                        SubTitle = "Add TOTP to plugin by paste your setup link(otpauth://) first",
-                        IcoPath = IconWarn,
-                        Action = (e) => {
-                            return false;
-                        }
-                    });
-                } else {
-                    result.Add(new Result {
-                        Title = "No matching result",
-                        SubTitle = "Leave it blank to show all items",
-                        IcoPath = IconWarn,
-                        Action = (e) => {
-                            return false;
-                        }
-                    });
-                }
-            }
             return result;
         }
         public List<Result> HandleGoogleAuthImport(string url) {
@@ -129,9 +122,9 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
 
                 return new List<Result> {
                     new() {
-                        Title = "Add " + decoded.OtpParameters.Count + " items to list",
-                        SubTitle = "From Google Authenticator App, batch " + (decoded.BatchIndex + 1).ToString() + " / " + decoded.BatchSize,
-                        IcoPath = IconAdd,
+                        Title = string.Format(Resource.add_from_ga, decoded.OtpParameters.Count),
+                        SubTitle = string.Format(Resource.add_from_ga_tip, decoded.BatchIndex + 1, decoded.BatchSize),
+                        IcoPath = GetIconByName("add"),
                         Action = (e) => {
                             foreach (var item in decoded.OtpParameters) {
                                 var key = Base32Encoding.ToString(item.Secret.ToByteArray());
@@ -163,9 +156,9 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
             } catch (Exception) {
                 return new List<Result> {
                         new () {
-                            Title = "Invalid otpauth-migration link",
-                            SubTitle = "Check your link or try to copy it again",
-                            IcoPath = IconWarn,
+                            Title = Resource.invalid_ga_import_link,
+                            SubTitle = Resource.invalid_ga_import_link_tip,
+                            IcoPath = GetIconByName("warn"),
                             Action = (e) => {
                                 return false;
                             }
@@ -182,9 +175,9 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                 var sercet = queries.Get("secret") ?? throw new Exception();
                 if (!CheckKeyValid(sercet)) {
                     list.Add(new Result {
-                        Title = "Invalid OTP secret",
-                        SubTitle = "This link contains a invalid OTP secret that can't be decode as base32 data",
-                        IcoPath = IconWarn,
+                        Title = string.Format(Resource.invalid_secret, name),
+                        SubTitle = Resource.invalid_secret_tip,
+                        IcoPath = GetIconByName("warn"),
                         Action = (e) => {
                             return false;
                         }
@@ -193,8 +186,8 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                 } else {
                     list.Add(new Result {
                         Title = name,
-                        SubTitle = "Add to list",
-                        IcoPath = IconAdd,
+                        SubTitle = Resource.add_from_otpauth_tip,
+                        IcoPath = GetIconByName("add"),
                         Action = (e) => {
                             _list.Entries.Add(new OTPList.KeyEntry {
                                 Key = EncryptKey(sercet),
@@ -208,9 +201,9 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                 }
             } catch (Exception) {
                 list.Add(new Result {
-                    Title = "Invalid otpauth link",
-                    SubTitle = "Check your link or try to copy it again",
-                    IcoPath = IconWarn,
+                    Title = Resource.invalid_otpauth_link,
+                    SubTitle = Resource.invalid_otpauth_link_tip,
+                    IcoPath = GetIconByName("warn"),
                     Action = (e) => {
                         return false;
                     }
@@ -236,13 +229,9 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
 
         private void UpdateIconPath(Theme theme) {
             if (theme == Theme.Light || theme == Theme.HighContrastWhite) {
-                IconCopy = "images/copy-light.png";
-                IconAdd = "images/add-light.png";
-                IconWarn = "images/warn-light.png";
+                this.theme = "light";
             } else {
-                IconCopy = "images/copy-dark.png";
-                IconAdd = "images/add-dark.png";
-                IconWarn = "images/warn-dark.png";
+                this.theme = "dark";
             }
         }
 
@@ -281,8 +270,8 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
             }
         }
 
-        public Control CreateSettingPanel() {
-            throw new NotImplementedException();
+        private string GetIconByName(string name) {
+            return "images/" + name + "-" + theme + ".png";
         }
     }
 }
