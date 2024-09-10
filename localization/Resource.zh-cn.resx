@@ -121,43 +121,43 @@
     <value>添加{0}个验证器</value>
   </data>
   <data name="add_from_ga_tip" xml:space="preserve">
-    <value>来自Google Authenticator, 第{0} / {1}批.</value>
+    <value>来自Google Authenticator, 第{0} / {1}批</value>
   </data>
   <data name="add_from_otpauth_tip" xml:space="preserve">
-    <value>添加新验证器.</value>
+    <value>添加新验证器</value>
   </data>
   <data name="copy_to_clipboard" xml:space="preserve">
     <value>{0} - {1}</value>
   </data>
   <data name="copy_to_clipboard_err" xml:space="preserve">
-    <value>某个应用正在使用剪切板, 无法复制验证码, 请重试.</value>
+    <value>某个应用正在使用剪切板, 无法复制验证码, 请重试</value>
   </data>
   <data name="copy_to_clipboard_tip" xml:space="preserve">
-    <value>复制到剪切板, {0}秒后过期.</value>
+    <value>复制到剪切板 - {0}秒后过期</value>
   </data>
   <data name="invalid_ga_import_link" xml:space="preserve">
     <value>无效的 otpauth-migration 链接</value>
   </data>
   <data name="invalid_ga_import_link_tip" xml:space="preserve">
-    <value>尝试重新扫描二维码并复制链接.</value>
+    <value>尝试重新扫描二维码并复制链接</value>
   </data>
   <data name="invalid_otpauth_link" xml:space="preserve">
     <value>无效的 otpauth 链接</value>
   </data>
   <data name="invalid_otpauth_link_tip" xml:space="preserve">
-    <value>尝试重新扫描二维码并复制链接.</value>
+    <value>尝试重新扫描二维码并复制链接</value>
   </data>
   <data name="invalid_secret" xml:space="preserve">
     <value>{0} - 无效的验证器</value>
   </data>
   <data name="invalid_secret_tip" xml:space="preserve">
-    <value>该验证器的密钥无效, 因为不能按Base32解码.</value>
+    <value>该验证器的密钥无效, 因为不能按Base32解码</value>
   </data>
   <data name="no_authenticator" xml:space="preserve">
     <value>没有验证器</value>
   </data>
   <data name="no_authenticator_tip" xml:space="preserve">
-    <value>添加第一个验证器, 可以粘贴设置链接(otpauth://) 或者 Google Authenticator 迁移链接(otpauth-migration://).</value>
+    <value>添加第一个验证器, 可以粘贴设置链接(otpauth://) 或者 Google Authenticator 迁移链接(otpauth-migration://)</value>
   </data>
   <data name="plugin_description" xml:space="preserve">
     <value>复制基于时间的一次性验证码到剪切板</value>

@@ -70,7 +70,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP.localization {
         }
         
         /// <summary>
-        ///   查找类似 From Google Authenticator App, batch {0} / {1}. 的本地化字符串。
+        ///   查找类似 From Google Authenticator App, batch {0} / {1} 的本地化字符串。
         /// </summary>
         internal static string add_from_ga_tip {
             get {
@@ -79,7 +79,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP.localization {
         }
         
         /// <summary>
-        ///   查找类似 Add new authenticator. 的本地化字符串。
+        ///   查找类似 Add new authenticator 的本地化字符串。
         /// </summary>
         internal static string add_from_otpauth_tip {
             get {
@@ -97,7 +97,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP.localization {
         }
         
         /// <summary>
-        ///   查找类似 Something is using clipboard, code can&apos;t be copied, please try again. 的本地化字符串。
+        ///   查找类似 Something is using clipboard, code can&apos;t be copied, please try again 的本地化字符串。
         /// </summary>
         internal static string copy_to_clipboard_err {
             get {
@@ -106,7 +106,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP.localization {
         }
         
         /// <summary>
-        ///   查找类似 Copy to clipboard - Expired in {0}s. 的本地化字符串。
+        ///   查找类似 Copy to clipboard - Expired in {0}s 的本地化字符串。
         /// </summary>
         internal static string copy_to_clipboard_tip {
             get {
@@ -124,7 +124,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP.localization {
         }
         
         /// <summary>
-        ///   查找类似 Try to scan QRCode and copy it again. 的本地化字符串。
+        ///   查找类似 Try to scan QRCode and copy it again 的本地化字符串。
         /// </summary>
         internal static string invalid_ga_import_link_tip {
             get {
@@ -142,7 +142,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP.localization {
         }
         
         /// <summary>
-        ///   查找类似 Try to scan QRCode and copy it again. 的本地化字符串。
+        ///   查找类似 Try to scan QRCode and copy it again 的本地化字符串。
         /// </summary>
         internal static string invalid_otpauth_link_tip {
             get {
@@ -160,7 +160,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP.localization {
         }
         
         /// <summary>
-        ///   查找类似 This authenticator contains a invalid secret that can&apos;t be decode as base32 data. 的本地化字符串。
+        ///   查找类似 This authenticator contains a invalid secret that can&apos;t be decode as base32 data 的本地化字符串。
         /// </summary>
         internal static string invalid_secret_tip {
             get {
@@ -178,7 +178,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP.localization {
         }
         
         /// <summary>
-        ///   查找类似 Add your first authenticator by paste your setup link(otpauth://) or Google Authenticator(otpauth-migration://). 的本地化字符串。
+        ///   查找类似 Add your first authenticator by paste your setup link(otpauth://) or Google Authenticator(otpauth-migration://) 的本地化字符串。
         /// </summary>
         internal static string no_authenticator_tip {
             get {

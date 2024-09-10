@@ -121,43 +121,43 @@
     <value>Add {0} authenticators</value>
   </data>
   <data name="add_from_ga_tip" xml:space="preserve">
-    <value>From Google Authenticator App, batch {0} / {1}.</value>
+    <value>From Google Authenticator App, batch {0} / {1}</value>
   </data>
   <data name="add_from_otpauth_tip" xml:space="preserve">
-    <value>Add new authenticator.</value>
+    <value>Add new authenticator</value>
   </data>
   <data name="copy_to_clipboard" xml:space="preserve">
     <value>{0} - {1}</value>
   </data>
   <data name="copy_to_clipboard_err" xml:space="preserve">
-    <value>Something is using clipboard, code can't be copied, please try again.</value>
+    <value>Something is using clipboard, code can't be copied, please try again</value>
   </data>
   <data name="copy_to_clipboard_tip" xml:space="preserve">
-    <value>Copy to clipboard - Expired in {0}s.</value>
+    <value>Copy to clipboard - Expired in {0}s</value>
   </data>
   <data name="invalid_ga_import_link" xml:space="preserve">
     <value>Invalid otpauth-migration link</value>
   </data>
   <data name="invalid_ga_import_link_tip" xml:space="preserve">
-    <value>Try to scan QRCode and copy it again.</value>
+    <value>Try to scan QRCode and copy it again</value>
   </data>
   <data name="invalid_otpauth_link" xml:space="preserve">
     <value>Invalid otpauth link</value>
   </data>
   <data name="invalid_otpauth_link_tip" xml:space="preserve">
-    <value>Try to scan QRCode and copy it again.</value>
+    <value>Try to scan QRCode and copy it again</value>
   </data>
   <data name="invalid_secret" xml:space="preserve">
     <value>{0} - Invalid authenticator</value>
   </data>
   <data name="invalid_secret_tip" xml:space="preserve">
-    <value>This authenticator contains a invalid secret that can't be decode as base32 data.</value>
+    <value>This authenticator contains a invalid secret that can't be decode as base32 data</value>
   </data>
   <data name="no_authenticator" xml:space="preserve">
     <value>No authenticator</value>
   </data>
   <data name="no_authenticator_tip" xml:space="preserve">
-    <value>Add your first authenticator by paste your setup link(otpauth://) or Google Authenticator(otpauth-migration://).</value>
+    <value>Add your first authenticator by paste your setup link(otpauth://) or Google Authenticator(otpauth-migration://)</value>
   </data>
   <data name="plugin_description" xml:space="preserve">
     <value>Copy Time-based one time password to clipboard</value>
