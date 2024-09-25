@@ -13,13 +13,18 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore PowertoysRunTOTP.sln
-    - name: Build
-      run: dotnet build --no-restore PowertoysRunTOTP.sln
-    - name: Upload a Build Artifact
+    - name: Build (x64)
+      run: dotnet build Community.PowerToys.Run.Plugin.TOTP.csproj -a x64
+    - name: Build (ARM64)
+      run: dotnet build Community.PowerToys.Run.Plugin.TOTP.csproj -a ARM64
+    - name: Upload a Build Artifact (x64)
       uses: actions/upload-artifact@v3.2.1-node20
       with:
         name: TOTP-${{ github.sha }}-x64
-        path: bin/x64/Debug
+        path: bin/Debug/net6.0-windows/win-x64
+    - name: Upload a Build Artifact (ARM64)
+      uses: actions/upload-artifact@v3.2.1-node20
+      with:
+        name: TOTP-${{ github.sha }}-ARM64
+        path: bin/Debug/net6.0-windows/win-ARM64
           
