@@ -203,5 +203,51 @@ namespace Community.PowerToys.Run.Plugin.TOTP.localization {
                 return ResourceManager.GetString("plugin_name", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 Delete {0}? Please make sure you have disable 2FA verify on the website, otherwise you will be no longer able to access your account.
+        ///Type &quot;DELETE&quot; to confrim delete. 的本地化字符串。
+        /// </summary>
+        internal static string totp_delete_description {
+            get {
+                return ResourceManager.GetString("totp_delete_description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Authenticator {0} has been deleted. 的本地化字符串。
+        /// </summary>
+        internal static string totp_delete_done {
+            get {
+                return ResourceManager.GetString("totp_delete_done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Delete authenticator 的本地化字符串。
+        /// </summary>
+        internal static string totp_delete_title {
+            get {
+                return ResourceManager.GetString("totp_delete_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Rename {0} to: 的本地化字符串。
+        /// </summary>
+        internal static string totp_rename_description {
+            get {
+                return ResourceManager.GetString("totp_rename_description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Rename authenticator 的本地化字符串。
+        /// </summary>
+        internal static string totp_rename_title {
+            get {
+                return ResourceManager.GetString("totp_rename_title", resourceCulture);
+            }
+        }
     }
 }

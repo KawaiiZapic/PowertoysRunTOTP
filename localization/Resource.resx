@@ -165,4 +165,20 @@
   <data name="plugin_name" xml:space="preserve">
     <value>TOTP</value>
   </data>
+  <data name="totp_delete_description" xml:space="preserve">
+    <value>Delete {0}? Please make sure you have disable 2FA verify on the website, otherwise you will be no longer able to access your account.
+Type "DELETE" to confrim delete.</value>
+  </data>
+  <data name="totp_delete_title" xml:space="preserve">
+    <value>Delete authenticator</value>
+  </data>
+  <data name="totp_rename_title" xml:space="preserve">
+    <value>Rename authenticator</value>
+  </data>
+  <data name="totp_rename_description" xml:space="preserve">
+    <value>Rename {0} to:</value>
+  </data>
+  <data name="totp_delete_done" xml:space="preserve">
+    <value>Authenticator {0} has been deleted.</value>
+  </data>
 </root>

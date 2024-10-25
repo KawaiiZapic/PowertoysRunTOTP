@@ -9,10 +9,11 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Runtime.InteropServices;
 using Community.PowerToys.Run.Plugin.TOTP.localization;
+using Microsoft.VisualBasic;
 
 namespace Community.PowerToys.Run.Plugin.TOTP {
 
-    public class Main: IPlugin, ISavable, IReloadable, IDisposable, IPluginI18n {
+    public class Main: IPlugin, ISavable, IReloadable, IDisposable, IPluginI18n, IContextMenu {
         public string Name => Resource.plugin_name;
         public string Description => Resource.plugin_description;
         public string GetTranslatedPluginTitle() => Resource.plugin_name;
@@ -71,18 +72,23 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                 return result;
             }
 
-            _list.Entries.ForEach(totp => {
+            _list.Entries.ForEach((totp) => {
                 if (query.Search.Length != 0 && !StringMatcher.FuzzySearch(query.Search, totp.Name).Success)
                     return;
                 var key = totp.Key;
                 if (totp.IsEncrypted) {
-                    key = DecryptKey(key);
+                    try {
+                        key = DecryptKey(key);
+                    } catch (Exception) {
+                        key = null;
+                    }
                 }
-                if (!CheckKeyValid(key)) {
+                if (key == null || !CheckKeyValid(key)) {
                     result.Add(new Result {
                         Title = string.Format(Resource.invalid_secret, totp.Name),
                         SubTitle = Resource.invalid_secret_tip,
                         IcoPath = GetIconByName("copy"),
+                        ContextData = totp,
                         Action = (e) => {
                             return false;
                         }
@@ -93,6 +99,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                         Title = string.Format(Resource.copy_to_clipboard, totpInst.ComputeTotp(), totp.Name),
                         SubTitle = string.Format(Resource.copy_to_clipboard_tip, totpInst.RemainingSeconds()),
                         IcoPath = GetIconByName("copy"),
+                        ContextData = totp,
                         Action = (e) => {
                             for (int i = 0; i < 10; i++) {
                                 try {
@@ -272,6 +279,41 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
 
         private string GetIconByName(string name) {
             return "images/" + name + "-" + theme + ".png";
+        }
+
+        public List<ContextMenuResult> LoadContextMenus(Result selectedResult) {
+            var result = new List<ContextMenuResult>();
+            if (selectedResult.ContextData is not OTPList.KeyEntry)
+                return result;
+            var entry = (OTPList.KeyEntry)selectedResult.ContextData;
+            result.Add(new ContextMenuResult {
+                Glyph = "\xe8ac",
+                FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
+                Title = Resource.totp_rename_title,
+                Action = (e) => {
+                    var result = Interaction.InputBox(string.Format(Resource.totp_rename_description, entry.Name), Resource.totp_rename_title, entry.Name);
+                    if (result.Length > 0) {
+                        entry.Name = result;
+                        _storage.Save();
+                    }
+                    return true;
+                }
+            });
+            result.Add(new ContextMenuResult {
+                Glyph = "\xe74d",
+                FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
+                Title = Resource.totp_delete_title,
+                Action = (e) => {
+                    var result = Interaction.InputBox(string.Format(Resource.totp_delete_description, entry.Name), Resource.totp_delete_title);
+                    if (result == "DELETE") {
+                        _list.Entries.Remove(entry);
+                        _storage.Save();
+                        MessageBox.Show(string.Format(Resource.totp_delete_done, entry.Name), Resource.totp_delete_title, MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    return true;
+                }
+            });
+            return result;
         }
     }
 }

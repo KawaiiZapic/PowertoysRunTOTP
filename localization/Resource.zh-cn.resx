@@ -165,4 +165,20 @@
   <data name="plugin_name" xml:space="preserve">
     <value>TOTP</value>
   </data>
+  <data name="totp_delete_description" xml:space="preserve">
+    <value>删除 {0}? 请确保已经在网站上关闭二步验证, 否则你将失去对该账户的访问权限.
+输入"DELETE"确认删除.</value>
+  </data>
+  <data name="totp_delete_title" xml:space="preserve">
+    <value>删除验证器</value>
+  </data>
+  <data name="totp_rename_title" xml:space="preserve">
+    <value>重命名验证器</value>
+  </data>
+  <data name="totp_rename_description" xml:space="preserve">
+    <value>将 {0} 重命名为:</value>
+  </data>
+  <data name="totp_delete_done" xml:space="preserve">
+    <value>已删除验证器 {0}.</value>
+  </data>
 </root>
