@@ -9,7 +9,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Runtime.InteropServices;
 using Community.PowerToys.Run.Plugin.TOTP.localization;
-using Microsoft.VisualBasic;
 
 namespace Community.PowerToys.Run.Plugin.TOTP {
 
@@ -291,9 +290,15 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                 FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                 Title = Resource.totp_rename_title,
                 Action = (e) => {
-                    var result = Interaction.InputBox(string.Format(Resource.totp_rename_description, entry.Name), Resource.totp_rename_title, entry.Name);
-                    if (result.Length > 0) {
-                        entry.Name = result;
+                    var dialog = new Ookii.Dialogs.WinForms.InputDialog {
+                        MainInstruction = Resource.totp_rename_title,
+                        Content = string.Format(Resource.totp_rename_description, entry.Name),
+                        WindowTitle = "PowerToys",
+                        Input = entry.Name
+                    };
+                    var result = dialog.ShowDialog();
+                    if (result == System.Windows.Forms.DialogResult.OK && dialog.Input.Length > 0) {
+                        entry.Name = dialog.Input;
                         _storage.Save();
                     }
                     return true;
@@ -304,8 +309,13 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                 FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
                 Title = Resource.totp_delete_title,
                 Action = (e) => {
-                    var result = Interaction.InputBox(string.Format(Resource.totp_delete_description, entry.Name), Resource.totp_delete_title);
-                    if (result == "DELETE") {
+                    var dialog = new Ookii.Dialogs.WinForms.InputDialog() {
+                        MainInstruction = Resource.totp_delete_title,
+                        Content = string.Format(Resource.totp_delete_description, entry.Name),
+                        WindowTitle = "PowerToys"
+                    };
+                    var result = dialog.ShowDialog();
+                    if (result == System.Windows.Forms.DialogResult.OK && dialog.Input == "DELETE") {
                         _list.Entries.Remove(entry);
                         _storage.Save();
                         MessageBox.Show(string.Format(Resource.totp_delete_done, entry.Name), Resource.totp_delete_title, MessageBoxButton.OK, MessageBoxImage.Information);
