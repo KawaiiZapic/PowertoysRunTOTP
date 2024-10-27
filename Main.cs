@@ -9,6 +9,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Runtime.InteropServices;
 using Community.PowerToys.Run.Plugin.TOTP.localization;
+using Genesis.QRCodeLib;
+using System.Drawing;
+using Point = System.Drawing.Point;
 
 namespace Community.PowerToys.Run.Plugin.TOTP {
 
@@ -48,7 +51,46 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
             _storage.Save();
         }
 
+        Result ScanQRCodeResultFacotry() {
+            return new() {
+                Title = Resource.scan_from_screen,
+                SubTitle = Resource.scan_from_screen_tip,
+                IcoPath = GetIconByName("scan"),
+                Action = (e) => {
+                    Task.Run(() => {
+                        Task.Delay(500);
+                        var list = GetTotpURLFromScreen();
+                        int success = 0;
+                        string name = "";
+                        foreach (var link in list) {
+                            try {
+                                var entry = ParseOTPLink(link);
+                                name = entry.Name;
+                                _list.Entries.Add(entry);
+                                success++;
+                            } catch (Exception) {
+                            }
+                        }
+                        if (success > 1) {
+                            MessageBox.Show(string.Format(Resource.scan_from_screen_done_two_more, success), Resource.scan_from_screen_done_title, MessageBoxButton.OK, MessageBoxImage.Information);
+                        } else if (success == 1) {
+                            MessageBox.Show(string.Format(Resource.scan_from_screen_done_one, name), Resource.scan_from_screen_done_title, MessageBoxButton.OK, MessageBoxImage.Information);
+                        } else {
+                            MessageBox.Show(Resource.scan_from_screen_empty, Resource.scan_from_screen_done_title, MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                    });
+                    return true;
+                }
+            };
+        }
+
         public List<Result> Query(Query query) {
+            var isSpecQuery = query.ActionKeyword != "";
+            if (isSpecQuery && query.Search.StartsWith("!")) {
+                return new List<Result> {
+                    ScanQRCodeResultFacotry()
+                };
+            }
             if (query.Search.StartsWith("otpauth://totp/")) {
                 return HandleNormalOtpImport(query.Search);
             }
@@ -58,16 +100,16 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
 
             var result = new List<Result>();
 
-
-            if (_list.Entries.Count == 0 && query.RawQuery.StartsWith(query.ActionKeyword)) {
+            if (_list.Entries.Count == 0 && isSpecQuery) {
                 result.Add(new Result {
                     Title = Resource.no_authenticator,
-                    SubTitle = Resource.no_authenticator_tip,
+                    SubTitle = Resource.no_authenticator_tip,                    
                     IcoPath = GetIconByName("warn"),
                     Action = (e) => {
                         return false;
                     }
                 });
+                result.Add(ScanQRCodeResultFacotry());
                 return result;
             }
 
@@ -172,39 +214,43 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                     };
             }
         }
+        OTPList.KeyEntry ParseOTPLink(string url) {
+            var link = new Uri(url);
+            var name = link.LocalPath.ToString()[1..];
+            var queries = HttpUtility.ParseQueryString(link.Query);
+            var sercet = queries.Get("secret") ?? throw new Exception();
+            if (!CheckKeyValid(sercet)) {
+                throw new SecretInvaildException();
+            }
+            return new OTPList.KeyEntry {
+                Key = EncryptKey(sercet),
+                Name = name,
+                IsEncrypted = true
+            };
+        }
         public List<Result> HandleNormalOtpImport(string url) {
             var list = new List<Result>();
             try {
-                var link = new Uri(url);
-                var name = link.LocalPath.ToString()[1..];
-                var queries = HttpUtility.ParseQueryString(link.Query);
-                var sercet = queries.Get("secret") ?? throw new Exception();
-                if (!CheckKeyValid(sercet)) {
-                    list.Add(new Result {
-                        Title = string.Format(Resource.invalid_secret, name),
-                        SubTitle = Resource.invalid_secret_tip,
-                        IcoPath = GetIconByName("warn"),
-                        Action = (e) => {
-                            return false;
-                        }
-                    });
-                   
-                } else {
-                    list.Add(new Result {
-                        Title = name,
-                        SubTitle = Resource.add_from_otpauth_tip,
-                        IcoPath = GetIconByName("add"),
-                        Action = (e) => {
-                            _list.Entries.Add(new OTPList.KeyEntry {
-                                Key = EncryptKey(sercet),
-                                Name = name,
-                                IsEncrypted = true
-                            });
-                            _storage.Save();
-                            return true;
-                        }
-                    });
-                }
+                var entry = ParseOTPLink(url);
+                list.Add(new Result {
+                    Title = entry.Name,
+                    SubTitle = Resource.add_from_otpauth_tip,
+                    IcoPath = GetIconByName("add"),
+                    Action = (e) => {
+                        _list.Entries.Add(entry);
+                        _storage.Save();
+                        return true;
+                    }
+                });
+            } catch (SecretInvaildException) {
+                list.Add(new Result {
+                    Title = Resource.invalid_secret,
+                    SubTitle = Resource.invalid_secret_tip,
+                    IcoPath = GetIconByName("warn"),
+                    Action = (e) => {
+                        return false;
+                    }
+                });
             } catch (Exception) {
                 list.Add(new Result {
                     Title = Resource.invalid_otpauth_link,
@@ -325,5 +371,27 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
             });
             return result;
         }
+
+        List<string> GetTotpURLFromScreen() {
+            var result = new List<string>();
+            var screenSize = System.Windows.Forms.Screen.GetBounds(Point.Empty);
+            var scmap = new Bitmap(screenSize.Width, screenSize.Height);
+            using (var g = Graphics.FromImage(scmap)) {
+                g.CopyFromScreen(Point.Empty, Point.Empty, screenSize.Size);
+            }
+            var decoder = new QRDecoder();
+            var data = decoder.ImageDecoder(scmap);
+            if (data != null) {
+                foreach (var item in data) {
+                    var link = QRDecoder.ByteArrayToStr(item);
+                    if (link != null && link.StartsWith("otpauth://totp/")) {
+                        result.Add(link);
+                    }
+                }
+            }
+            return result;
+        }
+
+        class SecretInvaildException: Exception { }
     }
 }

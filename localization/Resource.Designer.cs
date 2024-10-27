@@ -151,7 +151,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP.localization {
         }
         
         /// <summary>
-        ///   查找类似 {0} - Invalid authenticator 的本地化字符串。
+        ///   查找类似 Invalid authenticator 的本地化字符串。
         /// </summary>
         internal static string invalid_secret {
             get {
@@ -201,6 +201,60 @@ namespace Community.PowerToys.Run.Plugin.TOTP.localization {
         internal static string plugin_name {
             get {
                 return ResourceManager.GetString("plugin_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Scan QR code on screen 的本地化字符串。
+        /// </summary>
+        internal static string scan_from_screen {
+            get {
+                return ResourceManager.GetString("scan_from_screen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The authenticator {0} has been imported. 的本地化字符串。
+        /// </summary>
+        internal static string scan_from_screen_done_one {
+            get {
+                return ResourceManager.GetString("scan_from_screen_done_one", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Import Done 的本地化字符串。
+        /// </summary>
+        internal static string scan_from_screen_done_title {
+            get {
+                return ResourceManager.GetString("scan_from_screen_done_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} Authenticators has been imported. 的本地化字符串。
+        /// </summary>
+        internal static string scan_from_screen_done_two_more {
+            get {
+                return ResourceManager.GetString("scan_from_screen_done_two_more", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Screen doesn&apos;t contain any QR code that can be imported. 的本地化字符串。
+        /// </summary>
+        internal static string scan_from_screen_empty {
+            get {
+                return ResourceManager.GetString("scan_from_screen_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Add authenticators from QR code on screen 的本地化字符串。
+        /// </summary>
+        internal static string scan_from_screen_tip {
+            get {
+                return ResourceManager.GetString("scan_from_screen_tip", resourceCulture);
             }
         }
         

@@ -148,7 +148,7 @@
     <value>尝试重新扫描二维码并复制链接</value>
   </data>
   <data name="invalid_secret" xml:space="preserve">
-    <value>{0} - 无效的验证器</value>
+    <value>无效的验证器</value>
   </data>
   <data name="invalid_secret_tip" xml:space="preserve">
     <value>该验证器的密钥无效, 因为不能按Base32解码</value>
@@ -180,5 +180,23 @@
   </data>
   <data name="totp_delete_done" xml:space="preserve">
     <value>已删除验证器 {0}.</value>
+  </data>
+  <data name="scan_from_screen" xml:space="preserve">
+    <value>扫描屏幕上的二维码</value>
+  </data>
+  <data name="scan_from_screen_tip" xml:space="preserve">
+    <value>从屏幕上的二维码添加验证器</value>
+  </data>
+  <data name="scan_from_screen_done_one" xml:space="preserve">
+    <value>已导入验证器 {0}.</value>
+  </data>
+  <data name="scan_from_screen_empty" xml:space="preserve">
+    <value>屏幕上没有可导入的二维码.</value>
+  </data>
+  <data name="scan_from_screen_done_two_more" xml:space="preserve">
+    <value>已导入 {0} 个验证器.</value>
+  </data>
+  <data name="scan_from_screen_done_title" xml:space="preserve">
+    <value>导入完成</value>
   </data>
 </root>

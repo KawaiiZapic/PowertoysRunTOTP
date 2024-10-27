@@ -148,7 +148,7 @@
     <value>Try to scan QRCode and copy it again</value>
   </data>
   <data name="invalid_secret" xml:space="preserve">
-    <value>{0} - Invalid authenticator</value>
+    <value>Invalid authenticator</value>
   </data>
   <data name="invalid_secret_tip" xml:space="preserve">
     <value>This authenticator contains a invalid secret that can't be decode as base32 data</value>
@@ -180,5 +180,23 @@ Type "DELETE" to confrim delete.</value>
   </data>
   <data name="totp_delete_done" xml:space="preserve">
     <value>Authenticator {0} has been deleted.</value>
+  </data>
+  <data name="scan_from_screen" xml:space="preserve">
+    <value>Scan QR code on screen</value>
+  </data>
+  <data name="scan_from_screen_tip" xml:space="preserve">
+    <value>Add authenticators from QR code on screen</value>
+  </data>
+  <data name="scan_from_screen_done_one" xml:space="preserve">
+    <value>The authenticator {0} has been imported.</value>
+  </data>
+  <data name="scan_from_screen_empty" xml:space="preserve">
+    <value>Screen doesn't contain any QR code that can be imported.</value>
+  </data>
+  <data name="scan_from_screen_done_two_more" xml:space="preserve">
+    <value>{0} Authenticators has been imported.</value>
+  </data>
+  <data name="scan_from_screen_done_title" xml:space="preserve">
+    <value>Import Done</value>
   </data>
 </root>
