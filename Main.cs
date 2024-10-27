@@ -51,11 +51,12 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
             _storage.Save();
         }
 
-        Result ScanQRCodeResultFacotry() {
+        Result ScanQRCodeResultFacotry(Query query) {
             return new() {
                 Title = Resource.scan_from_screen,
                 SubTitle = Resource.scan_from_screen_tip,
                 IcoPath = GetIconByName("scan"),
+                QueryTextDisplay = query.Search,
                 Action = (e) => {
                     Task.Run(() => {
                         Task.Delay(500);
@@ -88,7 +89,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
             var isSpecQuery = query.ActionKeyword != "";
             if (isSpecQuery && query.Search.StartsWith("!")) {
                 return new List<Result> {
-                    ScanQRCodeResultFacotry()
+                    ScanQRCodeResultFacotry(query)
                 };
             }
             if (query.Search.StartsWith("otpauth://totp/")) {
@@ -103,13 +104,14 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
             if (_list.Entries.Count == 0 && isSpecQuery) {
                 result.Add(new Result {
                     Title = Resource.no_authenticator,
-                    SubTitle = Resource.no_authenticator_tip,                    
+                    SubTitle = Resource.no_authenticator_tip,   
+                    QueryTextDisplay = query.Search,
                     IcoPath = GetIconByName("warn"),
                     Action = (e) => {
                         return false;
                     }
                 });
-                result.Add(ScanQRCodeResultFacotry());
+                result.Add(ScanQRCodeResultFacotry(query));
                 return result;
             }
 
@@ -128,7 +130,8 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                     result.Add(new Result {
                         Title = string.Format(Resource.invalid_secret, totp.Name),
                         SubTitle = Resource.invalid_secret_tip,
-                        IcoPath = GetIconByName("copy"),
+                        QueryTextDisplay = totp.Name,
+                        IcoPath = GetIconByName("warn"),
                         ContextData = totp,
                         Action = (e) => {
                             return false;
@@ -140,6 +143,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                         Title = string.Format(Resource.copy_to_clipboard, totpInst.ComputeTotp(), totp.Name),
                         SubTitle = string.Format(Resource.copy_to_clipboard_tip, totpInst.RemainingSeconds()),
                         IcoPath = GetIconByName("copy"),
+                        QueryTextDisplay = totp.Name,
                         ContextData = totp,
                         Action = (e) => {
                             for (int i = 0; i < 10; i++) {
@@ -173,6 +177,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                         Title = string.Format(Resource.add_from_ga, decoded.OtpParameters.Count),
                         SubTitle = string.Format(Resource.add_from_ga_tip, decoded.BatchIndex + 1, decoded.BatchSize),
                         IcoPath = GetIconByName("add"),
+                        QueryTextDisplay = url,
                         Action = (e) => {
                             foreach (var item in decoded.OtpParameters) {
                                 var key = Base32Encoding.ToString(item.Secret.ToByteArray());
@@ -206,6 +211,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                         new () {
                             Title = Resource.invalid_ga_import_link,
                             SubTitle = Resource.invalid_ga_import_link_tip,
+                            QueryTextDisplay = url,
                             IcoPath = GetIconByName("warn"),
                             Action = (e) => {
                                 return false;
@@ -236,6 +242,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                     Title = entry.Name,
                     SubTitle = Resource.add_from_otpauth_tip,
                     IcoPath = GetIconByName("add"),
+                    QueryTextDisplay = url,
                     Action = (e) => {
                         _list.Entries.Add(entry);
                         _storage.Save();
@@ -246,6 +253,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                 list.Add(new Result {
                     Title = Resource.invalid_secret,
                     SubTitle = Resource.invalid_secret_tip,
+                    QueryTextDisplay = url,
                     IcoPath = GetIconByName("warn"),
                     Action = (e) => {
                         return false;
@@ -255,6 +263,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                 list.Add(new Result {
                     Title = Resource.invalid_otpauth_link,
                     SubTitle = Resource.invalid_otpauth_link_tip,
+                    QueryTextDisplay = url,
                     IcoPath = GetIconByName("warn"),
                     Action = (e) => {
                         return false;
