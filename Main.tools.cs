@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
-using System.Windows;
 using Wox.Plugin;
 using Point = System.Drawing.Point;
 
@@ -160,6 +159,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                 };
             }
         }
+
         List<Result> HandleNormalOtpImport(string url) {
             try {
                 var entry = ParseOTPLink(url);

@@ -82,11 +82,11 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                 return result;
             }
 
-            _list.Authenticators.ForEach((totp) => {
-                if (query.Search.Length != 0 && !StringMatcher.FuzzySearch(query.Search, totp.Name).Success)
+            _list.Authenticators.ForEach((authenticator) => {
+                if (query.Search.Length != 0 && !StringMatcher.FuzzySearch(query.Search, authenticator.Name).Success)
                     return;
-                var key = totp.Key;
-                if (totp.IsEncrypted) {
+                var key = authenticator.Key;
+                if (authenticator.IsEncrypted) {
                     try {
                         key = DecryptKey(key);
                     } catch (Exception) {
@@ -95,27 +95,27 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                 }
                 if (key == null || !CheckKeyValid(key)) {
                     result.Add(new Result {
-                        Title = string.Format(Resource.invalid_secret, totp.Name),
+                        Title = string.Format(Resource.invalid_secret, authenticator.Name),
                         SubTitle = Resource.invalid_secret_tip,
-                        QueryTextDisplay = totp.Name,
+                        QueryTextDisplay = authenticator.Name,
                         IcoPath = GetIconByName("warn"),
-                        ContextData = totp,
+                        ContextData = authenticator,
                         Action = (e) => {
                             return false;
                         }
                     });
                 } else {
-                    var totpInst = new Totp(Base32Encoding.ToBytes(key));
+                    var AuthenticatorInst = new Totp(Base32Encoding.ToBytes(key));
                     result.Add(new Result {
-                        Title = string.Format(Resource.copy_to_clipboard, totpInst.ComputeTotp(), totp.Name),
-                        SubTitle = string.Format(Resource.copy_to_clipboard_tip, totpInst.RemainingSeconds()),
+                        Title = string.Format(Resource.copy_to_clipboard, AuthenticatorInst.ComputeTotp(), authenticator.Name),
+                        SubTitle = string.Format(Resource.copy_to_clipboard_tip, AuthenticatorInst.RemainingSeconds()),
                         IcoPath = GetIconByName("copy"),
-                        QueryTextDisplay = totp.Name,
-                        ContextData = totp,
+                        QueryTextDisplay = authenticator.Name,
+                        ContextData = authenticator,
                         Action = (e) => {
                             for (int i = 0; i < 10; i++) {
                                 try {
-                                    Clipboard.SetText(totpInst.ComputeTotp());
+                                    Clipboard.SetText(AuthenticatorInst.ComputeTotp());
                                     return true;
                                 } catch (COMException) {
                                     if (i == 9) {
