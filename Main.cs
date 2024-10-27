@@ -119,7 +119,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                                     return true;
                                 } catch (COMException) {
                                     if (i == 9) {
-                                        MessageBox.Show(Resource.copy_to_clipboard_err);
+                                        Context!.API.ShowMsg(Resource.copy_to_clipboard_err);
                                         return true;
                                     }
                                     Thread.Sleep(100);
@@ -195,7 +195,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                     if (result == System.Windows.Forms.DialogResult.OK && dialog.Input == "DELETE") {
                         _list.Authenticators.Remove(entry);
                         _storage.Save();
-                        MessageBox.Show(string.Format(Resource.totp_delete_done, entry.Name), Resource.totp_delete_title, MessageBoxButton.OK, MessageBoxImage.Information);
+                        Context!.API.ShowNotification(Resource.totp_delete_title, string.Format(Resource.totp_delete_done, entry.Name));
                     }
                     return true;
                 }

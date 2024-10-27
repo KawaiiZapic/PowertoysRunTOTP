@@ -93,11 +93,11 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                             }
                         }
                         if (success > 1) {
-                            MessageBox.Show(string.Format(Resource.scan_from_screen_done_two_more, success), Resource.scan_from_screen_done_title, MessageBoxButton.OK, MessageBoxImage.Information);
+                            Context!.API.ShowNotification(Resource.scan_from_screen_done_title, string.Format(Resource.scan_from_screen_done_two_more, success));
                         } else if (success == 1) {
-                            MessageBox.Show(string.Format(Resource.scan_from_screen_done_one, name), Resource.scan_from_screen_done_title, MessageBoxButton.OK, MessageBoxImage.Information);
+                            Context!.API.ShowNotification(Resource.scan_from_screen_done_title, string.Format(Resource.scan_from_screen_done_one, name));
                         } else {
-                            MessageBox.Show(Resource.scan_from_screen_empty, Resource.scan_from_screen_done_title, MessageBoxButton.OK, MessageBoxImage.Information);
+                            Context!.API.ShowNotification(Resource.scan_from_screen_done_title, Resource.scan_from_screen_empty);
                         }
                     });
                     return true;
