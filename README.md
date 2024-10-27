@@ -1,9 +1,14 @@
-# Powertoys Run TOTP Plugin
-A plugin helps you to copy your two-factor verification code in Powertoys Run
+# PowerToys Run TOTP Plugin
+A plugin helps you to copy your two-factor verification code in PowerToys Run
 
 
 ## Screenshot
 ![screenshot](./assets/screenshot.png)
+
+## Important: About the authenticator
+**Lost 2FA authenticator means lost access to your account!**   
+Never use this plugin as the only authenticator app, also use Google Authenticator or something else to keep a backup of your authenticators.  
+All authenticator will be encrypted with Encryption API of Windows in current user scope, if you re-install Windows or switch a account to login in to Windows, all data can't be decrypted and you will lost all authenticator in plugin.  
 
 ## Installation
 1. Download plugin from Release
@@ -15,39 +20,18 @@ A plugin helps you to copy your two-factor verification code in Powertoys Run
 3. Extract it to `%LOCALAPPDATA%\Microsoft\PowerToys\PowerToys Run\Plugins`
 
 ## Usage
-1. Add account  
-Plugin support standard OTPAuth URI (starts with `otpauth://`) and Google Authenticator Export URI(starts with `otpauth-migration://`), you can paste it to the PT Run input bar and you will see an option to add it to list.  
-You can use any QRCode scanner to resolve QRCode to link, Accounts with same key in the list will not be added.  
-You can also add manually by editing config file in `%LOCALAPPDATA%\Microsoft\PowerToys\PowerToys Run\Settings\Plugins\Community.PowerToys.Run.Plugin.TOTP\OTPList.json`:
-    ```json
-    {
-        "Version": 2,
-        "Entries": [
-            {
-                "Name": "Github: Hello",
-                "Key": "12313",
-                "IsEncrypted": false
-            },
-            {
-                "Name": "Twitter: @Hello",
-                "Key": "12313213",
-                "IsEncrypted": false
-            }
-        ]
-    }
-    ```
-    You need to re-enable plugin in PowerToys Run settings to apply changes.  
-    Once the plugin loads the config again, **all unencrypted data will be encrypted**.
+1. **Add an authenticator**   
+Plugin can scan QR code on screen to add an authenticator, typing `[!` in search bar to show plugin action menu, this method only support standard OTPAuth URI (starts with `otpauth://`).  
+Plugin support standard OTPAuth URI (starts with `otpauth://`) and Google Authenticator Export URI(starts with `otpauth-migration://`), you can paste it to the PT Run search bar and you will see an option to add it to plugin.  
 
-2. Delete account  
-There is no way to delete accounts by GUI.   
-You delete an account by editing the config file in `%LOCALAPPDATA%\Microsoft\PowerToys\PowerToys Run\Settings\Plugins\Community.PowerToys.Run.Plugin.TOTP\OTPList.json`.
-You need to re-enable plugin in PowerToys Run settings to apply changes.  
-
+2. **Delete & rename authenticator**   
+Search for the authenticator that you want to rename & delete, on the right side of search result you can rename & delete it.  
+Delete a authenticator must be confirmed by typing `DELETE` in the confirm dialog.  
 
 ## About Encryption
 Plugin uses `System.Security.Cryptography.ProtectedData` to encrypt every key. All keys will be decrypted in memory if needed.  
-Encrypted data only can be decrypted in your current machine with the current account login, if you reinstall the OS or change the account you log in to, the key cannot be decrypted.
+Encrypted data only can be decrypted in your current machine with the current account login, if you reinstall Windows or change the account you log in to, the key cannot be decrypted.  
+The encryption also can be decrypted by other program running by your account, so the encryption only prevent you accidently share the config file of plugin.
 
 ## Build Plugin
 1. Clone repo
