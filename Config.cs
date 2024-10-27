@@ -5,16 +5,16 @@ using System.Text;
 using Wox.Infrastructure.Storage;
 
 namespace Community.PowerToys.Run.Plugin.TOTP {
-    public class OTPList {
-        public class KeyEntry {
-            public string Name = "";
-            public string Key = "";
-            public bool IsEncrypted = false;
 
-        }
+    public class Authenticator {
+        public string Name { get; set; } = "";
+        public string Key { get; set; } = "";
+        public bool IsEncrypted { get; set; }
+    }
 
-        public int Version = 2;
-        public List<KeyEntry> Entries = new();
+    public class AuthenticatorsList {
+        public int Version { get; set; }
+        public List<Authenticator> Authenticators { get; set; } = new();
     }
 
     public static class ConfigMigratorV0 {
@@ -23,20 +23,19 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
         private static readonly string DataDirectoryV1 = Environment.ExpandEnvironmentVariables("%LOCALAPPDATA%") + "\\Microsoft\\PowerToys\\PowerToys Run\\Settings\\Plugins\\TOTP\\";
         private static readonly string ConfigPathV1 = DataDirectoryV1 + "Config.json";
 
-        public class StructV0 {
-            public string Name = "";
-            public string Key = "";
+        class StructV0 {
+            public string Name { get; set; } = "";
+            public string Key { get; set; } = "";
         }
 
-        public class StructV1 {
+        class StructV1 {
             public class KeyEntry {
-                    public string Name = "";
-                    public string Key = "";
-                    public bool IsEncrypted = false;
-
+                public string Name { get; set; } = "";
+                public string Key { get; set; } = "";
+                public bool IsEncrypted { get; set; }
             }
-                public int Version = 1;
-                public List<KeyEntry> Entries = new();
+            public int Version { get; set; }
+            public List<KeyEntry> Entries { get; set; } = new();
 
         }
 
@@ -58,8 +57,9 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
             }
             var FileV1 = File.OpenWrite(ConfigPathV1);
             JsonSerializer.Serialize(FileV1, ConfigV1, new JsonSerializerOptions { WriteIndented = true });
-
-            FileV0.Dispose();
+            
+            FileV1.Close();
+            FileV0.Close();
             File.Delete(ConfigPathV0);
             Directory.Delete(DataDirectoryV0);
         }
@@ -71,31 +71,76 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
 
         public class OTPList {
             public class KeyEntry {
-                public string Name = "";
-                public string Key = "";
-                public bool IsEncrypted = false;
-
+                public string Name { get; set; } = "";
+                public string Key { get; set; } = "";
+                public bool IsEncrypted { get; set; }
             }
-            public int Version;
-            public List<KeyEntry> Entries = new();
+            public int Version { get; set; }
+            public List<KeyEntry> Entries { get; set; } = new();
         }
 
         public static void Migrate() {
             if (!new FileInfo(ConfigPathV1).Exists)
                 return;
 
-            var FileV1 = File.Open(ConfigPathV1, FileMode.Open);
+            using var FileV1 = File.Open(ConfigPathV1, FileMode.Open);
             var ConfigV1 = JsonSerializer.Deserialize<OTPList>(FileV1) ?? throw new Exception("Config should not be null");
 
+            if (ConfigV1.Version != 1)
+                return;
+
             var ConfigV2 = new PluginJsonStorage<OTPList>();
+            new StoragePowerToysVersionInfo(ConfigV2.FilePath, 1).Close();
             var config = ConfigV2.Load();
             config.Version = 2;
             config.Entries = ConfigV1.Entries;
             ConfigV2.Save();
 
-            FileV1.Close();
             File.Delete(ConfigPathV1);
             Directory.Delete(DataDirectoryV1);
+        }
+    }
+
+    public static class ConfigMigratorV2 {
+        private static readonly string DataDirectoryV2 = Environment.ExpandEnvironmentVariables("%LOCALAPPDATA%") + "\\Microsoft\\PowerToys\\PowerToys Run\\Settings\\Plugins\\Community.PowerToys.Run.Plugin.TOTP\\";
+        private static readonly string ConfigPathV2 = DataDirectoryV2 + "OTPList.json";
+        private static readonly string ConfigVersionPathV2 = DataDirectoryV2 + "OTPList_version.txt";
+
+        class Authenticator {
+            public string Name { get; set; } = "";
+             public string Key { get; set; } = "";
+            public bool IsEncrypted { get; set; }
+        }
+
+        class AuthenticatorsList {
+            public int Version { get; set; }
+            public List<Authenticator> Authenticators { get; set; } = new();
+        }
+
+        class OTPList {
+            public int Version { get; set; }
+            public List<Authenticator> Entries { get; set; } = new();
+        }
+
+        public static void Migrate() {
+            if (!new FileInfo(ConfigPathV2).Exists) return;
+            using var FileV2 = File.Open(ConfigPathV2, FileMode.Open);
+            var ConfigV2 = JsonSerializer.Deserialize<OTPList>(FileV2) ?? throw new Exception("Config should not be null");
+            if (ConfigV2.Version != 2)
+                return;
+
+            var ConfigV3 = new PluginJsonStorage<AuthenticatorsList>();
+            new StoragePowerToysVersionInfo(ConfigV3.FilePath, 1).Close();
+            var config = ConfigV3.Load();
+            config.Version = 3;
+            config.Authenticators = ConfigV2.Entries;
+            ConfigV3.Save();
+            try {
+                File.Delete(ConfigPathV2);
+            } catch { }
+            try {
+                File.Delete(ConfigVersionPathV2);
+            } catch { }
         }
 
     }
