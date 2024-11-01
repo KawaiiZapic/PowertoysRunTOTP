@@ -1,4 +1,5 @@
 # PowerToys Run TOTP Plugin
+[![Mentioned in Awesome PowerToys Run Plugins](https://awesome.re/mentioned-badge-flat.svg)](https://github.com/hlaueriksson/awesome-powertoys-run-plugins)  
 A plugin helps you to copy your two-factor verification code in PowerToys Run
 
 
