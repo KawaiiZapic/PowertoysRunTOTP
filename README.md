@@ -13,13 +13,22 @@ All authenticator will be encrypted with Encryption API of Windows in current us
 Before reset your computer / re-install Windows, follow instruction below to export all authenticators.  
 
 ## Installation
+#### Manual
 1. Download plugin from Release
 2. Extract it to `%LOCALAPPDATA%\Microsoft\PowerToys\PowerToys Run\Plugins`
-
+#### Via [ptr](https://github.com/8LWXpg/ptr)
+```
+ptr add TOTP KawaiiZapic/PowertoysRunTOTP
+```
 ## Upgrade
+#### Manual
 1. Download plugin from Release
 2. Delete `%LOCALAPPDATA%\Microsoft\PowerToys\PowerToys Run\Plugins\TOTP` (Will not lose any data)
 3. Extract it to `%LOCALAPPDATA%\Microsoft\PowerToys\PowerToys Run\Plugins`
+#### Via [ptr](https://github.com/8LWXpg/ptr)
+```
+ptr update TOTP
+```
 
 ## Usage
 1. **Add an authenticator**   
