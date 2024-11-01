@@ -115,6 +115,96 @@ namespace Community.PowerToys.Run.Plugin.TOTP.localization {
         }
         
         /// <summary>
+        ///   查找类似 Exported at {0}. 的本地化字符串。
+        /// </summary>
+        internal static string export_done_tip {
+            get {
+                return ResourceManager.GetString("export_done_tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Authenticators exported 的本地化字符串。
+        /// </summary>
+        internal static string export_done_title {
+            get {
+                return ResourceManager.GetString("export_done_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Export all authenticator to file for futher import. 的本地化字符串。
+        /// </summary>
+        internal static string export_tip {
+            get {
+                return ResourceManager.GetString("export_tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Export authenticators 的本地化字符串。
+        /// </summary>
+        internal static string export_title {
+            get {
+                return ResourceManager.GetString("export_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} authenticators has been imported. 的本地化字符串。
+        /// </summary>
+        internal static string import_done_tip {
+            get {
+                return ResourceManager.GetString("import_done_tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Authenticators imported 的本地化字符串。
+        /// </summary>
+        internal static string import_done_title {
+            get {
+                return ResourceManager.GetString("import_done_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 This file is not compatible with current version of plugin, try import with the version of plugin that exported this file. 的本地化字符串。
+        /// </summary>
+        internal static string import_failed_tip {
+            get {
+                return ResourceManager.GetString("import_failed_tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Import failed 的本地化字符串。
+        /// </summary>
+        internal static string import_failed_title {
+            get {
+                return ResourceManager.GetString("import_failed_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Import authenticators from exported file. 的本地化字符串。
+        /// </summary>
+        internal static string import_tip {
+            get {
+                return ResourceManager.GetString("import_tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Import authenticators 的本地化字符串。
+        /// </summary>
+        internal static string import_title {
+            get {
+                return ResourceManager.GetString("import_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Invalid otpauth-migration link 的本地化字符串。
         /// </summary>
         internal static string invalid_ga_import_link {

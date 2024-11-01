@@ -199,4 +199,34 @@
   <data name="scan_from_screen_done_title" xml:space="preserve">
     <value>导入完成</value>
   </data>
+  <data name="export_done_title" xml:space="preserve">
+    <value>验证器已导出</value>
+  </data>
+  <data name="export_done_tip" xml:space="preserve">
+    <value>已导出到 {0}.</value>
+  </data>
+  <data name="export_title" xml:space="preserve">
+    <value>导出验证器</value>
+  </data>
+  <data name="export_tip" xml:space="preserve">
+    <value>导出所有验证器以便未来导入.</value>
+  </data>
+  <data name="import_done_title" xml:space="preserve">
+    <value>验证器已导入</value>
+  </data>
+  <data name="import_done_tip" xml:space="preserve">
+    <value>导入了 {0} 个验证器.</value>
+  </data>
+  <data name="import_failed_title" xml:space="preserve">
+    <value>导入失败</value>
+  </data>
+  <data name="import_failed_tip" xml:space="preserve">
+    <value>此文件与当前版本的插件不兼容, 尝试使用导出此文件的版本导入.</value>
+  </data>
+  <data name="import_title" xml:space="preserve">
+    <value>导入验证器</value>
+  </data>
+  <data name="import_tip" xml:space="preserve">
+    <value>从导出的文件中导入验证器.</value>
+  </data>
 </root>

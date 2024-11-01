@@ -3,11 +3,15 @@ using Genesis.QRCodeLib;
 using ManagedCommon;
 using OtpNet;
 using System.Drawing;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Web;
 using Wox.Plugin;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using Point = System.Drawing.Point;
+using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 
 namespace Community.PowerToys.Run.Plugin.TOTP {
     class SecretInvalidException: Exception { }
@@ -101,6 +105,86 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                     });
                     return true;
                 }
+            };
+        }
+
+        Result ImportFromFileResultFactory(Query query) {
+            return new() {
+                Title = Resource.import_title,
+                SubTitle = Resource.import_tip,
+                QueryTextDisplay = query.Search,
+                IcoPath = GetIconByName("save"),
+                Action = (e) => {
+                    var open = new OpenFileDialog {
+                        Filter = "JSON (*.json)|*.json",
+                        CheckFileExists = true,
+                        InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+                    };
+                    if (open.ShowDialog() == true) {
+                        var filePath = open.FileName;
+                        FileStream? file = null;
+                        try {
+                            file = File.OpenRead(filePath);
+                            var list = JsonSerializer.Deserialize<AuthenticatorsList>(file);
+                            if (list == null || list.Version != 3 || list.Authenticators == null) {
+                                throw new Exception();
+                            }
+                            foreach (var item in list.Authenticators) {
+                                item.Key = EncryptKey(item.Key);
+                                item.IsEncrypted = true;
+                                _list.Authenticators.Add(item);
+                            }
+                            _storage.Save();
+                            Context?.API.ShowNotification(Resource.import_done_title, string.Format(Resource.import_done_tip, list.Authenticators.Count));
+                        } catch (Exception) {
+                            Context?.API.ShowNotification(Resource.import_failed_title, Resource.import_failed_tip);
+                        } finally {
+                            file?.Close();
+                        }
+                    }
+                    return true;
+                }
+            };
+        }
+
+        List<Result> HandleActionList(Query query) {
+            return new List<Result> {
+                ScanQRCodeResultFactory(query),
+                ImportFromFileResultFactory(query),
+                new() {
+                    Title = Resource.export_title,
+                    SubTitle = Resource.export_tip,
+                    QueryTextDisplay = query.Search,
+                    IcoPath = GetIconByName("load"),
+                    Action = (e) => {
+                        var save = new SaveFileDialog {
+                            Filter = "JSON (*.json)|*.json",
+                            FileName = "SavedAuthenticators-" + ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds(),
+                            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+                        };
+                        if (save.ShowDialog() == true) {
+                            var filePath = save.FileName;
+                            var list = new AuthenticatorsList { Version = 3 };
+                            foreach(var item in _list.Authenticators) {
+                                list.Authenticators.Add(new () {
+                                    Name = item.Name,
+                                    Key = DecryptKey(item.Key),
+                                    IsEncrypted = false
+                                });
+                            }
+                            try {
+                                var file = File.OpenWrite(filePath);
+                                JsonSerializer.Serialize<AuthenticatorsList>(file, list, new JsonSerializerOptions { WriteIndented = true });
+                                file.Close();
+                                Context?.API.ShowNotification(Resource.export_done_title, string.Format(Resource.export_done_tip, file.Name));
+                            } catch (Exception) {
+                                throw;
+                            }
+                        }
+                        return true;
+                    }
+                },
+                
             };
         }
 

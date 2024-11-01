@@ -199,4 +199,34 @@ Type "DELETE" to confrim delete.</value>
   <data name="scan_from_screen_done_title" xml:space="preserve">
     <value>Import Done</value>
   </data>
+  <data name="export_done_title" xml:space="preserve">
+    <value>Authenticators exported</value>
+  </data>
+  <data name="export_done_tip" xml:space="preserve">
+    <value>Exported at {0}.</value>
+  </data>
+  <data name="export_title" xml:space="preserve">
+    <value>Export authenticators</value>
+  </data>
+  <data name="export_tip" xml:space="preserve">
+    <value>Export all authenticator to file for futher import.</value>
+  </data>
+  <data name="import_done_title" xml:space="preserve">
+    <value>Authenticators imported</value>
+  </data>
+  <data name="import_done_tip" xml:space="preserve">
+    <value>{0} authenticators has been imported.</value>
+  </data>
+  <data name="import_failed_title" xml:space="preserve">
+    <value>Import failed</value>
+  </data>
+  <data name="import_failed_tip" xml:space="preserve">
+    <value>This file is not compatible with current version of plugin, try import with the version of plugin that exported this file.</value>
+  </data>
+  <data name="import_title" xml:space="preserve">
+    <value>Import authenticators</value>
+  </data>
+  <data name="import_tip" xml:space="preserve">
+    <value>Import authenticators from exported file.</value>
+  </data>
 </root>

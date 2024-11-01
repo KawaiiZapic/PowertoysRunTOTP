@@ -55,9 +55,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
         public List<Result> Query(Query query) {
             var isSpecQuery = query.ActionKeyword != "";
             if (isSpecQuery && query.Search.StartsWith("!")) {
-                return new List<Result> {
-                    ScanQRCodeResultFactory(query)
-                };
+                return HandleActionList(query);
             }
             if (query.Search.StartsWith("otpauth://totp/")) {
                 return HandleNormalOtpImport(query.Search);
@@ -79,6 +77,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                     }
                 });
                 result.Add(ScanQRCodeResultFactory(query));
+                result.Add(ImportFromFileResultFactory(query));
                 return result;
             }
 
