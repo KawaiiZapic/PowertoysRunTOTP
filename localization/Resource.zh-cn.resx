@@ -229,4 +229,7 @@
   <data name="import_tip" xml:space="preserve">
     <value>从导出的文件中导入验证器.</value>
   </data>
+  <data name="copy_to_clipboard_err_title" xml:space="preserve">
+    <value>将验证码拷贝到剪切板时出错</value>
+  </data>
 </root>

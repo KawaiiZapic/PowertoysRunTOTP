@@ -118,7 +118,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                                     return true;
                                 } catch (COMException) {
                                     if (i == 9) {
-                                        Context!.API.ShowMsg(Resource.copy_to_clipboard_err);
+                                        Context!.API.ShowMsg(Resource.copy_to_clipboard_err_title, Resource.copy_to_clipboard_err);
                                         return true;
                                     }
                                     Thread.Sleep(100);

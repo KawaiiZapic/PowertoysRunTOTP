@@ -229,4 +229,7 @@ Type "DELETE" to confrim delete.</value>
   <data name="import_tip" xml:space="preserve">
     <value>Import authenticators from exported file.</value>
   </data>
+  <data name="copy_to_clipboard_err_title" xml:space="preserve">
+    <value>Failed to copy code to clipboard</value>
+  </data>
 </root>
