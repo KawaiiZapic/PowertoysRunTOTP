@@ -1,32 +1,26 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.3.11520.95 d18.3
+VisualStudioVersion = 18.3.11520.95
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Community.PowerToys.Run.Plugin.TOTP", "Community.PowerToys.Run.Plugin.TOTP.csproj", "{77086A85-21D3-4278-919E-AC6E883B1D27}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Community.PowerToys.Run.Plugin.TOTP", "PowertoysRunTOTP\Community.PowerToys.Run.Plugin.TOTP.csproj", "{0B6938A7-5822-B543-1268-0D78C55E764B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM64 = Debug|ARM64
 		Debug|x64 = Debug|x64
-		Release|Any CPU = Release|Any CPU
 		Release|ARM64 = Release|ARM64
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{77086A85-21D3-4278-919E-AC6E883B1D27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{77086A85-21D3-4278-919E-AC6E883B1D27}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{77086A85-21D3-4278-919E-AC6E883B1D27}.Debug|ARM64.ActiveCfg = Debug|ARM64
-		{77086A85-21D3-4278-919E-AC6E883B1D27}.Debug|ARM64.Build.0 = Debug|ARM64
-		{77086A85-21D3-4278-919E-AC6E883B1D27}.Debug|x64.ActiveCfg = Debug|x64
-		{77086A85-21D3-4278-919E-AC6E883B1D27}.Debug|x64.Build.0 = Debug|x64
-		{77086A85-21D3-4278-919E-AC6E883B1D27}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{77086A85-21D3-4278-919E-AC6E883B1D27}.Release|Any CPU.Build.0 = Release|Any CPU
-		{77086A85-21D3-4278-919E-AC6E883B1D27}.Release|ARM64.ActiveCfg = Release|ARM64
-		{77086A85-21D3-4278-919E-AC6E883B1D27}.Release|ARM64.Build.0 = Release|ARM64
-		{77086A85-21D3-4278-919E-AC6E883B1D27}.Release|x64.ActiveCfg = Release|x64
-		{77086A85-21D3-4278-919E-AC6E883B1D27}.Release|x64.Build.0 = Release|x64
+		{0B6938A7-5822-B543-1268-0D78C55E764B}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{0B6938A7-5822-B543-1268-0D78C55E764B}.Debug|ARM64.Build.0 = Debug|ARM64
+		{0B6938A7-5822-B543-1268-0D78C55E764B}.Debug|x64.ActiveCfg = Debug|x64
+		{0B6938A7-5822-B543-1268-0D78C55E764B}.Debug|x64.Build.0 = Debug|x64
+		{0B6938A7-5822-B543-1268-0D78C55E764B}.Release|ARM64.ActiveCfg = Release|ARM64
+		{0B6938A7-5822-B543-1268-0D78C55E764B}.Release|ARM64.Build.0 = Release|ARM64
+		{0B6938A7-5822-B543-1268-0D78C55E764B}.Release|x64.ActiveCfg = Release|x64
+		{0B6938A7-5822-B543-1268-0D78C55E764B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
