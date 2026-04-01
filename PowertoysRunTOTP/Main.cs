@@ -1,10 +1,10 @@
 ﻿using Community.PowerToys.Run.Plugin.TOTP.localization;
-using OtpNet;
 using System.Runtime.InteropServices;
 using System.Windows;
 using Wox.Infrastructure;
 using Wox.Infrastructure.Storage;
 using Wox.Plugin;
+using Zapic.PowerToys.TOTP.Core.Data;
 
 namespace Community.PowerToys.Run.Plugin.TOTP {
 
@@ -38,10 +38,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
             new StoragePowerToysVersionInfo(_storage.FilePath, 1).Close();
             _list = _storage.Load();
             _list.Authenticators.ForEach(entity => {
-                if (!entity.IsEncrypted) {
-                    entity.Key = EncryptKey(entity.Key);
-                    entity.IsEncrypted = true;
-                }
+                entity.ForceEncypt();
             });
             _storage.Save();
         }
@@ -84,37 +81,18 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
             _list.Authenticators.ForEach((authenticator) => {
                 if (query.Search.Length != 0 && !StringMatcher.FuzzySearch(query.Search, authenticator.Name).Success)
                     return;
-                var key = authenticator.Key;
-                if (authenticator.IsEncrypted) {
-                    try {
-                        key = DecryptKey(key);
-                    } catch (Exception) {
-                        key = null;
-                    }
-                }
-                if (key == null || !CheckKeyValid(key)) {
+                try {
+                    var totpResult = authenticator.GetResult();
                     result.Add(new Result {
-                        Title = string.Format(Resource.invalid_secret, authenticator.Name),
-                        SubTitle = Resource.invalid_secret_tip,
-                        QueryTextDisplay = authenticator.Name,
-                        IcoPath = GetIconByName("warn"),
-                        ContextData = authenticator,
-                        Action = (e) => {
-                            return false;
-                        }
-                    });
-                } else {
-                    var AuthenticatorInst = new Totp(Base32Encoding.ToBytes(key));
-                    result.Add(new Result {
-                        Title = string.Format(Resource.copy_to_clipboard, AuthenticatorInst.ComputeTotp(), authenticator.Name),
-                        SubTitle = string.Format(Resource.copy_to_clipboard_tip, AuthenticatorInst.RemainingSeconds()),
+                        Title = string.Format(Resource.copy_to_clipboard, totpResult.Code, authenticator.Name),
+                        SubTitle = string.Format(Resource.copy_to_clipboard_tip, totpResult.Remain),
                         IcoPath = GetIconByName("copy"),
                         QueryTextDisplay = authenticator.Name,
                         ContextData = authenticator,
                         Action = (e) => {
                             for (int i = 0; i < 10; i++) {
                                 try {
-                                    Clipboard.SetText(AuthenticatorInst.ComputeTotp());
+                                    Clipboard.SetText(authenticator.GetResult().Code);
                                     return true;
                                 } catch (COMException) {
                                     if (i == 9) {
@@ -125,6 +103,17 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                                 }
                             }
                             return true;
+                        }
+                    });
+                } catch {
+                    result.Add(new Result {
+                        Title = string.Format(Resource.invalid_secret, authenticator.Name),
+                        SubTitle = Resource.invalid_secret_tip,
+                        QueryTextDisplay = authenticator.Name,
+                        IcoPath = GetIconByName("warn"),
+                        ContextData = authenticator,
+                        Action = (e) => {
+                            return false;
                         }
                     });
                 }
@@ -160,7 +149,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
             var result = new List<ContextMenuResult>();
             if (selectedResult.ContextData is not Authenticator)
                 return result;
-            var entry = (Authenticator)selectedResult.ContextData;
+            var entity = (Authenticator)selectedResult.ContextData;
             result.Add(new ContextMenuResult {
                 Glyph = "\xe8ac",
                 FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
@@ -168,13 +157,13 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                 Action = (e) => {
                     var dialog = new Ookii.Dialogs.WinForms.InputDialog {
                         MainInstruction = Resource.totp_rename_title,
-                        Content = string.Format(Resource.totp_rename_description, entry.Name),
+                        Content = string.Format(Resource.totp_rename_description, entity.Name),
                         WindowTitle = "PowerToys",
-                        Input = entry.Name
+                        Input = entity.Name
                     };
                     var result = dialog.ShowDialog();
                     if (result == System.Windows.Forms.DialogResult.OK && dialog.Input.Length > 0) {
-                        entry.Name = dialog.Input;
+                        entity.Name = dialog.Input;
                         _storage.Save();
                     }
                     return true;
@@ -187,14 +176,14 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                 Action = (e) => {
                     var dialog = new Ookii.Dialogs.WinForms.InputDialog() {
                         MainInstruction = Resource.totp_delete_title,
-                        Content = string.Format(Resource.totp_delete_description, entry.Name),
+                        Content = string.Format(Resource.totp_delete_description, entity.Name),
                         WindowTitle = "PowerToys"
                     };
                     var result = dialog.ShowDialog();
                     if (result == System.Windows.Forms.DialogResult.OK && dialog.Input == "DELETE") {
-                        _list.Authenticators.Remove(entry);
+                        _list.Authenticators.Remove(entity);
                         _storage.Save();
-                        Context!.API.ShowNotification(Resource.totp_delete_title, string.Format(Resource.totp_delete_done, entry.Name));
+                        Context!.API.ShowNotification(Resource.totp_delete_title, string.Format(Resource.totp_delete_done, entity.Name));
                     }
                     return true;
                 }

@@ -4,7 +4,7 @@ A plugin helps you to copy your two-factor verification code in PowerToys Run
 
 
 ## Screenshot
-![screenshot](./assets/screenshot.png)
+![screenshot](./screenshot.png)
 
 ## Important: About the authenticator
 **Lost 2FA authenticator means lost access to your account!**   

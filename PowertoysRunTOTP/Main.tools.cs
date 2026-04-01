@@ -1,14 +1,11 @@
 ﻿using Community.PowerToys.Run.Plugin.TOTP.localization;
 using Genesis.QRCodeLib;
 using ManagedCommon;
-using OtpNet;
 using System.Drawing;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.Json;
-using System.Web;
 using Wox.Plugin;
+using Zapic.PowerToys.TOTP.Core;
+using Zapic.PowerToys.TOTP.Core.Data;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using Point = System.Drawing.Point;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
@@ -17,38 +14,6 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
     class SecretInvalidException: Exception { }
 
     public partial class Main {
-
-        static Authenticator ParseOTPLink(string url) {
-            var link = new Uri(url);
-            var name = link.LocalPath.ToString()[1..];
-            var queries = HttpUtility.ParseQueryString(link.Query);
-            var secret = queries.Get("secret") ?? throw new Exception();
-            if (!CheckKeyValid(secret)) {
-                throw new SecretInvalidException();
-            }
-            return new() {
-                Key = EncryptKey(secret),
-                Name = name,
-                IsEncrypted = true
-            };
-        }
-
-        static bool CheckKeyValid(string key) {
-            try {
-                Base32Encoding.ToBytes(key);
-                return true;
-            } catch (Exception) {
-                return false;
-            }
-        }
-
-        static string DecryptKey(string encrypted) {
-            return Encoding.UTF8.GetString(ProtectedData.Unprotect(Convert.FromBase64String(encrypted), null, DataProtectionScope.CurrentUser));
-        }
-
-        static string EncryptKey(string unencrypted) {
-            return Convert.ToBase64String(ProtectedData.Protect(Encoding.UTF8.GetBytes(unencrypted), null, DataProtectionScope.CurrentUser));
-        }
 
         string GetIconByName(string name) {
             return "images/" + name + "-" + theme + ".png";
@@ -65,7 +30,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
             var data = decoder.ImageDecoder(screenBitmap);
             if (data != null) {
                 foreach (var item in data) {
-                    var link = QRDecoder.ByteArrayToStr(item);
+                    var link = QRCode.ByteArrayToStr(item);
                     if (link != null && link.StartsWith("otpauth://totp/")) {
                         result.Add(link);
                     }
@@ -88,9 +53,9 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                         string name = "";
                         foreach (var link in list) {
                             try {
-                                var entry = ParseOTPLink(link);
-                                name = entry.Name;
-                                _list.Authenticators.Add(entry);
+                                var entity = Core.ParseLink(link);
+                                name = entity.Name;
+                                _list.Authenticators.Add(entity);
                                 success++;
                             } catch (Exception) {
                             }
@@ -130,8 +95,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                                 throw new Exception();
                             }
                             foreach (var item in list.Authenticators) {
-                                item.Key = EncryptKey(item.Key);
-                                item.IsEncrypted = true;
+                                item.ForceEncypt();
                                 _list.Authenticators.Add(item);
                             }
                             _storage.Save();
@@ -168,13 +132,13 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                             foreach(var item in _list.Authenticators) {
                                 list.Authenticators.Add(new () {
                                     Name = item.Name,
-                                    Key = DecryptKey(item.Key),
+                                    Key = item.GetUnencryptKey(),
                                     IsEncrypted = false
                                 });
                             }
                             try {
                                 var file = File.OpenWrite(filePath);
-                                JsonSerializer.Serialize<AuthenticatorsList>(file, list, new JsonSerializerOptions { WriteIndented = true });
+                                JsonSerializer.Serialize(file, list, new JsonSerializerOptions { WriteIndented = true });
                                 file.Close();
                                 Context?.API.ShowNotification(Resource.export_done_title, string.Format(Resource.export_done_tip, file.Name));
                             } catch (Exception) {
@@ -184,47 +148,23 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                         return true;
                     }
                 },
-                
+
             };
         }
 
         List<Result> HandleGoogleAuthImport(string url) {
             try {
-                var uri = new Uri(url);
-                var queries = HttpUtility.ParseQueryString(uri.Query);
-                var payload = queries.Get("data") ?? throw new Exception();
-                var decoded = Payload.Parser.ParseFrom(Convert.FromBase64String(payload));
+                var result = Core.ParseGoogleExportLink(url);
 
                 return new() {
                     new() {
-                        Title = string.Format(Resource.add_from_ga, decoded.OtpParameters.Count),
-                        SubTitle = string.Format(Resource.add_from_ga_tip, decoded.BatchIndex + 1, decoded.BatchSize),
+                        Title = string.Format(Resource.add_from_ga, result.Count),
+                        SubTitle = string.Format(Resource.add_from_ga_tip, result.Index + 1, result.BatchSize),
                         IcoPath = GetIconByName("add"),
                         QueryTextDisplay = url,
                         Action = (e) => {
-                            foreach (var item in decoded.OtpParameters) {
-                                var key = Base32Encoding.ToString(item.Secret.ToByteArray());
-                                var name = item.Issuer;
-                                if (item.Name.Length > 0) {
-                                    if (name.Length > 0) {
-                                        name += ": " + item.Name;
-                                    } else {
-                                        name = item.Name;
-                                    }
-                                } else {
-                                    if (name.Length > 0) {
-                                        name += ": <NO NAME>";
-                                    } else {
-                                        name = "<NO NAME>";
-                                    }
-                                }
-                                _list.Authenticators.Add(new () {
-                                    Name = name,
-                                    Key = EncryptKey(key),
-                                    IsEncrypted = true
-                                });
-                                _storage.Save();
-                            }
+                            _list.Authenticators = _list.Authenticators.Concat(result.list).ToList();
+                            _storage.Save();
                             return true;
                         }
                     }
@@ -246,7 +186,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
 
         List<Result> HandleNormalOtpImport(string url) {
             try {
-                var entry = ParseOTPLink(url);
+                var entry = Core.ParseLink(url);
                 return new() {
                     new () {
                         Title = entry.Name,
@@ -256,7 +196,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                         Action = (e) => {
                             _list.Authenticators.Add(entry);
                             _storage.Save();
-                                return true;
+                            return true;
                         }
                     }
                 };
@@ -293,9 +233,9 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
 
         void OnThemeChanged(Theme newTheme) {
             if (newTheme == Theme.Light || newTheme == Theme.HighContrastWhite) {
-                this.theme = "light";
+                theme = "light";
             } else {
-                this.theme = "dark";
+                theme = "dark";
             }
         }
     }

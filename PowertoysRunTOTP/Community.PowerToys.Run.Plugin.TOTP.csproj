@@ -1,71 +1,70 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <useWPF>true</useWPF>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <Platforms>x64;ARM64</Platforms>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <Configurations>Debug;Release</Configurations>
-    <Authors>Zapic</Authors>
-    <Version>$([System.IO.File]::ReadAllText('$(MSBuildThisFileDirectory)plugin.json').Split(',')[5].Split(':')[1].Trim().Trim('"'))</Version>
-    <Title>Powertoys Run TOTP</Title>
-    <Product>Powertoys Run TOTP Plugin</Product>
-    <RepositoryUrl>https://github.com/KawaiiZapic/PowertoysRunTOTP</RepositoryUrl>
-	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <GenerateSatelliteAssembliesForCore>true</GenerateSatelliteAssembliesForCore>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Genesis.QRCodeLib" Version="1.0.0" />
-    <PackageReference Include="Google.Protobuf" Version="3.24.3" />
-    <PackageReference Include="Google.Protobuf.Tools" Version="3.24.3" />
-    <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.34.2" />
-    <PackageReference Include="Ookii.Dialogs.WinForms" Version="4.0.0" />
-    <PackageReference Include="Otp.NET" Version="1.3.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="PowerToys.Common.UI">
-      <HintPath>..\libs\PowerToys.Common.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="PowerToys.ManagedCommon">
-      <HintPath>..\libs\PowerToys.ManagedCommon.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Wox.Infrastructure">
-      <HintPath>..\libs\Wox.Infrastructure.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Wox.Plugin">
-      <HintPath>..\libs\Wox.Plugin.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="images\*">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Compile Update="localization\Resource.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resource.resx</DependentUpon>
-    </Compile>
-    <Compile Update="localization\Resource.zh-cn.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resource.zh-cn.resx</DependentUpon>
-    </Compile>
-    <EmbeddedResource Update="localization\Resource.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="localization\Resource.zh-cn.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource.zh-cn.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Update="plugin.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Platforms>x64;ARM64</Platforms>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<Configurations>Debug;Release</Configurations>
+		<Authors>Zapic</Authors>
+		<Version>$([System.IO.File]::ReadAllText('$(MSBuildThisFileDirectory)plugin.json').Split(',')[5].Split(':')[1].Trim().Trim('"'))</Version>
+		<Title>Powertoys Run TOTP</Title>
+		<Product>Powertoys Run TOTP Plugin</Product>
+		<RepositoryUrl>https://github.com/KawaiiZapic/PowertoysRunTOTP</RepositoryUrl>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<GenerateSatelliteAssembliesForCore>true</GenerateSatelliteAssembliesForCore>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Genesis.QRCodeLib" Version="1.0.0" />
+		<PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.44.2"></PackageReference>
+		<PackageReference Include="Ookii.Dialogs.WinForms" Version="4.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Zapic.Powertoys.TOTP.Core\Zapic.PowerToys.TOTP.Core.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Include="PowerToys.Common.UI">
+			<HintPath>..\libs\PowerToys.Common.UI.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="PowerToys.ManagedCommon">
+			<HintPath>..\libs\PowerToys.ManagedCommon.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Wox.Infrastructure">
+			<HintPath>..\libs\Wox.Infrastructure.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Wox.Plugin">
+			<HintPath>..\libs\Wox.Plugin.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="images\*">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<Compile Update="localization\Resource.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resource.resx</DependentUpon>
+		</Compile>
+		<Compile Update="localization\Resource.zh-cn.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resource.zh-cn.resx</DependentUpon>
+		</Compile>
+		<EmbeddedResource Update="localization\Resource.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resource.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="localization\Resource.zh-cn.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resource.zh-cn.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<None Update="plugin.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 </Project>

@@ -5,6 +5,8 @@ VisualStudioVersion = 18.3.11520.95
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Community.PowerToys.Run.Plugin.TOTP", "PowertoysRunTOTP\Community.PowerToys.Run.Plugin.TOTP.csproj", "{0B6938A7-5822-B543-1268-0D78C55E764B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zapic.PowerToys.TOTP.Core", "Zapic.Powertoys.TOTP.Core\Zapic.PowerToys.TOTP.Core.csproj", "{C1552C33-39B0-EE84-9D56-65269FE33F9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM64 = Debug|ARM64
@@ -21,6 +23,14 @@ Global
 		{0B6938A7-5822-B543-1268-0D78C55E764B}.Release|ARM64.Build.0 = Release|ARM64
 		{0B6938A7-5822-B543-1268-0D78C55E764B}.Release|x64.ActiveCfg = Release|x64
 		{0B6938A7-5822-B543-1268-0D78C55E764B}.Release|x64.Build.0 = Release|x64
+		{C1552C33-39B0-EE84-9D56-65269FE33F9B}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{C1552C33-39B0-EE84-9D56-65269FE33F9B}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{C1552C33-39B0-EE84-9D56-65269FE33F9B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C1552C33-39B0-EE84-9D56-65269FE33F9B}.Debug|x64.Build.0 = Debug|Any CPU
+		{C1552C33-39B0-EE84-9D56-65269FE33F9B}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{C1552C33-39B0-EE84-9D56-65269FE33F9B}.Release|ARM64.Build.0 = Release|Any CPU
+		{C1552C33-39B0-EE84-9D56-65269FE33F9B}.Release|x64.ActiveCfg = Release|Any CPU
+		{C1552C33-39B0-EE84-9D56-65269FE33F9B}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
