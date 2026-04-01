@@ -1,5 +1,5 @@
 ﻿using Wox.Infrastructure.Storage;
-using Zapic.PowerToys.TOTP.Core.Data;
+using Core = Zapic.PowerToys.TOTP.Core.Data;
 
 namespace Community.PowerToys.Run.Plugin.TOTP {
     public static class ConfigMigratorV0 {
@@ -12,7 +12,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
             if (!new FileInfo(ConfigPathV0).Exists)
                 return;
 
-            var ConfigV1 = Zapic.PowerToys.TOTP.Core.Data.ConfigMigratorV0.MigrateFromFile(ConfigPathV0);
+            var ConfigV1 = Core.ConfigMigratorV0.MigrateFromFile(ConfigPathV0);
 
             if (!new FileInfo(DataDirectoryV1).Exists) {
                 Directory.CreateDirectory(DataDirectoryV1);
@@ -32,9 +32,9 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
             if (!new FileInfo(ConfigPathV1).Exists)
                 return;
 
-            var ConfigV2 = Zapic.PowerToys.TOTP.Core.Data.ConfigMigratorV1.MigrateFromFile(ConfigPathV1);
+            var ConfigV2 = Core.ConfigMigratorV1.MigrateFromFile(ConfigPathV1);
 
-            var ConfigV2Storage = new PluginJsonStorage<StructV1>();
+            var ConfigV2Storage = new PluginJsonStorage<Core.StructV1>();
             new StoragePowerToysVersionInfo(ConfigV2Storage.FilePath, 1).Close();
 
             File.WriteAllBytes(ConfigV2Storage.FilePath, ConfigV2);
@@ -53,9 +53,9 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
             if (!new FileInfo(ConfigPathV2).Exists)
                 return;
 
-            var ConfigV3 = Zapic.PowerToys.TOTP.Core.Data.ConfigMigratorV2.MigrateFromFile(ConfigPathV2);
+            var ConfigV3 = Core.ConfigMigratorV2.MigrateFromFile(ConfigPathV2);
 
-            var ConfigV3Storage = new PluginJsonStorage<StructV3>();
+            var ConfigV3Storage = new PluginJsonStorage<Core.StructV3>();
             new StoragePowerToysVersionInfo(ConfigV3Storage.FilePath, 1).Close();
 
             File.WriteAllBytes(ConfigV3Storage.FilePath, ConfigV3);
