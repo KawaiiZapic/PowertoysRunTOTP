@@ -14,17 +14,17 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Build (x64)
-      run: dotnet build PowertoysRunTOTP\Community.PowerToys.Run.Plugin.TOTP.csproj -a x64
+      run: dotnet build Community.PowerToys.Run.Plugin.TOTP\Community.PowerToys.Run.Plugin.TOTP.csproj -a x64
     - name: Build (ARM64)
-      run: dotnet build PowertoysRunTOTP\Community.PowerToys.Run.Plugin.TOTP.csproj -a ARM64
+      run: dotnet build Community.PowerToys.Run.Plugin.TOTP\Community.PowerToys.Run.Plugin.TOTP.csproj -a ARM64
     - name: Upload a Build Artifact (x64)
       uses: actions/upload-artifact@v7.0.0
       with:
         name: TOTP-${{ github.sha }}-x64
-        path: PowertoysRunTOTP/bin/Debug/net6.0-windows/win-x64
+        path: Community.PowerToys.Run.Plugin.TOTP/bin/Debug/net6.0-windows/win-x64
     - name: Upload a Build Artifact (ARM64)
       uses: actions/upload-artifact@v7.0.0
       with:
         name: TOTP-${{ github.sha }}-ARM64
-        path: PowertoysRunTOTP/bin/Debug/net6.0-windows/win-ARM64
+        path: Community.PowerToys.Run.Plugin.TOTP/bin/Debug/net6.0-windows/win-ARM64
           

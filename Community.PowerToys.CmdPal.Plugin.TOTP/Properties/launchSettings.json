@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Plugin (Package)": {
+      "commandName": "MsixPackage",
+      "doNotLaunchApp": true
+    },
+    "Plugin (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

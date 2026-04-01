@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <Platforms>x64;ARM64</Platforms>
+    <PlatformTarget>$(Platform)</PlatformTarget>
+  </PropertyGroup>
+</Project>

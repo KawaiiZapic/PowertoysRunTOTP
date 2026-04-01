@@ -1,0 +1,125 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<RootNamespace>Community.PowerToys.CmdPal.Plugin.TOTP</RootNamespace>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<Platforms>x64;ARM64</Platforms>
+		<WindowsSdkPackageVersion>10.0.26100.68-preview</WindowsSdkPackageVersion>
+		<TargetFramework>net9.0-windows10.0.22621.0</TargetFramework>
+		<TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+		<SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+		<RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
+
+		<PublishProfile>win-$(Platform).pubxml</PublishProfile>
+		<EnableMsixTooling>true</EnableMsixTooling>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
+		<Content Include="Assets\Square150x150Logo.scale-150.png" />
+		<Content Include="Assets\Square44x44Logo.scale-150.png" />
+		<Content Include="Assets\Square44x44Logo.targetsize-48_altform-lightunplated.png" />
+		<Content Include="Assets\Square44x44Logo.targetsize-48_altform-unplated.png" />
+		<Content Include="Assets\StoreLogo.scale-150.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Manifest Include="$(ApplicationManifest)" />
+	</ItemGroup>
+
+	<!--
+    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
+    Tools extension to be activated for this project even if the Windows App SDK Nuget
+    package has not yet been restored.
+  -->
+	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+		<ProjectCapability Include="Msix" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Genesis.QRCodeLib" Version="1.0.0" />
+		<PackageReference Include="Microsoft.CommandPalette.Extensions" Version="0.9.260303001" />
+		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
+		<PackageReference Include="Shmuelie.WinRTServer" Version="2.2.1" />
+
+		<!-- Needed to enable building an MSIX package -->
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools.MSIX" Version="1.7.260316102">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="ToolGood.Words.Pinyin" Version="3.1.0.4" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Zapic.Powertoys.TOTP.Core\Zapic.PowerToys.TOTP.Core.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Update="Localization\Resource.Designer.cs">
+	    <DependentUpon>Resource.resx</DependentUpon>
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	  </Compile>
+	</ItemGroup>
+	<ItemGroup>
+	  <EmbeddedResource Update="Localization\Resource.resx">
+	    <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+	    <Generator>ResXFileCodeGenerator</Generator>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Localization\Resource.zh-cn.resx">
+	    <LastGenOutput>Resource.zh-cn.Designer.cs</LastGenOutput>
+	    <Generator>ResXFileCodeGenerator</Generator>
+	  </EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="Assets\icon-dark.png">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Assets\icon-light.png">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<!--
+    Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
+    Explorer "Package and Publish" context menu entry to be enabled for this project even if
+    the Windows App SDK Nuget package has not yet been restored.
+  -->
+	<PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+		<HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<PublishSingleFile>true</PublishSingleFile>
+		<IsAotCompatible>true</IsAotCompatible>
+
+		<CsWinRTAotOptimizerEnabled>true</CsWinRTAotOptimizerEnabled>
+		<CsWinRTAotWarningLevel>2</CsWinRTAotWarningLevel>
+		<!-- Suppress DynamicallyAccessedMemberTypes.PublicParameterlessConstructor in fallback code path of Windows SDK projection -->
+		<WarningsNotAsErrors>IL2081;$(WarningsNotAsErrors)</WarningsNotAsErrors>
+
+		<!-- When publishing trimmed, make sure to treat trimming warnings as build errors -->
+		<ILLinkTreatWarningsAsErrors>true</ILLinkTreatWarningsAsErrors>
+		<DefaultLanguage>en-US</DefaultLanguage>
+		<UseWPF>True</UseWPF>
+
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+		<!-- In Debug builds, trimming is disabled by default, but all the trim & 
+         AOT warnings are enabled. This gives debug builds a tighter inner loop,
+         while at least warning about future trim violations -->
+		<PublishTrimmed>false</PublishTrimmed>
+
+		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+		<EnableSingleFileAnalyzer>true</EnableSingleFileAnalyzer>
+		<EnableAotAnalyzer>true</EnableAotAnalyzer>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'!='Debug'">
+		<!-- In Release builds, trimming is enabled by default. 
+         feel free to disable this if needed -->
+		<PublishTrimmed>true</PublishTrimmed>
+
+		<!-- In release, also ignore the aforementioned ILLink warning -->
+		<ILLinkTreatWarningsAsErrors>false</ILLinkTreatWarningsAsErrors>
+	</PropertyGroup>
+
+
+</Project>

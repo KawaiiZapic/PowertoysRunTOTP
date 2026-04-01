@@ -79,6 +79,15 @@ namespace Community.PowerToys.Run.Plugin.TOTP.localization {
         }
         
         /// <summary>
+        ///   查找类似 Add {0} authenticators 的本地化字符串。
+        /// </summary>
+        internal static string add_from_ga1 {
+            get {
+                return ResourceManager.GetString("add_from_ga1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Add new authenticator 的本地化字符串。
         /// </summary>
         internal static string add_from_otpauth_tip {
