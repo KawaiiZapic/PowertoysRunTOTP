@@ -3,7 +3,6 @@ using Community.PowerToys.CmdPal.Plugin.TOTP.Localization;
 using Genesis.QRCodeLib;
 using Microsoft.CommandPalette.Extensions;
 using Microsoft.CommandPalette.Extensions.Toolkit;
-using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -18,7 +17,6 @@ internal partial class Import: DynamicListPage {
     public override IconInfo Icon => IconHelpers.FromRelativePath("Assets\\add.png");
     public override string Title => Resource.page_import_name;
     public override string Name => Resource.page_import_name;
-
     public override string Id => "import";
 
     private static readonly QRDecoder decoder = new();
@@ -32,10 +30,10 @@ internal partial class Import: DynamicListPage {
     private string currentQuery = "";
     static List<string> GetSetupURLFromScreen() {
         var result = new List<string>();
-        // TODO: get acutually screen size
+        IntPtr hdc = Graphics.FromHwnd(NativeMethods.GetForegroundWindow()).GetHdc();
         var size = new Size {
-            Width = 8192,
-            Height = 8192
+            Width = NativeMethods.GetDeviceCaps(hdc, 118),
+            Height = NativeMethods.GetDeviceCaps(hdc, 117)
         };
         var screenBitmap = new Bitmap(size.Width, size.Height);
         using (var g = Graphics.FromImage(screenBitmap)) {
@@ -110,25 +108,36 @@ internal partial class Import: DynamicListPage {
     static IListItem[] ManageCommands => [
         new ListItem(new AnonymousCommand(() => {
             Task.Run(async () => {
-                await Task.Delay(500);
-                List<string> result = GetSetupURLFromScreen();
-                if (result.Count > 0) {
+                 var hwnd = NativeMethods.GetForegroundWindow();
+                 NativeMethods.ShowWindow(hwnd, 0);
+                 List<string> result = null!;
+                 try {
+                      result = GetSetupURLFromScreen();
+                 } finally {
+                      NativeMethods.ShowWindow(hwnd, 5);
+                 }
+                 if (result.Count > 0) {
                      result.ForEach(item => {
                          AuthList.Add(Core.ParseLink(item));
                      });
-                    ConfigManager.Save();
+                     ConfigManager.Save();
+                     new ToastStatusMessage(new StatusMessage {
+                         Message = result.Count switch {
+                             1 => string.Format(Resource.scan_from_screen_done_one, Core.ParseLink(result[0]).Name),
+                             _ => string.Format(Resource.scan_from_screen_done_two_more, result.Count)
+                         },
+                         State = MessageState.Success
+                     }).Show();
+                 } else {
+                    new ToastStatusMessage(new StatusMessage {
+                        Message = Resource.scan_from_screen_empty,
+                        State = MessageState.Info
+                    }).Show();
                 }
-                new ToastContentBuilder()
-                     .AddText(Resource.scan_from_screen_done_title)
-                     .AddText(result.Count switch {
-                         0 => Resource.scan_from_screen_empty,
-                         1 => string.Format(Resource.scan_from_screen_done_one, Core.ParseLink(result[0]).Name),
-                         _ => string.Format(Resource.scan_from_screen_done_two_more, result.Count)
-                     })
-                     .Show();
             });
         }) {
-            Name = Resource.import_command
+            Name = Resource.import_command,
+            Result = CommandResult.KeepOpen()
         }) {
             Title = Resource.scan_from_screen,
             Subtitle = Resource.scan_from_screen_tip,
