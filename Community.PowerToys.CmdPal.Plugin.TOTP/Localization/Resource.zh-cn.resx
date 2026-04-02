@@ -126,12 +126,6 @@
   <data name="add_from_otpauth_tip" xml:space="preserve">
     <value>添加新验证器</value>
   </data>
-  <data name="copy_to_clipboard" xml:space="preserve">
-    <value>{0} - {1}</value>
-  </data>
-  <data name="copy_to_clipboard_err" xml:space="preserve">
-    <value>某个应用正在使用剪切板, 无法复制验证码, 请重试</value>
-  </data>
   <data name="expired_in" xml:space="preserve">
     <value>{0}秒后过期</value>
   </data>
@@ -154,10 +148,10 @@
     <value>该验证器的密钥无效, 因为不能按Base32解码</value>
   </data>
   <data name="no_authenticator" xml:space="preserve">
-    <value>没有验证器</value>
+    <value>导入第一个验证器</value>
   </data>
   <data name="no_authenticator_tip" xml:space="preserve">
-    <value>添加第一个验证器, 可以粘贴设置链接(otpauth://) 或者 Google Authenticator 迁移链接(otpauth-migration://)</value>
+    <value>从屏幕上的二维码、设置链接或PowerToys Run中导入验证器</value>
   </data>
   <data name="plugin_description" xml:space="preserve">
     <value>复制基于时间的一次性验证码到剪切板</value>
@@ -166,8 +160,7 @@
     <value>TOTP</value>
   </data>
   <data name="totp_delete_description" xml:space="preserve">
-    <value>删除 {0}? 请确保已经在网站上关闭二步验证, 否则你将失去对该账户的访问权限.
-输入"DELETE"确认删除.</value>
+    <value>删除 {0}? 请确保已经在网站上关闭二步验证, 否则你将失去对该账户的访问权限.</value>
   </data>
   <data name="totp_delete_title" xml:space="preserve">
     <value>删除验证器</value>
@@ -229,16 +222,28 @@
   <data name="import_tip" xml:space="preserve">
     <value>从导出的文件中导入验证器.</value>
   </data>
-  <data name="copy_to_clipboard_err_title" xml:space="preserve">
-    <value>将验证码拷贝到剪切板时出错</value>
-  </data>
   <data name="copy_to_cilpboard_command" xml:space="preserve">
     <value>复制</value>
   </data>
-  <data name="page_totp_open" xml:space="preserve">
-    <value>打开</value>
-  </data>
   <data name="add_from_ptrun_totp" xml:space="preserve">
     <value>从 PowerToys Run TOTP 中导入</value>
+  </data>
+  <data name="page_totp_name" xml:space="preserve">
+    <value>验证器</value>
+  </data>
+  <data name="page_import_name" xml:space="preserve">
+    <value>添加新验证器</value>
+  </data>
+  <data name="import_from_link" xml:space="preserve">
+    <value>从链接导入</value>
+  </data>
+  <data name="import_from_link_tip" xml:space="preserve">
+    <value>粘贴到搜索框中导入，支持 otpauth:// 和  otpauth-migration:// (从Google Authenticator 导出)</value>
+  </data>
+  <data name="totp_delete_confirm" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="import_command" xml:space="preserve">
+    <value>导入</value>
   </data>
 </root>

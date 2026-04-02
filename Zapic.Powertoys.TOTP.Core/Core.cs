@@ -26,6 +26,9 @@ namespace Zapic.PowerToys.TOTP.Core {
                 throw new Exception();
             }
             var name = uri.LocalPath.ToString()[1..];
+            if (string.IsNullOrEmpty(name)) {
+                name = "<NO NAME>";
+            }
             var queries = HttpUtility.ParseQueryString(uri.Query);
             var secret = queries.Get("secret") ?? throw new Exception();
             if (!CheckKeyValid(secret)) {

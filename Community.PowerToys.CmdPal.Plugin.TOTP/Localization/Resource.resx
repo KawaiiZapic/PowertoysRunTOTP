@@ -126,12 +126,6 @@
   <data name="add_from_otpauth_tip" xml:space="preserve">
     <value>Add new authenticator</value>
   </data>
-  <data name="copy_to_clipboard" xml:space="preserve">
-    <value>{0} - {1}</value>
-  </data>
-  <data name="copy_to_clipboard_err" xml:space="preserve">
-    <value>Something is using clipboard, code can't be copied, please try again</value>
-  </data>
   <data name="expired_in" xml:space="preserve">
     <value>Expired in {0}s</value>
   </data>
@@ -154,10 +148,10 @@
     <value>This authenticator contains a invalid secret that can't be decode as base32 data</value>
   </data>
   <data name="no_authenticator" xml:space="preserve">
-    <value>No authenticator</value>
+    <value>Import first authenticator</value>
   </data>
   <data name="no_authenticator_tip" xml:space="preserve">
-    <value>Add your first authenticator by paste your setup link(otpauth://) or Google Authenticator(otpauth-migration://)</value>
+    <value>Import new authenticators from QRCode on screen, setup link or PowerToys Run.</value>
   </data>
   <data name="plugin_description" xml:space="preserve">
     <value>Copy Time-based one time password to clipboard</value>
@@ -166,8 +160,7 @@
     <value>TOTP</value>
   </data>
   <data name="totp_delete_description" xml:space="preserve">
-    <value>Delete {0}? Please make sure you have disable 2FA verify on the website, otherwise you will be no longer able to access your account.
-Type "DELETE" to confrim delete.</value>
+    <value>Delete {0}? Please make sure you have disable 2FA verify on the website, otherwise you will be no longer able to access your account.</value>
   </data>
   <data name="totp_delete_title" xml:space="preserve">
     <value>Delete authenticator</value>
@@ -229,16 +222,28 @@ Type "DELETE" to confrim delete.</value>
   <data name="import_tip" xml:space="preserve">
     <value>Import authenticators from exported file.</value>
   </data>
-  <data name="copy_to_clipboard_err_title" xml:space="preserve">
-    <value>Failed to copy code to clipboard</value>
-  </data>
   <data name="copy_to_cilpboard_command" xml:space="preserve">
     <value>Copy</value>
   </data>
-  <data name="page_totp_open" xml:space="preserve">
-    <value>Open</value>
-  </data>
   <data name="add_from_ptrun_totp" xml:space="preserve">
     <value>Import authenticators from PowerToys Run TOTP</value>
+  </data>
+  <data name="page_totp_name" xml:space="preserve">
+    <value>Authenticators</value>
+  </data>
+  <data name="page_import_name" xml:space="preserve">
+    <value>Add new authenticators</value>
+  </data>
+  <data name="import_from_link" xml:space="preserve">
+    <value>Import from links</value>
+  </data>
+  <data name="import_from_link_tip" xml:space="preserve">
+    <value>Paste to search bar to import, support otpauth:// and otpauth-migration:// (Google Authenticator export link)</value>
+  </data>
+  <data name="totp_delete_confirm" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="import_command" xml:space="preserve">
+    <value>Import</value>
   </data>
 </root>

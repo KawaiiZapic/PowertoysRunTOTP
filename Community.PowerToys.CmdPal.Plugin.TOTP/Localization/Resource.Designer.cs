@@ -106,33 +106,6 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         }
         
         /// <summary>
-        ///   查找类似 {0} - {1} 的本地化字符串。
-        /// </summary>
-        internal static string copy_to_clipboard {
-            get {
-                return ResourceManager.GetString("copy_to_clipboard", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Something is using clipboard, code can&apos;t be copied, please try again 的本地化字符串。
-        /// </summary>
-        internal static string copy_to_clipboard_err {
-            get {
-                return ResourceManager.GetString("copy_to_clipboard_err", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Failed to copy code to clipboard 的本地化字符串。
-        /// </summary>
-        internal static string copy_to_clipboard_err_title {
-            get {
-                return ResourceManager.GetString("copy_to_clipboard_err_title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Expired in {0}s 的本地化字符串。
         /// </summary>
         internal static string expired_in {
@@ -178,6 +151,15 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         }
         
         /// <summary>
+        ///   查找类似 Import 的本地化字符串。
+        /// </summary>
+        internal static string import_command {
+            get {
+                return ResourceManager.GetString("import_command", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 {0} authenticators has been imported. 的本地化字符串。
         /// </summary>
         internal static string import_done_tip {
@@ -210,6 +192,24 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         internal static string import_failed_title {
             get {
                 return ResourceManager.GetString("import_failed_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Import from links 的本地化字符串。
+        /// </summary>
+        internal static string import_from_link {
+            get {
+                return ResourceManager.GetString("import_from_link", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Paste to search bar to import, support otpauth:// and otpauth-migration:// (Google Authenticator export link) 的本地化字符串。
+        /// </summary>
+        internal static string import_from_link_tip {
+            get {
+                return ResourceManager.GetString("import_from_link_tip", resourceCulture);
             }
         }
         
@@ -286,7 +286,7 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         }
         
         /// <summary>
-        ///   查找类似 No authenticator 的本地化字符串。
+        ///   查找类似 Import first authenticator 的本地化字符串。
         /// </summary>
         internal static string no_authenticator {
             get {
@@ -295,7 +295,7 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         }
         
         /// <summary>
-        ///   查找类似 Add your first authenticator by paste your setup link(otpauth://) or Google Authenticator(otpauth-migration://) 的本地化字符串。
+        ///   查找类似 Import new authenticators from QRCode on screen, setup link or PowerToys Run. 的本地化字符串。
         /// </summary>
         internal static string no_authenticator_tip {
             get {
@@ -304,11 +304,20 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         }
         
         /// <summary>
-        ///   查找类似 Open 的本地化字符串。
+        ///   查找类似 Add new authenticators 的本地化字符串。
         /// </summary>
-        internal static string page_totp_open {
+        internal static string page_import_name {
             get {
-                return ResourceManager.GetString("page_totp_open", resourceCulture);
+                return ResourceManager.GetString("page_import_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Authenticators 的本地化字符串。
+        /// </summary>
+        internal static string page_totp_name {
+            get {
+                return ResourceManager.GetString("page_totp_name", resourceCulture);
             }
         }
         
@@ -385,8 +394,16 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         }
         
         /// <summary>
-        ///   查找类似 Delete {0}? Please make sure you have disable 2FA verify on the website, otherwise you will be no longer able to access your account.
-        ///Type &quot;DELETE&quot; to confrim delete. 的本地化字符串。
+        ///   查找类似 Delete 的本地化字符串。
+        /// </summary>
+        internal static string totp_delete_confirm {
+            get {
+                return ResourceManager.GetString("totp_delete_confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Delete {0}? Please make sure you have disable 2FA verify on the website, otherwise you will be no longer able to access your account. 的本地化字符串。
         /// </summary>
         internal static string totp_delete_description {
             get {

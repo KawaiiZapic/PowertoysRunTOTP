@@ -2,6 +2,7 @@
 // The Microsoft Corporation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Community.PowerToys.CmdPal.Plugin.TOTP.Localization;
 using Microsoft.CommandPalette.Extensions;
 using Microsoft.CommandPalette.Extensions.Toolkit;
 using System;
@@ -28,10 +29,12 @@ public partial class CommandsProvider: CommandProvider {
     private readonly ICommandItem[] _commands;
 
     public CommandsProvider() {
-        DisplayName = "TOTP";
+        DisplayName = Resource.plugin_name;
         Icon = IconHelpers.FromRelativePath("Assets\\icon.png");
+
         _commands = [
-            new CommandItem(new Pages.Main()) { Title = DisplayName }
+            new CommandItem(new Pages.Main()),
+            new CommandItem(new Pages.Import())
         ];
     }
 
