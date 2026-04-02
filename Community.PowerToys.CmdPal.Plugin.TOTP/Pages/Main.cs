@@ -24,7 +24,7 @@ internal sealed partial class Main: DynamicListPage {
     }
 
     public Main() {
-        Icon = IconHelpers.FromRelativePaths("Assets\\icon-light.png", "Assets\\icon-dark.png");
+        Icon = IconHelpers.FromRelativePath("Assets\\icon.png");
         Title = "TOTP";
         Name = Resource.page_totp_open;
     }

@@ -29,7 +29,7 @@ public partial class CommandsProvider: CommandProvider {
 
     public CommandsProvider() {
         DisplayName = "TOTP";
-        Icon = IconHelpers.FromRelativePaths("Assets\\icon-light.png", "Assets\\icon-dark.png");
+        Icon = IconHelpers.FromRelativePath("Assets\\icon.png");
         _commands = [
             new CommandItem(new Pages.Main()) { Title = DisplayName }
         ];
