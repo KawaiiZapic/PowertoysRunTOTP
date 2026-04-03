@@ -108,5 +108,11 @@
 		<ILLinkTreatWarningsAsErrors>false</ILLinkTreatWarningsAsErrors>
 	</PropertyGroup>
 
-
+	<PropertyGroup Condition=" '$(PublishUnsignedPackage)' == 'true' ">
+		<GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
+		<AppxBundle>Never</AppxBundle>
+		<UapAppxPackageBuildMode>SideloadOnly</UapAppxPackageBuildMode>
+		<AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+		<AppxPackageDir>AppPackages\</AppxPackageDir>
+	</PropertyGroup>
 </Project>

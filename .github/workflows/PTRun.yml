@@ -2,6 +2,11 @@ name: Build
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - Zapic.PowerToys.TOTP.Core/**/*
+      - Community.PowerToys.Run.Plugin.TOTP/**/*
+      - .github/workflows/PTRun.yml
+      
   workflow_dispatch:
 
 jobs:
@@ -16,15 +21,17 @@ jobs:
     - name: Build (x64)
       run: dotnet build Community.PowerToys.Run.Plugin.TOTP\Community.PowerToys.Run.Plugin.TOTP.csproj -a x64
     - name: Build (ARM64)
-      run: dotnet build Community.PowerToys.Run.Plugin.TOTP\Community.PowerToys.Run.Plugin.TOTP.csproj -a ARM64
+      run: dotnet build Community.PowerToys.Run.Plugin.TOTP\Community.PowerToys.Run.Plugin.TOTP.csproj -a arm64
     - name: Upload a Build Artifact (x64)
       uses: actions/upload-artifact@v7.0.0
       with:
         name: TOTP-${{ github.sha }}-x64
         path: Community.PowerToys.Run.Plugin.TOTP/bin/Debug/net6.0-windows/win-x64
+        if-no-files-found: error
     - name: Upload a Build Artifact (ARM64)
       uses: actions/upload-artifact@v7.0.0
       with:
         name: TOTP-${{ github.sha }}-ARM64
-        path: Community.PowerToys.Run.Plugin.TOTP/bin/Debug/net6.0-windows/win-ARM64
+        path: Community.PowerToys.Run.Plugin.TOTP/bin/Debug/net6.0-windows/win-arm64
+        if-no-files-found: error
           

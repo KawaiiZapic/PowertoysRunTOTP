@@ -1,0 +1,38 @@
+name: Build
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - Zapic.PowerToys.TOTP.Core/**/*
+      - Community.PowerToys.CmdPal.Plugin.TOTP/**/*
+      - .github/workflows/CmdPal.yml
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v6
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: 9.0.x
+    - name: Build (x64)
+      run: dotnet build .\Community.PowerToys.CmdPal.Plugin.TOTP\Community.PowerToys.CmdPal.Plugin.TOTP.csproj --configuration Debug  -p:Platform=x64 -p:PublishUnsignedPackage=true
+    - name: Build (ARM64)
+      run: dotnet build .\Community.PowerToys.CmdPal.Plugin.TOTP\Community.PowerToys.CmdPal.Plugin.TOTP.csproj --configuration Debug  -p:Platform=arm64 -p:PublishUnsignedPackage=true
+    - name: Upload a Build Artifact (x64)
+      uses: actions/upload-artifact@v7.0.0
+      with:
+        name: TOTP-${{ github.sha }}-x64
+        path: Community.PowerToys.Run.Plugin.TOTP/AppPackages/*/*_x64.msix
+        if-no-files-found: error
+        archive: false
+    - name: Upload a Build Artifact (ARM64)
+      uses: actions/upload-artifact@v7.0.0
+      with:
+        name: TOTP-${{ github.sha }}-ARM64
+        path: Community.PowerToys.Run.Plugin.TOTP/AppPackages/*/*_arm64.msix
+        if-no-files-found: error
+        archive: false
+          
