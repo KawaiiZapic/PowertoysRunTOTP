@@ -30,14 +30,14 @@ jobs:
       uses: actions/upload-artifact@v7.0.0
       with:
         name: TOTP-${{ github.sha }}-x64
-        path: Community.PowerToys.CmdPal.Plugin.TOTP/AppPackages/*/*_x64.msix
+        path: Community.PowerToys.CmdPal.Plugin.TOTP/AppPackages/*/*_x64_Debug.msix
         if-no-files-found: error
         archive: false
     - name: Upload a Build Artifact (ARM64)
       uses: actions/upload-artifact@v7.0.0
       with:
         name: TOTP-${{ github.sha }}-ARM64
-        path: Community.PowerToys.CmdPal.Plugin.TOTP/AppPackages/*/*_arm64.msix
+        path: Community.PowerToys.CmdPal.Plugin.TOTP/AppPackages/*/*_arm64_Debug.msix
         if-no-files-found: error
         archive: false
           
