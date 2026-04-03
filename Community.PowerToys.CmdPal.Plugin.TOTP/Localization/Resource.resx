@@ -246,4 +246,7 @@
   <data name="import_command" xml:space="preserve">
     <value>Import</value>
   </data>
+  <data name="totp_rename_confirm" xml:space="preserve">
+    <value>Rename</value>
+  </data>
 </root>

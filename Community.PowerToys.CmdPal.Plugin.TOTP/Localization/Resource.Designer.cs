@@ -430,6 +430,15 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         }
         
         /// <summary>
+        ///   查找类似 Rename 的本地化字符串。
+        /// </summary>
+        internal static string totp_rename_confirm {
+            get {
+                return ResourceManager.GetString("totp_rename_confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Rename {0} to: 的本地化字符串。
         /// </summary>
         internal static string totp_rename_description {

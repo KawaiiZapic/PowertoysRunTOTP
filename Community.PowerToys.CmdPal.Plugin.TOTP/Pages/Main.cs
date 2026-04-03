@@ -68,7 +68,7 @@ internal sealed partial class Main: ListPage {
                     Icon = Icons.Copy
                 },
                 MoreCommands = [
-                    new CommandContextItem(new NoOpCommand()) {
+                    new CommandContextItem(new Rename(authenticator)) {
                         Title = Resource.totp_rename_title,
                         Icon = Icons.Rename
                     },
