@@ -172,7 +172,7 @@
     <value>将 {0} 重命名为:</value>
   </data>
   <data name="totp_delete_done" xml:space="preserve">
-    <value>已删除验证器 {0}.</value>
+    <value>已删除验证器 {0}</value>
   </data>
   <data name="scan_from_screen" xml:space="preserve">
     <value>扫描屏幕上的二维码</value>
@@ -181,13 +181,13 @@
     <value>支持标准的 OTP 二维码</value>
   </data>
   <data name="scan_from_screen_done_one" xml:space="preserve">
-    <value>已导入验证器 {0}.</value>
+    <value>已导入验证器 {0}</value>
   </data>
   <data name="scan_from_screen_empty" xml:space="preserve">
-    <value>屏幕上没有可导入的二维码.</value>
+    <value>屏幕上没有可导入的二维码</value>
   </data>
   <data name="scan_from_screen_done_two_more" xml:space="preserve">
-    <value>已导入 {0} 个验证器.</value>
+    <value>已导入 {0} 个验证器</value>
   </data>
   <data name="scan_from_screen_done_title" xml:space="preserve">
     <value>导入完成</value>
@@ -196,30 +196,30 @@
     <value>验证器已导出</value>
   </data>
   <data name="export_done_tip" xml:space="preserve">
-    <value>已导出到 {0}.</value>
+    <value>已导出到 {0}</value>
   </data>
   <data name="export_title" xml:space="preserve">
     <value>导出验证器</value>
   </data>
   <data name="export_tip" xml:space="preserve">
-    <value>导出所有验证器以便未来导入.</value>
+    <value>导出所有验证器以便未来导入</value>
   </data>
   <data name="import_done_title" xml:space="preserve">
     <value>验证器已导入</value>
   </data>
   <data name="import_done_tip" xml:space="preserve">
-    <value>导入了 {0} 个验证器.</value>
+    <value>导入了 {0} 个验证器</value>
   </data>
   <data name="import_failed_title" xml:space="preserve">
     <value>导入失败</value>
   </data>
   <data name="import_failed_tip" xml:space="preserve">
-    <value>此文件与当前版本的插件不兼容, 尝试使用导出此文件的版本导入.</value>
+    <value>此文件与当前版本的插件不兼容, 尝试使用导出此文件的版本导入</value>
   </data>
-  <data name="import_title" xml:space="preserve">
-    <value>导入验证器</value>
+  <data name="import_from_file" xml:space="preserve">
+    <value>从文件导入</value>
   </data>
-  <data name="import_tip" xml:space="preserve">
+  <data name="import_from_file_tip" xml:space="preserve">
     <value>从导出的文件中导入验证器.</value>
   </data>
   <data name="copy_to_cilpboard_command" xml:space="preserve">

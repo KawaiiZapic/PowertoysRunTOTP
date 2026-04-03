@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Windows.Storage;
@@ -45,6 +46,18 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.DataManager {
         }
 
         public static void Save() => Save(fileName);
+
+        public static void SaveUnencrypted(string path) {
+            var unencrypted = new AuthenticatorsList() {
+                Version = CurrentVersion,
+                Authenticators = [.. Data.Authenticators.Select(a => new Authenticator() {
+                    IsEncrypted = false,
+                    Key = a.GetUnencryptKey(),
+                    Name = a.Name
+                })]
+            };
+            File.WriteAllText(path, JsonSerializer.Serialize(unencrypted, SourceGenerationContext.Default.AuthenticatorsList));
+        }
 
         public static event Action? OnDataChanged;
     }

@@ -9,6 +9,8 @@ using Community.PowerToys.CmdPal.Plugin.TOTP.Localization;
 using Genesis.QRCodeLib;
 using Microsoft.CommandPalette.Extensions;
 using Microsoft.CommandPalette.Extensions.Toolkit;
+using Windows.Storage.Pickers;
+using WinRT.Interop;
 using Zapic.PowerToys.TOTP.Core;
 
 namespace Community.PowerToys.CmdPal.Plugin.TOTP.Pages {
@@ -94,8 +96,54 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Pages {
                 }).Show();
             }
         }) {
-            Result = CommandResult.GoBack(),
+            Result = CommandResult.KeepOpen(),
             Name = Resource.import_command
+        };
+
+        static ICommand ImportFromFileCommand => new AnonymousCommand(() => {
+            var path = Task.Run(async () => {
+                var picker = new FileOpenPicker();
+                picker.FileTypeFilter.Add(".json");
+                InitializeWithWindow.Initialize(picker, NativeMethods.GetForegroundWindow());
+                var result = await picker.PickSingleFileAsync();
+                if (result is null)
+                    return null;
+                return result.Path;
+            }).GetAwaiter().GetResult();
+            if (path is null)
+                return;
+            ConfigManager.Load(path);
+            ConfigManager.Save();
+            new ToastStatusMessage(new StatusMessage {
+                Message = string.Format(Resource.import_done_tip, AuthList.Count),
+                State = MessageState.Success
+            }).Show();
+
+        }) {
+            Result = CommandResult.KeepOpen(),
+            Name = Resource.import_from_file
+        };
+
+        static ICommand ExportToFileCommand => new AnonymousCommand(() => {
+            var path = Task.Run(async () => {
+                var picker = new FileSavePicker();
+                picker.FileTypeChoices.Add("json", [".json"]);
+                InitializeWithWindow.Initialize(picker, NativeMethods.GetForegroundWindow());
+                var result = await picker.PickSaveFileAsync();
+                if (result is null)
+                    return null;
+                return result.Path;
+            }).GetAwaiter().GetResult();
+            if (path is null)
+                return;
+            ConfigManager.SaveUnencrypted(path);
+            new ToastStatusMessage(new StatusMessage {
+                Message = string.Format(Resource.export_done_tip, path),
+                State = MessageState.Success
+            }).Show();
+        }) {
+            Result = CommandResult.KeepOpen(),
+            Name = Resource.export_title
         };
     }
 }

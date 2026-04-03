@@ -151,7 +151,7 @@
     <value>Import first authenticator</value>
   </data>
   <data name="no_authenticator_tip" xml:space="preserve">
-    <value>Import new authenticators from QRCode on screen, setup link or PowerToys Run.</value>
+    <value>Import new authenticators from QRCode on screen, setup link or PowerToys Run</value>
   </data>
   <data name="plugin_description" xml:space="preserve">
     <value>Copy Time-based one time password to clipboard</value>
@@ -172,7 +172,7 @@
     <value>Rename {0} to:</value>
   </data>
   <data name="totp_delete_done" xml:space="preserve">
-    <value>Authenticator {0} has been deleted.</value>
+    <value>Authenticator {0} has been deleted</value>
   </data>
   <data name="scan_from_screen" xml:space="preserve">
     <value>Scan QR code on screen</value>
@@ -181,13 +181,13 @@
     <value>Supports standard OTP QR code</value>
   </data>
   <data name="scan_from_screen_done_one" xml:space="preserve">
-    <value>The authenticator {0} has been imported.</value>
+    <value>The authenticator {0} has been imported</value>
   </data>
   <data name="scan_from_screen_empty" xml:space="preserve">
-    <value>Screen doesn't contain any QR code that can be imported.</value>
+    <value>Screen doesn't contain any QR code that can be imported</value>
   </data>
   <data name="scan_from_screen_done_two_more" xml:space="preserve">
-    <value>{0} Authenticators has been imported.</value>
+    <value>{0} Authenticators has been imported</value>
   </data>
   <data name="scan_from_screen_done_title" xml:space="preserve">
     <value>Import Done</value>
@@ -196,30 +196,30 @@
     <value>Authenticators exported</value>
   </data>
   <data name="export_done_tip" xml:space="preserve">
-    <value>Exported at {0}.</value>
+    <value>Exported at {0}</value>
   </data>
   <data name="export_title" xml:space="preserve">
     <value>Export authenticators</value>
   </data>
   <data name="export_tip" xml:space="preserve">
-    <value>Export all authenticator to file for futher import.</value>
+    <value>Export all authenticator to file for futher import</value>
   </data>
   <data name="import_done_title" xml:space="preserve">
     <value>Authenticators imported</value>
   </data>
   <data name="import_done_tip" xml:space="preserve">
-    <value>{0} authenticators has been imported.</value>
+    <value>{0} authenticators has been imported</value>
   </data>
   <data name="import_failed_title" xml:space="preserve">
     <value>Import failed</value>
   </data>
   <data name="import_failed_tip" xml:space="preserve">
-    <value>This file is not compatible with current version of plugin, try import with the version of plugin that exported this file.</value>
+    <value>This file is not compatible with current version of plugin, try import with the version of plugin that exported this file</value>
   </data>
-  <data name="import_title" xml:space="preserve">
-    <value>Import authenticators</value>
+  <data name="import_from_file" xml:space="preserve">
+    <value>Import authenticators from file</value>
   </data>
-  <data name="import_tip" xml:space="preserve">
+  <data name="import_from_file_tip" xml:space="preserve">
     <value>Import authenticators from exported file.</value>
   </data>
   <data name="copy_to_cilpboard_command" xml:space="preserve">

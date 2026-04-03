@@ -78,7 +78,17 @@ internal partial class Management: DynamicListPage {
         },
         new ListItem(ImportFromPTRunCommand) {
             Title = Resource.add_from_ptrun_totp,
-            Icon = Icons.OpenIn
+            Icon = Icons.OpenFile
+        },
+        new ListItem(ImportFromFileCommand) {
+            Title = Resource.import_from_file,
+            Subtitle = Resource.import_from_file_tip,
+            Icon = Icons.Download
+        },
+        new ListItem(ExportToFileCommand) {
+            Title = Resource.export_title,
+            Subtitle = Resource.export_tip,
+            Icon = Icons.Upload
         }
     ];
 

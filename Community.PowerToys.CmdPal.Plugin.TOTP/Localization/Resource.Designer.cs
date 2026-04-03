@@ -115,7 +115,7 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         }
         
         /// <summary>
-        ///   查找类似 Exported at {0}. 的本地化字符串。
+        ///   查找类似 Exported at {0} 的本地化字符串。
         /// </summary>
         internal static string export_done_tip {
             get {
@@ -133,7 +133,7 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         }
         
         /// <summary>
-        ///   查找类似 Export all authenticator to file for futher import. 的本地化字符串。
+        ///   查找类似 Export all authenticator to file for futher import 的本地化字符串。
         /// </summary>
         internal static string export_tip {
             get {
@@ -160,7 +160,7 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         }
         
         /// <summary>
-        ///   查找类似 {0} authenticators has been imported. 的本地化字符串。
+        ///   查找类似 {0} authenticators has been imported 的本地化字符串。
         /// </summary>
         internal static string import_done_tip {
             get {
@@ -178,7 +178,7 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         }
         
         /// <summary>
-        ///   查找类似 This file is not compatible with current version of plugin, try import with the version of plugin that exported this file. 的本地化字符串。
+        ///   查找类似 This file is not compatible with current version of plugin, try import with the version of plugin that exported this file 的本地化字符串。
         /// </summary>
         internal static string import_failed_tip {
             get {
@@ -192,6 +192,24 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         internal static string import_failed_title {
             get {
                 return ResourceManager.GetString("import_failed_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Import authenticators from file 的本地化字符串。
+        /// </summary>
+        internal static string import_from_file {
+            get {
+                return ResourceManager.GetString("import_from_file", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Import authenticators from exported file. 的本地化字符串。
+        /// </summary>
+        internal static string import_from_file_tip {
+            get {
+                return ResourceManager.GetString("import_from_file_tip", resourceCulture);
             }
         }
         
@@ -210,24 +228,6 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         internal static string import_from_link_tip {
             get {
                 return ResourceManager.GetString("import_from_link_tip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Import authenticators from exported file. 的本地化字符串。
-        /// </summary>
-        internal static string import_tip {
-            get {
-                return ResourceManager.GetString("import_tip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Import authenticators 的本地化字符串。
-        /// </summary>
-        internal static string import_title {
-            get {
-                return ResourceManager.GetString("import_title", resourceCulture);
             }
         }
         
@@ -295,7 +295,7 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         }
         
         /// <summary>
-        ///   查找类似 Import new authenticators from QRCode on screen, setup link or PowerToys Run. 的本地化字符串。
+        ///   查找类似 Import new authenticators from QRCode on screen, setup link or PowerToys Run 的本地化字符串。
         /// </summary>
         internal static string no_authenticator_tip {
             get {
@@ -349,7 +349,7 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         }
         
         /// <summary>
-        ///   查找类似 The authenticator {0} has been imported. 的本地化字符串。
+        ///   查找类似 The authenticator {0} has been imported 的本地化字符串。
         /// </summary>
         internal static string scan_from_screen_done_one {
             get {
@@ -367,7 +367,7 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         }
         
         /// <summary>
-        ///   查找类似 {0} Authenticators has been imported. 的本地化字符串。
+        ///   查找类似 {0} Authenticators has been imported 的本地化字符串。
         /// </summary>
         internal static string scan_from_screen_done_two_more {
             get {
@@ -376,7 +376,7 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         }
         
         /// <summary>
-        ///   查找类似 Screen doesn&apos;t contain any QR code that can be imported. 的本地化字符串。
+        ///   查找类似 Screen doesn&apos;t contain any QR code that can be imported 的本地化字符串。
         /// </summary>
         internal static string scan_from_screen_empty {
             get {
@@ -412,7 +412,7 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         }
         
         /// <summary>
-        ///   查找类似 Authenticator {0} has been deleted. 的本地化字符串。
+        ///   查找类似 Authenticator {0} has been deleted 的本地化字符串。
         /// </summary>
         internal static string totp_delete_done {
             get {

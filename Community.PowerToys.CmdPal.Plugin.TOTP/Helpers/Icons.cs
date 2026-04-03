@@ -9,8 +9,9 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Helpers {
         public static IconInfo Delete = new("\uE74D");
         public static IconInfo QRCode = new("\uED14");
         public static IconInfo Link = new("\uE71B");
-        public static IconInfo OpenIn = new("\uE8E5");
+        public static IconInfo OpenFile = new("\uE8E5");
         public static IconInfo Warning = new("\uE7BA");
-
+        public static IconInfo Download = new("\uE896");
+        public static IconInfo Upload = new("\uE898");
     }
 }
