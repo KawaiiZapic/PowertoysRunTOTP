@@ -13,7 +13,7 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.DataManager {
 
     class ConfigManager {
 
-        private static readonly string fileName = Path.Combine(ApplicationData.Current.LocalFolder.Path, "OTPList.json");
+        private static readonly string fileName = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Authenticators.json");
         private static readonly int CurrentVersion = 3;
 
         private static AuthenticatorsList _listInst = null!;
@@ -39,10 +39,12 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.DataManager {
 
         public static void Load() => Load(fileName);
 
-        public static void Save() {
-            File.WriteAllText(fileName, JsonSerializer.Serialize(_listInst, SourceGenerationContext.Default.AuthenticatorsList));
+        public static void Save(string path) {
+            File.WriteAllText(path, JsonSerializer.Serialize(_listInst, SourceGenerationContext.Default.AuthenticatorsList));
             OnDataChanged?.Invoke();
         }
+
+        public static void Save() => Save(fileName);
 
         public static event Action? OnDataChanged;
     }
