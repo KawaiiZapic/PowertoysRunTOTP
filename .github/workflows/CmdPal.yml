@@ -13,10 +13,15 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v6
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 9.0.x
+    - uses: GuillaumeFalourd/setup-windows10-sdk-action@v2.4
+      with:
+        sdk-version: 22621
+
     - name: Build (x64)
       run: dotnet build .\Community.PowerToys.CmdPal.Plugin.TOTP\Community.PowerToys.CmdPal.Plugin.TOTP.csproj --configuration Debug  -p:Platform=x64 -p:PublishUnsignedPackage=true
     - name: Build (ARM64)
