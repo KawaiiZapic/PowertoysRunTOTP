@@ -1,4 +1,4 @@
-name: Build
+name: Build for CmdPal
 on:
   push:
     branches: [ "main" ]

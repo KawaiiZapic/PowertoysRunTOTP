@@ -1,4 +1,4 @@
-name: Build
+name: Build for PT Run
 on:
   push:
     branches: [ "main" ]
