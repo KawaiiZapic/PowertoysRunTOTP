@@ -117,10 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="add_from_ga" xml:space="preserve">
-    <value>Add {0} authenticators</value>
+  <data name="import_from_ga" xml:space="preserve">
+    <value>Import {0} authenticators</value>
   </data>
-  <data name="add_from_ga_tip" xml:space="preserve">
+  <data name="import_from_ga_tip" xml:space="preserve">
     <value>From Google Authenticator App, batch {0} / {1}</value>
   </data>
   <data name="add_from_otpauth_tip" xml:space="preserve">
@@ -225,7 +225,7 @@
   <data name="copy_to_cilpboard_command" xml:space="preserve">
     <value>Copy</value>
   </data>
-  <data name="add_from_ptrun_totp" xml:space="preserve">
+  <data name="import_from_ptrun_totp" xml:space="preserve">
     <value>Import authenticators from PowerToys Run TOTP</value>
   </data>
   <data name="page_totp_name" xml:space="preserve">
@@ -248,5 +248,8 @@
   </data>
   <data name="totp_rename_confirm" xml:space="preserve">
     <value>Rename</value>
+  </data>
+  <data name="import_from_ptrun_totp_confirmation" xml:space="preserve">
+    <value>Import from PowerToys Run TOTP will not check the authenticator is existed or not, may import duplicated authenticators, continue?</value>
   </data>
 </root>

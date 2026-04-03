@@ -28,17 +28,23 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.DataManager {
             }
         }
 
-        public static void Load(string path) {
-            if (File.Exists(path)) {
+        public static void Load() {
+            if (File.Exists(fileName)) {
                 try {
-                    _listInst = JsonSerializer.Deserialize(File.ReadAllText(path), SourceGenerationContext.Default.AuthenticatorsList)!;
+                    _listInst = LoadFromFile(fileName)!;
                 } catch { }
             }
             _listInst ??= new AuthenticatorsList();
             _listInst.Version = CurrentVersion;
         }
 
-        public static void Load() => Load(fileName);
+        public static AuthenticatorsList? LoadFromFile(string path) {
+            try {
+                return JsonSerializer.Deserialize(File.ReadAllText(path), SourceGenerationContext.Default.AuthenticatorsList);
+            } catch {
+                return null;
+            }
+        }
 
         public static void Save(string path) {
             File.WriteAllText(path, JsonSerializer.Serialize(_listInst, SourceGenerationContext.Default.AuthenticatorsList));

@@ -61,38 +61,11 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         }
         
         /// <summary>
-        ///   查找类似 Add {0} authenticators 的本地化字符串。
-        /// </summary>
-        internal static string add_from_ga {
-            get {
-                return ResourceManager.GetString("add_from_ga", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 From Google Authenticator App, batch {0} / {1} 的本地化字符串。
-        /// </summary>
-        internal static string add_from_ga_tip {
-            get {
-                return ResourceManager.GetString("add_from_ga_tip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Add new authenticator 的本地化字符串。
         /// </summary>
         internal static string add_from_otpauth_tip {
             get {
                 return ResourceManager.GetString("add_from_otpauth_tip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Import authenticators from PowerToys Run TOTP 的本地化字符串。
-        /// </summary>
-        internal static string add_from_ptrun_totp {
-            get {
-                return ResourceManager.GetString("add_from_ptrun_totp", resourceCulture);
             }
         }
         
@@ -214,6 +187,24 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         }
         
         /// <summary>
+        ///   查找类似 Import {0} authenticators 的本地化字符串。
+        /// </summary>
+        internal static string import_from_ga {
+            get {
+                return ResourceManager.GetString("import_from_ga", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 From Google Authenticator App, batch {0} / {1} 的本地化字符串。
+        /// </summary>
+        internal static string import_from_ga_tip {
+            get {
+                return ResourceManager.GetString("import_from_ga_tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Import from links 的本地化字符串。
         /// </summary>
         internal static string import_from_link {
@@ -228,6 +219,24 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Localization {
         internal static string import_from_link_tip {
             get {
                 return ResourceManager.GetString("import_from_link_tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Import authenticators from PowerToys Run TOTP 的本地化字符串。
+        /// </summary>
+        internal static string import_from_ptrun_totp {
+            get {
+                return ResourceManager.GetString("import_from_ptrun_totp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Import from PowerToys Run TOTP will not check the authenticator is existed or not, may import duplicated authenticators, continue? 的本地化字符串。
+        /// </summary>
+        internal static string import_from_ptrun_totp_confirmation {
+            get {
+                return ResourceManager.GetString("import_from_ptrun_totp_confirmation", resourceCulture);
             }
         }
         

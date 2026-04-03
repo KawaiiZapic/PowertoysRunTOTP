@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Community.PowerToys.CmdPal.Plugin.TOTP.DataManager;
 using Community.PowerToys.CmdPal.Plugin.TOTP.Localization;
 using Genesis.QRCodeLib;
+using Microsoft.CmdPal.Common.Commands;
 using Microsoft.CommandPalette.Extensions;
 using Microsoft.CommandPalette.Extensions.Toolkit;
 using Windows.Storage.Pickers;
@@ -76,32 +77,41 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Pages {
             Result = CommandResult.KeepOpen()
         };
 
-        static ICommand ImportFromPTRunCommand => new AnonymousCommand(() => {
-            try {
-                var filePath = Path.Combine(
-                    Environment.ExpandEnvironmentVariables("%LOCALAPPDATA%"),
-                    "Microsoft\\PowerToys\\PowerToys Run\\Settings\\Plugins\\Community.PowerToys.Run.Plugin.TOTP",
-                    "AuthenticatorsList.json"
-                );
-                ConfigManager.Load(filePath);
-                ConfigManager.Save();
-                new ToastStatusMessage(new StatusMessage {
-                    Message = string.Format(Resource.import_done_tip, AuthList.Count),
-                    State = MessageState.Success
-                }).Show();
-            } catch {
-                new ToastStatusMessage(new StatusMessage {
-                    Message = Resource.import_failed_title,
-                    State = MessageState.Error
-                }).Show();
-            }
-        }) {
-            Result = CommandResult.KeepOpen(),
-            Name = Resource.import_command
+        static void LoadAndMergeFromFile(string filePath) {
+            var loaded = ConfigManager.LoadFromFile(filePath)!.Authenticators;
+            ConfigManager.Data.Authenticators = [.. AuthList, .. loaded];
+            ConfigManager.Save();
+        }
+
+        static ICommand ImportFromPTRunCommand => new ConfirmableCommand() {
+            Command = new AnonymousCommand(() => {
+                try {
+                    var filePath = Path.Combine(
+                        Environment.ExpandEnvironmentVariables("%LOCALAPPDATA%"),
+                        "Microsoft\\PowerToys\\PowerToys Run\\Settings\\Plugins\\Community.PowerToys.Run.Plugin.TOTP",
+                        "AuthenticatorsList.json"
+                    );
+                    LoadAndMergeFromFile(filePath);
+                    new ToastStatusMessage(new StatusMessage {
+                        Message = string.Format(Resource.import_done_tip, AuthList.Count),
+                        State = MessageState.Success
+                    }).Show();
+                } catch {
+                    new ToastStatusMessage(new StatusMessage {
+                        Message = Resource.import_failed_title,
+                        State = MessageState.Error
+                    }).Show();
+                }
+            }) {
+                Result = CommandResult.KeepOpen(),
+                Name = Resource.import_command
+            },
+            ConfirmationTitle = Resource.import_from_ptrun_totp,
+            ConfirmationMessage = Resource.import_from_ptrun_totp_confirmation
         };
 
         static ICommand ImportFromFileCommand => new AnonymousCommand(() => {
-            var path = Task.Run(async () => {
+            var filePath = Task.Run(async () => {
                 var picker = new FileOpenPicker();
                 picker.FileTypeFilter.Add(".json");
                 InitializeWithWindow.Initialize(picker, NativeMethods.GetForegroundWindow());
@@ -110,10 +120,9 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP.Pages {
                     return null;
                 return result.Path;
             }).GetAwaiter().GetResult();
-            if (path is null)
+            if (filePath is null)
                 return;
-            ConfigManager.Load(path);
-            ConfigManager.Save();
+            LoadAndMergeFromFile(filePath);
             new ToastStatusMessage(new StatusMessage {
                 Message = string.Format(Resource.import_done_tip, AuthList.Count),
                 State = MessageState.Success

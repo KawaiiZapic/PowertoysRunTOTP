@@ -27,8 +27,8 @@ internal partial class Management: DynamicListPage {
         try {
             var parsed = Core.ParseGoogleExportLink(url);
             return new ListItem() {
-                Title = string.Format(Resource.add_from_ga, parsed.Count),
-                Subtitle = string.Format(Resource.add_from_ga_tip, parsed.Index + 1, parsed.BatchSize),
+                Title = string.Format(Resource.import_from_ga, parsed.Count),
+                Subtitle = string.Format(Resource.import_from_ga_tip, parsed.Index + 1, parsed.BatchSize),
                 Icon = Icons.Link,
                 Command = new AnonymousCommand(() => {
                     ConfigManager.Data.Authenticators = [.. ConfigManager.Data.Authenticators, .. parsed.list];
@@ -77,7 +77,7 @@ internal partial class Management: DynamicListPage {
             Icon = Icons.Link
         },
         new ListItem(ImportFromPTRunCommand) {
-            Title = Resource.add_from_ptrun_totp,
+            Title = Resource.import_from_ptrun_totp,
             Icon = Icons.OpenFile
         },
         new ListItem(ImportFromFileCommand) {
