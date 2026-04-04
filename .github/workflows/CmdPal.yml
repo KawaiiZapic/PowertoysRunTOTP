@@ -22,22 +22,12 @@ jobs:
       with:
         sdk-version: 22621
 
-    - name: Build (x64)
-      run: dotnet build .\Community.PowerToys.CmdPal.Plugin.TOTP\Community.PowerToys.CmdPal.Plugin.TOTP.csproj --configuration Debug  -p:Platform=x64 -p:PublishUnsignedPackage=true
-    - name: Build (ARM64)
-      run: dotnet build .\Community.PowerToys.CmdPal.Plugin.TOTP\Community.PowerToys.CmdPal.Plugin.TOTP.csproj --configuration Debug  -p:Platform=arm64 -p:PublishUnsignedPackage=true
-    - name: Upload a Build Artifact (x64)
+    - name: Build
+      run: powershell.exe -noprofile -executionpolicy bypass .\Community.PowerToys.CmdPal.Plugin.TOTP\Scripts\build-msixbundle.ps1 -sideload -debug
+    - name: Upload msixbundle
       uses: actions/upload-artifact@v7.0.0
       with:
-        name: TOTP-${{ github.sha }}-x64
-        path: Community.PowerToys.CmdPal.Plugin.TOTP/AppPackages/*/*_x64_Debug.msix
+        name: TOTP-${{ github.sha }}
+        path: Community.PowerToys.CmdPal.Plugin.TOTP/AppPackages/*.msixbundle
         if-no-files-found: error
         archive: false
-    - name: Upload a Build Artifact (ARM64)
-      uses: actions/upload-artifact@v7.0.0
-      with:
-        name: TOTP-${{ github.sha }}-ARM64
-        path: Community.PowerToys.CmdPal.Plugin.TOTP/AppPackages/*/*_arm64_Debug.msix
-        if-no-files-found: error
-        archive: false
-          

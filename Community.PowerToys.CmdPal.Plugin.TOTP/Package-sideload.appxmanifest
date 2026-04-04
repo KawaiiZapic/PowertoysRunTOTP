@@ -12,7 +12,7 @@
 
 	<Identity
 	    Name="Zapic.CommandPalettePluginTOTP"
-	    Publisher="CN=9E2404CA-2038-463E-A65A-D849AC185CED"
+	    Publisher="CN=KawaiiZapic, OID.2.25.311729368913984317654407730594956997722=1"
 	    Version="0.1.0.0" />
 	<!-- When you're ready to publish your extension, you'll need to change the
        Publisher= to match your own identity -->

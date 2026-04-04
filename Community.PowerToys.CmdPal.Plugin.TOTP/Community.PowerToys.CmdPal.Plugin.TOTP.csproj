@@ -15,7 +15,7 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-	  <Content Include="Assets\*.png" />
+	  <Content Include="Assets\**\*.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -115,4 +115,8 @@
 		<AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
 		<AppxPackageDir>AppPackages\</AppxPackageDir>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<AppxManifest Include="Package-sideload.appxmanifest" Condition=" '$(PublishUnsignedPackage)' == 'true' " SubType="Designer" />
+	</ItemGroup>
 </Project>
