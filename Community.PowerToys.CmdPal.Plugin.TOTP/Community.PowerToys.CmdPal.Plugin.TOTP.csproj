@@ -110,13 +110,15 @@
 
 	<PropertyGroup Condition=" '$(PublishUnsignedPackage)' == 'true' ">
 		<GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
-		<AppxBundle>Never</AppxBundle>
 		<UapAppxPackageBuildMode>SideloadOnly</UapAppxPackageBuildMode>
 		<AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
-		<AppxPackageDir>AppPackages\</AppxPackageDir>
+		<AppxPackageDir>AppPackages\$(Platform)</AppxPackageDir>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<AppxManifest Include="Package-sideload.appxmanifest" Condition=" '$(PublishUnsignedPackage)' == 'true' " SubType="Designer" />
 	</ItemGroup>
+	<PropertyGroup>
+		<AppxBundle>Never</AppxBundle>
+	</PropertyGroup>
 </Project>

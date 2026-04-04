@@ -62,8 +62,8 @@ Remove-Item -Path "AppPackages\" -Recurse -Force -ErrorAction SilentlyContinue
 Execute-Command "dotnet build -p:Platform=x64 $BuildOptions"
 Execute-Command "dotnet build -p:Platform=arm64 $BuildOptions"
 
-$x64MsixPath = Get-ChildItem -Path "AppPackages\*_x64_*" -Filter "*.msix" -Recurse | Select-Object -First 1
-$arm64MsixPath = Get-ChildItem -Path "AppPackages\*_arm64_*" -Filter "*.msix" -Recurse | Select-Object -First 1
+$x64MsixPath = Get-ChildItem -Path "AppPackages\x64" -Filter "*.msix" -Recurse | Select-Object -First 1
+$arm64MsixPath = Get-ChildItem -Path "AppPackages\arm64" -Filter "*.msix" -Recurse | Select-Object -First 1
  
 if ($x64MsixPath -and $arm64MsixPath) {
     $x64FileName = $x64MsixPath.Name
@@ -72,7 +72,7 @@ if ($x64MsixPath -and $arm64MsixPath) {
 [Files]
 "{0}" "{1}"
 "{2}" "{3}"
-'@ -f $x64MsixPath, $x64FileName, $arm64MsixPath, $arm64FileName
+'@ -f $x64MsixPath.FullName, $x64FileName, $arm64MsixPath.FullName, $arm64FileName
 
     $bundleMappingContent | Out-File -FilePath ".\AppPackages\bundle_mapping.txt" -Encoding UTF8
     $OutputFileName = ".\AppPackages\{0}" -f $x64FileName.Replace("_x64", "").Replace('.msix', '_Bundle.msixbundle')
