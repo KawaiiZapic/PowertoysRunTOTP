@@ -25,7 +25,7 @@ function Execute-Command {
     )
     
     Write-Host "$> $Command"
-    Invoke-Expression -Command $Command
+    Invoke-Expression -Command "& $Command"
     $exitCode = $LASTEXITCODE
     
     if ($exitCode -ne 0) {
@@ -34,6 +34,28 @@ function Execute-Command {
     
     return $output
 }
+
+function Determine-Makeappx {
+    try {
+        $makeappxPath = (Get-Command "makeappx.exe" -ErrorAction Stop).Source
+        Write-Host "Found makeappx.exe at: $makeappxPath"
+        return $makeappxPath
+    } catch { }
+    try {
+        $arch = switch ($env:PROCESSOR_ARCHITECTURE) { 
+            "AMD64" { "x64" } 
+            "x86" { "x86" } 
+            "ARM64" { "arm64" } 
+            default { "x64" } 
+        }; 
+        $makeappxPath = Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\bin\*\$arch\makeappx.exe" -ErrorAction Stop | Sort-Object Name -Descending | Select-Object -First 1
+        Write-Host "Found makeappx at: $makeappxPath"
+        return $makeappxPath
+    } catch { }
+    throw "makeappx.exe not found. Please ensure the Windows 10 SDK is installed."
+}
+
+$makeappxPath = Determine-Makeappx
 
 Remove-Item -Path "AppPackages\" -Recurse -Force -ErrorAction SilentlyContinue
 
@@ -54,7 +76,7 @@ if ($x64MsixPath -and $arm64MsixPath) {
 
     $bundleMappingContent | Out-File -FilePath ".\AppPackages\bundle_mapping.txt" -Encoding UTF8
     $OutputFileName = ".\AppPackages\{0}" -f $x64FileName.Replace("_x64", "").Replace('.msix', '_Bundle.msixbundle')
-    Execute-Command "makeappx bundle /v /f .\AppPackages\bundle_mapping.txt /p $OutputFileName"
+    Execute-Command "'$makeappxPath' bundle /v /f .\AppPackages\bundle_mapping.txt /p $OutputFileName"
 } else {
     Write-Host "msix packages not found"
     Exit 1
