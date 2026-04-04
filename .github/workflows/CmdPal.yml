@@ -18,10 +18,13 @@ jobs:
       uses: actions/setup-dotnet@v5
       with:
         dotnet-version: 9.0.x
-    - uses: GuillaumeFalourd/setup-windows10-sdk-action@v2.4
+        cache: true
+        cache-dependency-path: '*/packages.lock.json'
+
+    - name: Install Windows SDK
+      uses: GuillaumeFalourd/setup-windows10-sdk-action@v2.4
       with:
         sdk-version: 22621
-
     - name: Build
       run: powershell.exe -noprofile -executionpolicy bypass .\Community.PowerToys.CmdPal.Plugin.TOTP\Scripts\build-msixbundle.ps1 -sideload -debug
     - name: Upload msixbundle
