@@ -37,7 +37,7 @@ namespace Zapic.PowerToys.TOTP.Core {
             var result = new Authenticator() {
                 Name = name
             };
-            result.SetUnencrypted(secret);
+            result.SetKeyAndEncrypt(secret);
 
             return result;
         }
@@ -69,7 +69,7 @@ namespace Zapic.PowerToys.TOTP.Core {
                 var result = new Authenticator() {
                     Name = name
                 };
-                result.SetUnencrypted(key);
+                result.SetKeyAndEncrypt(key);
                 return result;
             });
             return new ParseGAExportResult {

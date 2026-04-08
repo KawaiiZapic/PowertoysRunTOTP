@@ -1,6 +1,6 @@
-﻿using OtpNet;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
+using OtpNet;
 
 namespace Zapic.PowerToys.TOTP.Core.Data {
 
@@ -24,20 +24,20 @@ namespace Zapic.PowerToys.TOTP.Core.Data {
             return Encoding.UTF8.GetString(ProtectedData.Unprotect(Convert.FromBase64String(Key), null, DataProtectionScope.CurrentUser));
         }
 
-        public void SetUnencrypted(string unencrypted) {
+        public void SetKeyAndEncrypt(string unencrypted) {
             Key = Convert.ToBase64String(ProtectedData.Protect(Encoding.UTF8.GetBytes(unencrypted), null, DataProtectionScope.CurrentUser));
             IsEncrypted = true;
             _otp = null;
         }
 
-        public void ForceEncypt() {
+        public void ForceEncrypt() {
             if (IsEncrypted)
                 return;
-            SetUnencrypted(Key);
+            SetKeyAndEncrypt(Key);
         }
 
         public TotpResult GetResult() {
-            _otp ??= new Totp(Encoding.UTF8.GetBytes(GetUnencryptKey()));
+            _otp ??= new Totp(Base32Encoding.ToBytes(GetUnencryptKey()));
             return new TotpResult {
                 Code = _otp.ComputeTotp(),
                 Remain = _otp.RemainingSeconds()

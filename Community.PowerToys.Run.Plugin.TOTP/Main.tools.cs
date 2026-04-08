@@ -95,7 +95,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
                                 throw new Exception();
                             }
                             foreach (var item in list.Authenticators) {
-                                item.ForceEncypt();
+                                item.ForceEncrypt();
                                 _list.Authenticators.Add(item);
                             }
                             _storage.Save();

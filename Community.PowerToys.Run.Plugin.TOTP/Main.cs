@@ -38,7 +38,7 @@ namespace Community.PowerToys.Run.Plugin.TOTP {
             new StoragePowerToysVersionInfo(_storage.FilePath, 1).Close();
             _list = _storage.Load();
             _list.Authenticators.ForEach(entity => {
-                entity.ForceEncypt();
+                entity.ForceEncrypt();
             });
             _storage.Save();
         }
