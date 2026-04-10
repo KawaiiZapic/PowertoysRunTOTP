@@ -34,6 +34,7 @@
 		<PackageReference Include="Genesis.QRCodeLib" Version="1.0.0" />
 		<PackageReference Include="Microsoft.CommandPalette.Extensions" Version="0.9.260303001" />
 		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260317003" />
 		<PackageReference Include="Shmuelie.WinRTServer" Version="2.2.1" />
 
 		<!-- Needed to enable building an MSIX package -->
@@ -120,5 +121,11 @@
 	</ItemGroup>
 	<PropertyGroup>
 		<AppxBundle>Never</AppxBundle>
+		<DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
 	</PropertyGroup>
+	<ItemGroup>
+	  <PRIResource Update="Strings\zh-CN\Resources.resw">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	  </PRIResource>
+	</ItemGroup>
 </Project>

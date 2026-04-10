@@ -13,5 +13,9 @@ namespace Community.PowerToys.CmdPal.Plugin.TOTP {
 
         [LibraryImport("gdi32.dll")]
         internal static partial int GetDeviceCaps(IntPtr hdc, int nIndex);
+
+
+        [LibraryImport("Microsoft.ui.xaml.dll")]
+        internal static partial void XamlCheckProcessRequirements();
     }
 }

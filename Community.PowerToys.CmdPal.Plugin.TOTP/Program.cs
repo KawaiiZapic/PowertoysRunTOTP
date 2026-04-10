@@ -2,11 +2,16 @@
 // The Microsoft Corporation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+using System.CodeDom.Compiler;
+using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.CommandPalette.Extensions;
+using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
 using Shmuelie.WinRTServer;
 using Shmuelie.WinRTServer.CsWinRT;
-using System;
-using System.Threading;
 
 namespace Community.PowerToys.CmdPal.Plugin.TOTP;
 
@@ -31,7 +36,21 @@ public class Program {
             server.Stop();
             server.UnsafeDispose();
         } else {
-            Console.WriteLine("Not being launched as a Extension... exiting.");
+            Task.Run(LaunchUI).Wait();
         }
+    }
+
+    [GeneratedCodeAttribute("Microsoft.UI.Xaml.Markup.Compiler", " 3.0.0.2602")]
+    [DebuggerNonUserCodeAttribute()]
+    [STAThread]
+    static void LaunchUI() {
+        NativeMethods.XamlCheckProcessRequirements();
+
+        WinRT.ComWrappersSupport.InitializeComWrappers();
+        Application.Start((p) => {
+            var context = new DispatcherQueueSynchronizationContext(DispatcherQueue.GetForCurrentThread());
+            SynchronizationContext.SetSynchronizationContext(context);
+            new App();
+        });
     }
 }
