@@ -13,6 +13,15 @@ All authenticator will be encrypted with Encryption API of Windows in current us
 Before reset your computer / re-install Windows, follow instruction below to export all authenticators.  
 
 ## Installation
+### Command Palette
+#### Via Microsoft Store
+<a href="https://apps.microsoft.com/detail/9PF3P6N44B2P?referrer=appbadge&mode=full" target="_blank"  rel="noopener noreferrer">
+	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
+</a>   
+
+#### Manual
+Download MSIX bundle from [Github Action](https://github.com/KawaiiZapic/PowertoysRunTOTP/actions/workflows/CmdPal.yml), and install with `Add-AppPackage -AllowUnsigned "\path\to\totp.msixbundle"`
+### Powertoys Run
 #### Manual
 1. Download plugin from Release
 2. Extract it to `%LOCALAPPDATA%\Microsoft\PowerToys\PowerToys Run\Plugins`
